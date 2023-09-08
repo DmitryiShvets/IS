@@ -3,7 +3,7 @@
 #
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (laba1 "laba1.cpp" "laba1.h" "test.cpp")
+add_executable (laba1 "laba1.cpp" "laba1.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET laba1 PROPERTY CXX_STANDARD 20)
