@@ -121,13 +121,126 @@ Node* task3(int b, int a, std::map<char, std::function<int(int)>>& lambdas) {
 	return nullptr;
 }
 
+std::pair<Node*, Node*> task4(int a, int b, std::vector<std::function<int(int)>>& op, std::map<char, std::function<int(int)>>& rop) {
+	std::queue<Node*> q_left;
+	std::queue<Node*> q_right;
+	std::unordered_set<int> s_left;
+	std::unordered_set<int> s_right;
+
+	auto start = new Node{ nullptr,a };
+	auto end = new Node{ nullptr,b };
+	q_left.push(start);
+	q_right.push(end);
+
+	while (!q_left.empty() && !q_right.empty())
+	{
+		Node* cur_left = q_left.front();
+		Node* cur_right = q_right.front();
+		q_left.pop();
+		q_right.pop();
+
+		s_left.insert(cur_left->value);
+		s_right.insert(cur_right->value);
+
+		if (cur_left->value == cur_right->value) {
+
+			std::cout << "встреча :" << cur_left->value << std::endl;
+			return { cur_left,cur_right };
+		}
+
+		for (auto& fn : op) {
+			int value = fn(cur_left->value);
+			if (value > b || value < a)continue;
+			if (!s_left.contains(value)) {
+				auto tmp = new Node{ cur_left,value };
+				q_left.push(tmp);
+				s_left.insert(value);
+			}
+			//if (value == b)return q_left.front();
+		}
+		for (auto& x : rop) {
+			if (x.first == '/' && cur_right->value % 2 != 0)continue;
+			int value = x.second(cur_right->value);
+			if (value > b || value < a)continue;
+			if (!s_right.contains(value)) {
+				auto tmp = new Node{ cur_right,value };
+				q_right.push(tmp);
+				s_right.insert(value);
+			}
+			//if (value == a)return q_right.front();
+		}
+	}
+
+	return { nullptr,nullptr };
+}
+int task4a(int a, int b) {
+	std::queue < std::pair<int, int>>q_left;
+	std::queue < std::pair<int, int>> q_right;
+	std::map<int, int> s_left;
+	std::map<int, int> s_right;
+
+	q_left.push(std::make_pair(a, 0));
+	s_left[a] = 0;
+	q_right.push(std::make_pair(b, 0));
+	s_right[b] = 0;
+
+	while (!q_left.empty() && !q_right.empty()) {
+		int op = q_left.front().second;
+		int rop = q_right.front().second;
+
+		while (op == q_left.front().second) {
+			int	numF = q_left.front().first;
+			q_left.pop();
+
+			if (s_right.find(numF) != s_right.end()) {
+				return op + s_right[numF];
+			}
+
+			int add3 = numF + 3;
+			int mult2 = numF * 2;
+
+			if (s_left.count(add3) == 0) {
+				q_left.push(std::make_pair(add3, op + 1));
+				s_left[add3] = op + 1;
+			}
+
+			if (s_left.count(mult2) == 0) {
+				q_left.push(std::make_pair(mult2, op + 1));
+				s_left[mult2] = op + 1;
+			}
+		}
+
+		while (rop == q_right.front().second) {
+			int numB = q_right.front().first;
+			q_right.pop();
+
+			if (s_left.find(numB) != s_left.end()) {
+				return rop + s_left[numB];
+			}
+			int sub3 = numB - 3;
+			int div2 = numB / 2;
+			if (s_right.count(sub3) == 0) {
+				q_right.push(std::make_pair(sub3, rop + 1));
+				s_right[sub3] = rop + 1;
+			}
+			if (numB % 2 == 0)
+				if (s_right.count(div2) == 0) {
+					q_right.push(std::make_pair(div2, rop + 1));
+					s_right[div2] = rop + 1;
+				}
+		}
+	}
+	return -1;
+}
+
 int main()
 {
 	int count = 0;
 	std::vector<std::function<int(int)>> lambdas;
-	lambdas.push_back(op2);
 	lambdas.push_back(op1);
-	lambdas.push_back(op3);
+	lambdas.push_back(op2);
+
+	//lambdas.push_back(op3);
 
 	std::map<char, std::function<int(int)>> map_lambdas;
 	map_lambdas['/'] = rop2;
@@ -135,12 +248,15 @@ int main()
 	auto start_time = std::chrono::steady_clock::now();
 
 	//Node* last = task2(2, 10000001, lambdas);
-	Node* last = task3(10000001, 2, map_lambdas);
-	while (last)
-	{
-		count++;
-		last = last->parent;
-	}
+	//Node* last = task3(10000001, 2, map_lambdas);
+	//while (last)
+	//{
+	//	count++;
+	//	last = last->parent;
+	//}
+	//auto [left, right] = task4(2, 100, lambdas, map_lambdas);
+
+	count = task4a(2, 10000001);
 
 	auto end_time = std::chrono::steady_clock::now();
 	auto elapsed_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
