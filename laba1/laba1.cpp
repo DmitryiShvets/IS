@@ -9,6 +9,7 @@
 
 #include <queue>
 #include <unordered_set>
+#include <map>
 class Node {
 public:
 	Node* parent;
@@ -26,6 +27,17 @@ inline int op2(int x) {
 inline int op3(int x) {
 	return x - 2;
 }
+
+inline int rop1(int x) {
+	return x - 3;
+}
+inline int rop2(int x) {
+	return x / 2;
+}
+inline int rop3(int x) {
+	return x + 2;
+}
+
 
 Node* task1(int a, int b, std::vector<std::function<int(int)>>& lambdas) {
 	std::queue<Node*> q;
@@ -81,6 +93,34 @@ Node* task2(int a, int b, std::vector<std::function<int(int)>>& lambdas) {
 	return nullptr;
 }
 
+Node* task3(int b, int a, std::map<char, std::function<int(int)>>& lambdas) {
+	std::queue<Node*> q;
+	std::unordered_set<int> s;
+	auto start = new Node{ nullptr,b };
+	q.push(start);
+
+	while (!q.empty())
+	{
+		Node* cur = q.front();
+		q.pop();
+		s.insert(cur->value);
+
+		for (auto& x : lambdas) {
+			if (x.first == '/' && cur->value % 2 != 0)continue;
+			int value = x.second(cur->value);
+			if (value < a || value > b)continue;
+			if (!s.contains(value)) {
+				auto tmp = new Node{ cur,value };
+				q.push(tmp);
+				s.insert(value);
+			}
+			if (value == a)return q.front();
+		}
+	}
+
+	return nullptr;
+}
+
 int main()
 {
 	int count = 0;
@@ -89,10 +129,13 @@ int main()
 	lambdas.push_back(op1);
 	lambdas.push_back(op3);
 
+	std::map<char, std::function<int(int)>> map_lambdas;
+	map_lambdas['/'] = rop2;
+	map_lambdas['-'] = rop1;
 	auto start_time = std::chrono::steady_clock::now();
 
-	Node* last = task1(2, 10000001, lambdas);
-
+	//Node* last = task2(2, 10000001, lambdas);
+	Node* last = task3(10000001, 2, map_lambdas);
 	while (last)
 	{
 		count++;
@@ -125,6 +168,14 @@ int main()
 // x64-Release 2590164900 ns
 // x86-Debug  14581367500 ns
 // x86-Release 1940751900 ns
+
+
+//на очереди при 10000001 3 задание
+// x64-Debug       558700 ns  
+// x64-Release      61000 ns
+// x86-Debug       995100 ns
+// x86-Release      56600 ns
+
 
 //на очереди при 10000001 2 задание
 // x64-Release 5363464500 ns с отсеканимем 7189256900 ns без отсекания
