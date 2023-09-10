@@ -232,7 +232,7 @@ int task4b(int a, int b, std::vector<std::function<int(int)>>& op, std::map<char
 				if (value > b || value < a)continue;
 				if (s_left.contains(value)) {
 					//std::cout << "встреча :" << cur_right->value << std::endl;
-					return 1+ s_left[value] + level_right;
+					return 1 + s_left[value] + level_right;
 				}
 				if (!s_right.contains(value)) {
 					q_right.emplace(value, level_right + 1);
@@ -248,20 +248,79 @@ int task4b(int a, int b, std::vector<std::function<int(int)>>& op, std::map<char
 	return -1;
 }
 
+//ускоренная реализация c указателями и нодами (быстрее в 5 раз)
+std::pair<Node*, Node*> task4a(int a, int b) {
+	std::queue<Node*> q_left;
+	std::queue<Node*> q_right;
+	std::unordered_map<int, Node*>  s_left;
+	std::unordered_map<int, Node*> s_right;
+
+	q_left.push(new Node{ nullptr,a,0 });
+	q_right.push(new Node{ nullptr,b,0 });
+	s_left.emplace(a, q_left.front());
+	s_right.emplace(b, q_right.front());
+
+	Node* cur_left;
+	Node* cur_right;
+
+	while (!q_left.empty() && !q_right.empty())
+	{
+		cur_left = q_left.front();
+		q_left.pop();
+
+		if (s_right.contains(cur_left->value)) {
+			//std::cout << "встреча :" << cur_left->value << std::endl;
+			return { cur_left,s_right[cur_left->value] };
+		}
+
+		int l_value1 = cur_left->value * 2;
+		if (l_value1 <= b && !s_left.contains(l_value1)) {
+			s_left[l_value1] = new Node{ cur_left,l_value1,cur_left->op_count + 1 };
+			q_left.push(s_left[l_value1]);
+		}
+
+		int l_value2 = cur_left->value + 3;
+		if (l_value2 <= b && !s_left.contains(l_value2)) {
+			s_left[l_value2] = new Node{ cur_left,l_value2,cur_left->op_count + 1 };
+			q_left.push(s_left[l_value2]);
+		}
+
+
+		cur_right = q_right.front();
+		q_right.pop();
+
+		if (s_left.contains(cur_right->value)) {
+			//std::cout << "встреча :" << cur_right->value << std::endl;
+			return { s_left[cur_right->value], cur_right };
+		}
+
+		if (cur_right->value % 2 == 0) {
+			int r_value1 = cur_right->value / 2;
+			if (r_value1 >= a && !s_right.contains(r_value1)) {
+				s_right[r_value1] = new Node{ cur_right,r_value1,cur_right->op_count + 1 };
+				q_right.push(s_right[r_value1]);
+			}
+		}
+
+		int r_value2 = cur_right->value - 3;
+		if (r_value2 >= a && !s_right.contains(r_value2)) {
+			s_right[r_value2] = new Node{ cur_right,r_value2,cur_right->op_count + 1 };
+			q_right.push(s_right[r_value2]);
+		}
+
+	}
+
+	return { nullptr,nullptr };
+}
+
+
 
 int main()
 {
+
 	int count = 0;
-	std::vector<std::function<int(int)>> lambdas;
-	lambdas.push_back(op1);
-	lambdas.push_back(op2);
 
-	//lambdas.push_back(op3);
-
-	std::map<char, std::function<int(int)>> map_lambdas;
-	map_lambdas['/'] = rop2;
-	map_lambdas['-'] = rop1;
-	auto start_time = std::chrono::steady_clock::now();
+	auto start = std::chrono::high_resolution_clock::now();
 
 	//Node* last = task2(2, 10000001, lambdas);
 	//Node* last = task3(10000001, 2, map_lambdas);
@@ -270,19 +329,19 @@ int main()
 	//	count++;
 	//	last = last->parent;
 	//}
-	//auto [left, right] = task4(2, 100, lambdas, map_lambdas);
 
+	//auto [left, right] = task4(2, 10000001, lambdas, map_lambdas); // 554100 ns
+	//count = task4b(2, 10000001, lambdas, map_lambdas);             // 529100 ns
 
-	auto [left, right] = task4(2, 10000001, lambdas, map_lambdas); // 554100 ns
-	if (left && right) {                                           // 469400 ns
-		count = left->op_count + right->op_count;				   // 534000 ns
+	auto [left, right] = task4a(2, 10000001);                        // 109800 ns
+
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+
+	if (left && right) {                                           
+		count = left->op_count + right->op_count;				   
 	}
-
-	//count = task4b(2, 10000001, lambdas, map_lambdas);              //529100 ns
-	auto end_time = std::chrono::steady_clock::now();
-	auto elapsed_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
-
-	std::cout << elapsed_ns.count() << " ns\n" << "count: " << count << std::endl;
+	std::cout << duration.count() << " ns\n" << "count: " << count << std::endl;
 
 	return 0;
 }
@@ -317,5 +376,5 @@ int main()
 // x86-Release      56600 ns
 
 //на очереди при 10000001 4 задание
-// x64-Release     534500 ns
-// x86-Release     517000 ns
+// x64-Release      91200 ns
+// x86-Release     109800 ns
