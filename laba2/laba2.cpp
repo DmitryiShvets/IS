@@ -351,7 +351,7 @@ int a_star(const std::string& start) {
 
 int ida(const std::string& start, int bound) {
 	auto start_t = std::chrono::high_resolution_clock::now();
-
+	int INF = 1e9;
 	std::priority_queue<Position*, std::vector<Position*>, ManhattanComparePositions> q;
 	std::unordered_map<unsigned long long, Position*> s;
 
@@ -363,7 +363,12 @@ int ida(const std::string& start, int bound) {
 		q.pop();
 
 		auto f = cur->depth + cur->hdm();
-		if (f > bound) return -1;
+		//if (f > bound) return f;
+		if (f > bound) {
+			if (INF > f)INF = f;
+			s[cur->position] = cur;
+			continue;
+		}
 
 		if (cur->position == END) {
 			auto end_t = std::chrono::high_resolution_clock::now();
@@ -374,7 +379,7 @@ int ida(const std::string& start, int bound) {
 			{
 				delete i.second;
 			}
-			return cur->depth;
+			return 0;
 		}
 
 		s[cur->position] = cur;
@@ -386,6 +391,7 @@ int ida(const std::string& start, int bound) {
 				if (!s.contains(new_pos) || cur->depth + 1 < s[new_pos]->depth) {
 					//q.emplace(new Position{ nullptr, new_pos, (uint8_t)(cur->zero - 4), 4, cur->depth + 1 });
 					s[new_pos] = new Position{ cur, new_pos, (uint8_t)(cur->zero - 4), 4, cur->depth + 1 };
+
 					q.emplace(s[new_pos]);
 				}
 			}
@@ -429,7 +435,7 @@ int ida(const std::string& start, int bound) {
 	{
 		delete i.second;
 	}
-	return -1;
+	return INF;
 }
 
 
@@ -442,10 +448,13 @@ int main() {
 	std::string pos19{"12345678A0BE9FCD"};
 	std::string pos22{"12045738A6BE9FCD"};
 	std::string pos27{"51247308A6BE9FCD"};
+	std::string pos48{"04582E1DF79BCA36"};
+	std::string pos52{"FE169B4C0A73D852"};
 	std::string pos58{"AF2C71E0B8634D59"};
+	std::string pos61{"BAC0F478E19623D5"};
 
 
-	std::string start_pos = pos27;
+	std::string start_pos = pos52;
 
 	//auto res1 = bfs(start_pos);
 	//std::cout << "count: " << res1 << std::endl;
@@ -461,17 +470,20 @@ int main() {
 	//}
 	//std::cout << "count: " << res3 << std::endl;
 
-	auto res4 = a_star(start_pos);
-	std::cout << "count: " << res4 << std::endl;
+	//auto res4 = a_star(start_pos);
+	//std::cout << "count: " << res4 << std::endl;
 
 	int res5;
-	for (int i = 0; i < 100; i++)
-	{
-		//std::cout << "глубина: " << i << std::endl;
-		res5= ida(start_pos, i);
-		if (res5 > 0)break;
+	Position start_ida{ start_pos };
+	int bound = start_ida.hdm();
+	while (true) {
+		std::cout << "глубина: " << bound << std::endl;
+		bound = ida(start_pos, bound);
+		std::cout << "вернул: " << bound << std::endl;
+		if (bound == 0)break;
 	}
-	std::cout << "count: " << res5 << std::endl;
+	//
+	//std::cout << "count: " << bound << std::endl;
 
 	return 0;
 }
