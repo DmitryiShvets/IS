@@ -366,7 +366,7 @@ int ida(const std::string& start, int bound) {
 		//if (f > bound) return f;
 		if (f > bound) {
 			if (INF > f)INF = f;
-			s[cur->position] = cur;
+			//s[cur->position] = cur;
 			continue;
 		}
 
@@ -450,11 +450,12 @@ int main() {
 	std::string pos27{"51247308A6BE9FCD"};
 	std::string pos48{"04582E1DF79BCA36"};
 	std::string pos52{"FE169B4C0A73D852"};
+	std::string pos55{"D79F2E8A45106C3B"};
 	std::string pos58{"AF2C71E0B8634D59"};
 	std::string pos61{"BAC0F478E19623D5"};
 
 
-	std::string start_pos = pos52;
+	std::string start_pos = pos55;
 
 	//auto res1 = bfs(start_pos);
 	//std::cout << "count: " << res1 << std::endl;
@@ -470,8 +471,8 @@ int main() {
 	//}
 	//std::cout << "count: " << res3 << std::endl;
 
-	//auto res4 = a_star(start_pos);
-	//std::cout << "count: " << res4 << std::endl;
+	auto res4 = a_star(start_pos);
+	std::cout << "count: " << res4 << std::endl;
 
 	int res5;
 	Position start_ida{ start_pos };
