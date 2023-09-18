@@ -3,7 +3,7 @@
 #
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (laba2 "laba2.cpp" "bit_tag.h" "bit_tag.cpp")
+add_executable (laba2 "laba2.cpp" "bit_tag.h" "bit_tag.cpp" "staff.cpp" "staff.h" "array_tag.h" "array_tag.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET laba2 PROPERTY CXX_STANDARD 20)

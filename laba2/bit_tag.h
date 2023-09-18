@@ -1,24 +1,48 @@
 #pragma once
-#include <unordered_map>
-extern std::unordered_map<char, unsigned long long> mask1;
-extern std::unordered_map<char, std::vector<char>> avaible_moves;
+#include <vector>
+#include <string>
+extern std::array<unsigned long long, 16> mask_a;
+
 class Position {
+
 public:
+	Position(Position* _parent, unsigned long long _position, uint8_t _zero, int8_t _last_move, int _depth);
+	Position(const std::string& _position);
 
-	
+	inline uint8_t operator[](uint8_t d) const;
+	bool is_valid_position();
+	~Position();
+	friend bool operator==(const Position& l, const Position& r)
+	{
+		return l.position == r.position; // keep the same order
+	}
+	int hdm() const;
+	int hcp() const;
 
-	
-	Position(unsigned long long _position, char _zero, char _last_move, char _count_moves);
-	inline char operator[](char d);
+	Position* parent;
 	unsigned long long position;
-	char zero;
-	char last_move;
-	char count_moves;
-	unsigned long long make_move(char move);
-	unsigned long long move_right();
-	unsigned long long move_left();
-	unsigned long long move_up();
-	unsigned long long move_down();
-	
+	int8_t zero;
+	int depth;
+	int8_t last_move;
+	uint8_t find_zero();
 };
 
+struct CasualComparePositions {
+	bool operator()(const Position* a, const Position* b) const {
+		return a->depth + a->hcp() > b->depth + b->hcp();
+	}
+};
+
+struct ManhattanComparePositions {
+	bool operator()(const Position* a, const Position* b) const {
+		return a->depth + a->hdm() > b->depth + b->hdm();
+	}
+};
+
+template<>
+struct std::hash<Position> {
+	size_t operator() (const Position& key) const {
+
+		return key.position;
+	}
+};

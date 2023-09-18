@@ -1,56 +1,100 @@
 #include "bit_tag.h"
+#include <array>
+#include <bitset>
+#include "staff.h"
+#include <iostream>
+std::array<unsigned long long, 16> mask_a{
+	17293822569102704640,
+	1080863910568919040,
+	67553994410557440,
+	4222124650659840,
+	263882790666240,
+	16492674416640,
+	1030792151040,
+	64424509440,
+	4026531840,
+	251658240,
+	15728640,
+	983040,
+	61440,
+	3840,
+	240,
+	15
+};
 
-std::unordered_map<char, unsigned long long> mask1{ {0,17293822569102704640},{1,1080863910568919040},{2,67553994410557440},
-								   {3,4222124650659840},{4,263882790666240},{5,16492674416640},
-								   {6,1030792151040}, {7,64424509440},{8,4026531840},{9,251658240},
-								   {10,15728640},{11,983040},{12,61440},{13,3840},{14,240},{15,15} };
 
-extern std::unordered_map<char, std::vector<char>> avaible_moves{ {0,{1,4}},
-																{3,{-1,4}},
-																{12,{1,-4}},
-																{15,{-1,-4}},
-																{1,{-1,1,4}}, {2,{-1,1,4}},
-																{4,{1,-4,4}}, {8,{1,-4,4}},
-																{5,{-1,1,-4,4}} ,{6,{-1,1,-4,4}},
-																{9,{-1,1,-4,4}}, {10,{-1,1,-4,4}},
-																{7,{-1,-4,4}}, {11,{-1,-4,4}},
-																{13,{-1,1,-4}},{14,{-1,1,-4}}};
-
-Position::Position(unsigned long long _position, char _zero, char _last_move, char _count_moves)
-	: position(_position), zero(_zero), last_move(_last_move), count_moves(_count_moves) {}
-
-
-inline char Position::operator[](char d) {
-	return (position & mask1[d]) >> (64 - (d + 1) * 4);
+Position::Position(Position* _parent, unsigned long long _position, uint8_t _zero, int8_t _last_move, int _depth)
+	: parent(_parent), position(_position), zero(_zero), last_move(_last_move), depth(_depth) {
 }
 
-unsigned long long Position::make_move(char move) {
-	if (move == -1 && zero > 0) {
-		return move_left();
+Position::Position(const std::string& _position)
+	:parent(nullptr), last_move(0), depth(0)
+{
+	position = hex_to_int(_position);
+	zero = find_zero();
+}
+
+
+inline uint8_t Position::operator[](uint8_t d) const {
+	return uint8_t((position & mask_a[d]) >> (64 - (d + 1) * 4));
+}
+
+uint8_t Position::find_zero()
+{
+	for (uint8_t i = 0; i < 16; i++)
+	{
+		if (operator[](i) == 0)return i;
 	}
-	if (move == 1 && zero < 16) {
-		return move_right();
-	}
-	if (move == -4 && zero > 3) {
-		return move_up();
-	}
-	if (move == 4 && zero < 12) {
-		return move_down();
-	}
-	return 0;
+	return -1;
 }
 
-unsigned long long Position::move_left() {
-	return ((position & mask1[zero - 1]) >> 4) | (position & ~mask1[zero - 1]);
-}
-unsigned long long Position::move_right() {
-	return (((position & mask1[zero + 1]) << 4) | (position & ~mask1[zero + 1]));
-}
-unsigned long long Position::move_down() {
-	return ((position & mask1[zero + 4]) << 16) | (position & ~mask1[zero + 4]);
-}
-unsigned long long  Position::move_up() {
-	return ((position & mask1[zero - 4]) >> 16) | (position & ~mask1[zero - 4]);
+bool Position::is_valid_position()
+{
+	int inversions_count = 0;
+	for (uint8_t i = 0; i < 16; i++)
+	{
+		for (uint8_t j = 0; j < i; j++)
+		{
+			auto a = operator[](j);
+			auto b = operator[](i);
+			if (a && b && a > b)inversions_count++;
+		}
+
+	}
+
+	inversions_count += 1 + zero / 4;
+
+	return inversions_count % 2 == 0;
 }
 
+int Position::hdm() const {
+	int sum = 0;
+	for (int i = 0; i < 16; ++i) {
+		int element = int((position & mask_a[i]) >> (64 - (i + 1) * 4));
+		if (element == 0)continue;
+		int x1 = i % 4;
+		int y1 = i / 4;
+		int x2 = (element - 1) % 4;
+		int y2 = (element - 1) / 4;
+
+		sum += abs(x1 - x2) + abs(y1 - y2);
+
+	}
+	return sum;
+}
+
+Position::~Position()
+{
+	
+}
+
+int Position::hcp() const
+{
+	int sum = 0;
+	for (int i = 0; i < 16; ++i) {
+		int element = int((position & mask_a[i]) >> (64 - (i + 1) * 4));
+		if (element && element != i + 1) 	sum++;
+	}
+	return sum;
+}
 
