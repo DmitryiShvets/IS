@@ -303,11 +303,6 @@ int a_star(const std::string& start) {
 				if (!s.contains(new_pos)) {
 					q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero - 4), 4, cur->depth + 1 });
 				}
-				else if (cur->depth + 1 < s[new_pos]->depth) {
-					delete s[new_pos];
-					s[new_pos] = new Position{ cur, new_pos, (uint8_t)(cur->zero - 4), 4, cur->depth + 1 };
-					q.emplace(s[new_pos]);
-				}
 			}
 		}
 		if (cur->last_move != 4) {
@@ -316,11 +311,6 @@ int a_star(const std::string& start) {
 
 				if (!s.contains(new_pos)) {
 					q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero + 4), -4, cur->depth + 1 });
-				}
-				else if (cur->depth + 1 < s[new_pos]->depth) {
-					delete s[new_pos];
-					s[new_pos] = new Position{ cur, new_pos, (uint8_t)(cur->zero + 4), -4, cur->depth + 1 };
-					q.emplace(s[new_pos]);
 				}
 			}
 
@@ -332,11 +322,6 @@ int a_star(const std::string& start) {
 				if (!s.contains(new_pos)) {
 					q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero - 1), 1, cur->depth + 1 });
 				}
-				else if (cur->depth + 1 < s[new_pos]->depth) {
-					delete s[new_pos];
-					s[new_pos] = new Position{ cur, new_pos, (uint8_t)(cur->zero - 1), 1, cur->depth + 1 };
-					q.emplace(s[new_pos]);
-				}
 			}
 
 		}
@@ -346,11 +331,6 @@ int a_star(const std::string& start) {
 
 				if (!s.contains(new_pos)) {
 					q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero + 1), -1, cur->depth + 1 });
-				}
-				else if (cur->depth + 1 < s[new_pos]->depth) {
-					delete s[new_pos];
-					s[new_pos] = new Position{ cur, new_pos, (uint8_t)(cur->zero + 1), -1, cur->depth + 1 };
-					q.emplace(s[new_pos]);
 				}
 			}
 
@@ -365,10 +345,10 @@ int a_star(const std::string& start) {
 }
 
 int ida(const std::string& start, int bound) {
-	auto start_t = std::chrono::high_resolution_clock::now();
 	int INF = 1e9;
 	std::priority_queue<Position*, std::vector<Position*>, ManhattanComparePositions> q;
 	std::unordered_map<unsigned long long, Position*> s;
+	auto start_t = std::chrono::high_resolution_clock::now();
 
 	q.emplace(new Position{ start });
 
@@ -377,12 +357,19 @@ int ida(const std::string& start, int bound) {
 		auto cur = q.top();
 		q.pop();
 
+		auto f = cur->depth + cur->hdm();
+		if (f > bound) {
+			auto end_t = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start_t);
+			std::cout << "not found bound: " << bound << " время IDA* " << duration.count() << " ns " << duration.count() / 1e+9 << " s\n";
+			return f;
+		}
+
 		if (cur->position == END) {
 			auto end_t = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start_t);
 			std::cout << "found 1 bound: " << bound << " время IDA* " << duration.count() << " ns " << duration.count() / 1e+9 << " s\n";
 			save_positions(cur, "ida.txt");
-
 			for (auto& i : s)
 			{
 				delete i.second;
@@ -396,35 +383,8 @@ int ida(const std::string& start, int bound) {
 			if (cur->zero >= 4) {
 				auto new_pos = ((cur->position & mask_a[cur->zero - 4]) >> 16) | (cur->position & ~mask_a[cur->zero - 4]);
 
-				//if (new_pos == END) {
-				//	auto end_t = std::chrono::high_resolution_clock::now();
-				//	auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start_t);
-				//	std::cout << "found 2 bound: " << bound << " время IDA* " << duration.count() << " ns " << duration.count() / 1e+9 << " s\n";
-				//	auto tmp = new Position{ cur, new_pos, (uint8_t)(cur->zero - 4), 4, cur->depth + 1 };
-				//	save_positions(tmp, "ida.txt");
-				//	delete tmp;
-
-				//	for (auto& i : s)
-				//	{
-				//		delete i.second;
-				//	}
-				//	return 0;
-				//}
-
-				auto f = cur->depth + 1 + Position::heuristic(new_pos);
-				if (f > bound) {
-					if (INF > f)INF = f;
-					//continue;
-				}
-				else {
-					if (!s.contains(new_pos)) {
-						q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero - 4), 4, cur->depth + 1 });
-					}
-					else if (cur->depth + 1 < s[new_pos]->depth) {
-						delete s[new_pos];
-						s[new_pos] = new Position{ cur, new_pos, (uint8_t)(cur->zero - 4), 4, cur->depth + 1 };
-						q.emplace(s[new_pos]);
-					}
+				if (!s.contains(new_pos)) {
+					q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero - 4), 4, cur->depth + 1 });
 				}
 			}
 		}
@@ -432,112 +392,33 @@ int ida(const std::string& start, int bound) {
 			if (cur->zero <= 11) {
 				auto new_pos = ((cur->position & mask_a[cur->zero + 4]) << 16) | (cur->position & ~mask_a[cur->zero + 4]);
 
-				//if (new_pos == END) {
-				//	auto end_t = std::chrono::high_resolution_clock::now();
-				//	auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start_t);
-				//	std::cout << "found 2 bound: " << bound << " время IDA* " << duration.count() << " ns " << duration.count() / 1e+9 << " s\n";
-				//	auto tmp = new Position{ cur, new_pos, (uint8_t)(cur->zero + 4), -4, cur->depth + 1 };
-				//	save_positions(tmp, "ida.txt");
-				//	delete tmp;
-
-				//	for (auto& i : s)
-				//	{
-				//		delete i.second;
-				//	}
-				//	return 0;
-				//}
-
-				auto f = cur->depth + 1 + Position::heuristic(new_pos);
-				if (f > bound) {
-					if (INF > f)INF = f;
-					//continue;
-				}
-				else {
-					if (!s.contains(new_pos)) {
-						q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero + 4), -4, cur->depth + 1 });
-					}
-					else if (cur->depth + 1 < s[new_pos]->depth) {
-						delete s[new_pos];
-						s[new_pos] = new Position{ cur, new_pos, (uint8_t)(cur->zero + 4), -4, cur->depth + 1 };
-						q.emplace(s[new_pos]);
-					}
+				if (!s.contains(new_pos)) {
+					q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero + 4), -4, cur->depth + 1 });
 				}
 			}
+
 		}
 		if (cur->last_move != -1) {
 			if (cur->zero % 4 != 0) {
 				auto new_pos = ((cur->position & mask_a[cur->zero - 1]) >> 4) | (cur->position & ~mask_a[cur->zero - 1]);
 
-				//if (new_pos == END) {
-				//	auto end_t = std::chrono::high_resolution_clock::now();
-				//	auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start_t);
-				//	std::cout << "found 2 bound: " << bound << " время IDA* " << duration.count() << " ns " << duration.count() / 1e+9 << " s\n";
-				//	auto tmp = new Position{ cur, new_pos, (uint8_t)(cur->zero - 1), 1, cur->depth + 1 };
-				//	save_positions(tmp, "ida.txt");
-				//	delete tmp;
-
-				//	for (auto& i : s)
-				//	{
-				//		delete i.second;
-				//	}
-				//	return 0;
-				//}
-
-				auto f = cur->depth + 1 + Position::heuristic(new_pos);
-				if (f > bound) {
-					if (INF > f)INF = f;
-					//continue;
-				}
-				else {
-					if (!s.contains(new_pos)) {
-						q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero - 1), 1, cur->depth + 1 });
-					}
-					else if (cur->depth + 1 < s[new_pos]->depth) {
-						delete s[new_pos];
-						s[new_pos] = new Position{ cur, new_pos, (uint8_t)(cur->zero - 1), 1, cur->depth + 1 };
-						q.emplace(s[new_pos]);
-					}
+				if (!s.contains(new_pos)) {
+					q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero - 1), 1, cur->depth + 1 });
 				}
 			}
+
 		}
 		if (cur->last_move != 1) {
 			if (cur->zero % 4 != 3) {
 				auto new_pos = ((cur->position & mask_a[cur->zero + 1]) << 4) | (cur->position & ~mask_a[cur->zero + 1]);
 
-				//if (new_pos == END) {
-				//	auto end_t = std::chrono::high_resolution_clock::now();
-				//	auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start_t);
-				//	std::cout << "found 2 bound: " << bound << " время IDA* " << duration.count() << " ns " << duration.count() / 1e+9 << " s\n";
-				//	auto tmp = new Position{ cur, new_pos, (uint8_t)(cur->zero + 1), -1, cur->depth + 1 };
-				//	save_positions(tmp, "ida.txt");
-				//	delete tmp;
-
-				//	for (auto& i : s)
-				//	{
-				//		delete i.second;
-				//	}
-				//	return 0;
-				//}
-
-				auto f = cur->depth + 1 + Position::heuristic(new_pos);
-				if (f > bound) {
-					if (INF > f)INF = f;
-					//continue;
-				}
-				else {
-					if (!s.contains(new_pos)) {
-						q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero + 1), -1, cur->depth + 1 });
-					}
-					else if (cur->depth + 1 < s[new_pos]->depth) {
-						delete s[new_pos];
-						s[new_pos] = new Position{ cur, new_pos, (uint8_t)(cur->zero + 1), -1, cur->depth + 1 };
-						q.emplace(s[new_pos]);
-					}
+				if (!s.contains(new_pos)) {
+					q.emplace(new Position{ cur, new_pos, (uint8_t)(cur->zero + 1), -1, cur->depth + 1 });
 				}
 			}
+
 		}
 	}
-
 	auto end_t = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start_t);
 	std::cout << "not found bound: " << bound << " время IDA* " << duration.count() << " ns " << duration.count() / 1e+9 << " s\n";
@@ -581,12 +462,10 @@ int main() {
 	//}
 	//std::cout << "count: " << res3 << std::endl;
 
-	//auto res4 = a_star(start_pos);
-	//std::cout << "count: " << res4 << std::endl;
+	auto res4 = a_star(start_pos);
+	std::cout << "count: " << res4 << std::endl;
 
-	int res5;
-	Position start_ida{ start_pos };
-	int bound = start_ida.hdm();
+	int bound = Position::heuristic(hex_to_int(start_pos));
 	while (true) {
 		bound = ida(start_pos, bound);
 		if (bound == 0)break;
