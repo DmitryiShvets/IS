@@ -98,3 +98,20 @@ int Position::hcp() const
 	return sum;
 }
 
+int Position::heuristic(unsigned long long pos)
+{
+	int sum = 0;
+	for (int i = 0; i < 16; ++i) {
+		int element = int((pos & mask_a[i]) >> (64 - (i + 1) * 4));
+		if (element == 0)continue;
+		int x1 = i % 4;
+		int y1 = i / 4;
+		int x2 = (element - 1) % 4;
+		int y2 = (element - 1) / 4;
+
+		sum += abs(x1 - x2) + abs(y1 - y2);
+
+	}
+	return sum;
+}
+

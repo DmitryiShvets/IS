@@ -18,7 +18,7 @@ public:
 	}
 	int hdm() const;
 	int hcp() const;
-
+	static int heuristic(unsigned long long pos);
 	Position* parent;
 	unsigned long long position;
 	int8_t zero;
