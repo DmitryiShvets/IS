@@ -14,3 +14,4 @@ project ("IS")
 # Включите подпроекты.
 add_subdirectory ("laba1")
 add_subdirectory ("laba2")
+add_subdirectory ("laba3")
