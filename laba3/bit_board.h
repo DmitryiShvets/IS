@@ -4,7 +4,7 @@
 #include <vector>
 #include <random>
 #include <numeric>
-constexpr auto N = 8;
+constexpr auto N = 9;
 
 class Position {
 public:
