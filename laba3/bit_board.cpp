@@ -93,39 +93,36 @@ std::bitset<N* N> Position::get_new_pos(int x, int y) const {
 	return tmp;
 }
 
-int  Position::fitness() const {
+int Position::fitness() const {
 	int conflicts = 0;
 
 	for (int x = 0; x < N; ++x) {
 		for (int y = 0; y < N; ++y) {
 			if (board[y * N + x]) {
-				for (int i = 0; i < N; ++i) {
-					if (i != x && board[y * N + i]) {
-						conflicts++;
-					}
-					if (i != y && board[i * N + x]) {
-						conflicts++;
-					}
-				}
 				for (int i = 1; i < N; ++i) {
-					if (x + i < N && y + i < N && board[(y + i) * N + (x + i)]) {
-						conflicts++;
+					if (x + i < N) {
+						if (y + i < N && board[(y + i) * N + (x + i)]) {
+							conflicts++;
+						}
+						if (y - i >= 0 && board[(y - i) * N + (x + i)]) {
+							conflicts++;
+						}
 					}
-					if (x - i >= 0 && y - i >= 0 && board[(y - i) * N + (x - i)]) {
-						conflicts++;
-					}
-					if (x + i < N && y - i >= 0 && board[(y - i) * N + (x + i)]) {
-						conflicts++;
-					}
-					if (x - i >= 0 && y + i < N && board[(y + i) * N + (x - i)]) {
-						conflicts++;
+					if (x - i >= 0) {
+						if (y + i < N && board[(y + i) * N + (x - i)]) {
+							conflicts++;
+						}
+						if (y - i >= 0 && board[(y - i) * N + (x - i)]) {
+							conflicts++;
+						}
 					}
 				}
 			}
 		}
 	}
 
-	return conflicts;
+	// Поскольку каждый конфликт учитывается дважды, мы делим на 2
+	return conflicts / 2;
 }
 
 PositionN::PositionN(const std::vector<int>& _pos) :pos(_pos) {
