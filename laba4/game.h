@@ -8,7 +8,10 @@ public:
 	void Init(Board* board);
 	//Сделать ход
 	int  play_move(int x, int y);
-	int  undo_move(int x, int y);
+	//Отменить ход
+	void  undo_move();
+	//Проверка что у противника нет ходов
+	bool  player_have_moves();
 	//Определите, является ли оно окончательным
 	int  is_game_end();
 	//Показать доску и возможные ходы
@@ -19,7 +22,7 @@ public:
 	void set_comp_take(int take);
 	//Определить результат игры
 	int get_exit_code();
-
+	
 	std::string move_history = "";
 	int cur_move_number;
 	int now_turn = 0;

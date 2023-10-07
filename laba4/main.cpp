@@ -4,10 +4,10 @@
 
 #include <iostream>
 int main(int argc, char* argv[]) {
-	int compcolor;
 	char c[10];
-	int column_input = -1, row_input = -1;
+	int prompt_y = -1, prompt_x = -1;
 	int rx, ry, m = 0, n;
+
 	Board g_board;
 	Game g_game;
 	AIPlayer g_ai;
@@ -17,16 +17,14 @@ int main(int argc, char* argv[]) {
 	g_board.Init();
 	g_game.Init(&g_board);
 	g_ai.Init(&g_game, &g_board, &g_db);
-	for (size_t i = 0; i < argc; i++)
-	{
-		std::cout << argv[i] << " ";
-	}
-	std::cout << std::endl;
-	if (argc >1) {
+
+	if (argc > 1) {
 		g_game.set_comp_take(static_cast<int>(*argv[1]) - '0');
 	}
 	else {
 		std::cout << "Computer color is Black(0) or White(1)?" << std::endl;
+		int compcolor;
+
 		std::cin >> compcolor;
 		g_game.set_comp_take(compcolor);
 	}
@@ -43,6 +41,12 @@ int main(int argc, char* argv[]) {
 
 	while (m++ < Board_Size * Board_Size) {
 		for (;;) {
+			if (!g_game.player_have_moves()) {
+				m--;
+				prompt_x = prompt_y = -1;
+				g_game.play_move(prompt_x, prompt_y);
+				break;
+			}
 
 			if (g_game.computer_take == 0) {
 				std::cout << "input White move:(a-h 1-8), or undo (U/u)\n";
@@ -53,21 +57,27 @@ int main(int argc, char* argv[]) {
 				std::cin >> c;
 			}
 
-			if (c[0] == 'U' || c[0] == 'u')
-				row_input = column_input = -1;
+			if (c[0] == 'U' || c[0] == 'u') {
+				prompt_x = prompt_y = -1;
+				g_game.undo_move();
+				g_game.print_board_and_set_legal_moves();
+				m--;
+				continue;
+			}
 			else {
-				row_input = c[0] - 97;
+				prompt_x = c[0] - 97;
 
 				if (c[2] == '0') {
-					column_input = 9;
+					prompt_y = 9;
 				}
 				else {
-					column_input = c[1] - 49;
+					prompt_y = c[1] - 49;
 				}
 			}
+			if (g_game.now_turn != g_game.computer_take)memcpy(g_board.tmp_board, g_board.now_board, sizeof(int) * Board_Size * Board_Size);
 
-			if (!g_game.play_move(row_input, column_input)) {
-				std::cout << c[0] << column_input + 1 << " is a Wrong move!" << std::endl;
+			if (!g_game.play_move(prompt_x, prompt_y)) {
+				std::cout << c[0] << prompt_y + 1 << " is a Wrong move!" << std::endl;
 			}
 			else break;
 		}

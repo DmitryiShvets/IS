@@ -9,6 +9,7 @@ void Board::Init() {
 
 	now_board[3][3] = now_board[4][4] = 2; //белые
 	now_board[3][4] = now_board[4][3] = 1; //черные
+	memcpy(tmp_board, now_board, sizeof(int) * Board_Size * Board_Size);
 
 }
 

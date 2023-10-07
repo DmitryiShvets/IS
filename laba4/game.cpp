@@ -40,7 +40,6 @@ int Game::play_move(int x, int y)
 
 		int move_index = last_y * 8 + last_x;
 		move_history.append(std::to_string(move_index) + ",");
-		//memcpy(m_board->tmp_board, m_board->now_board, sizeof(int) * Board_Size * Board_Size);
 
 		compute_grades(TRUE, 0);
 		return 1;
@@ -50,9 +49,19 @@ int Game::play_move(int x, int y)
 	return 1;
 }
 
-int Game::undo_move(int x, int y)
+void Game::undo_move()
 {
-	return 0;
+	//now_turn = 1 - now_turn;
+	memcpy(m_board->now_board, m_board->tmp_board, sizeof(int) * Board_Size * Board_Size);
+}
+
+bool Game::player_have_moves()
+{
+	int count_move_enemy = m_board->find_legal_moves(1-computer_take);
+	if (count_move_enemy == 0) {
+		return false;
+	}
+	else return true;
 }
 
 int Game::is_game_end()
