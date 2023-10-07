@@ -9,28 +9,30 @@ class Board
 {
 public:
 
-	int Legal_Moves[Board_Size][Board_Size]; //матрица возможных ходов
-	int Legal_Move_Index[50][3];
-	int Now_Board[Board_Size][Board_Size];   //текущая позиция
-	int B, W; //колличество черных и белых камней
-	int Stones_color[2] = { 1,2 }; // 1: black, 2: white
+	int legal_moves[Board_Size][Board_Size]; //матрица возможных ходов
+	int legal_move_index[50][3];
+	int now_board[Board_Size][Board_Size];   //текущая позиция
+	int tmp_board[Board_Size][Board_Size];   //предыдущая позиция для отмены хода
+	int b_count, w_count; //колличество черных и белых камней
+	int stone_color[2] = { 1,2 }; // 1: black, 2: white
+
 
 	void Init();
 	//Обновить возможные ходы и вернуть количество возможных ходов.
-	int  Find_Legal_Moves(int color);
+	int  find_legal_moves(int color);
 	//Определите, валидный ли ход.
-	int  In_Board(int x, int y);
+	int  is_valid_move(int x, int y);
 	//Определите, можно ли захватить шахматную фигуру
-	int  Check_Cross(int x, int y, int update);
+	int  сheck_сross(int x, int y, bool update);
 	//Поместить камень
-	int  Put_a_Stone(int x, int y, int turn);
+	int  add_stone(int x, int y, int turn);
 
 private:
 
-	int DirX[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
-	int DirY[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
+	int dir_x[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+	int dir_y[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
 	
-	//Определите, может ли направление d захватить шахматную фигуру，update Чтобы выполнить сигнал захвата
-	int  Check_Straight_Army(int x, int y, int d, bool update);
+	//Определяет может ли сосед d захватать вражескую фигуру, если update=true то захват
+	int  flip_enemy(int x, int y, int d, bool update);
 };
 

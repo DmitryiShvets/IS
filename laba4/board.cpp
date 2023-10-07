@@ -5,97 +5,95 @@
 
 void Board::Init() {
 	srand((unsigned)time(NULL));
-	memset(Now_Board, 0, sizeof(int) * Board_Size * Board_Size);
+	memset(now_board, 0, sizeof(int) * Board_Size * Board_Size);
 
-	Now_Board[3][3] = Now_Board[4][4] = 2; //белые
-	Now_Board[3][4] = Now_Board[4][3] = 1; //черные
+	now_board[3][3] = now_board[4][4] = 2; //белые
+	now_board[3][4] = now_board[4][3] = 1; //черные
 
 }
 
-int Board::Find_Legal_Moves(int turn)
+int Board::find_legal_moves(int turn)
 {
 	int i, j;
-	int me = Stones_color[turn];
+	int me = stone_color[turn];
 	int legal_count = 0;
-	Legal_Move_Index[0][0] = 0;
-	B = W = 0;
+	legal_move_index[0][0] = 0;
+	b_count = w_count = 0;
 
 	for (i = 0; i < Board_Size; i++)
 		for (j = 0; j < Board_Size; j++)
-			Legal_Moves[i][j] = 0;
+			legal_moves[i][j] = 0;
 
 	for (i = 0; i < Board_Size; i++)
 		for (j = 0; j < Board_Size; j++) {
-			if (Now_Board[i][j] == 0) {
+			if (now_board[i][j] == 0) {
 				//Ускорение обрезки
 				if (i > 0 && i < Board_Size - 1 && j>0 && j < Board_Size - 1) {
-					if ((Now_Board[i - 1][j - 1] == 0 || Now_Board[i - 1][j - 1] == me) &&
-						(Now_Board[i - 1][j] == 0 || Now_Board[i - 1][j] == me) &&
-						(Now_Board[i - 1][j + 1] == 0 || Now_Board[i - 1][j + 1] == me) &&
-						(Now_Board[i][j - 1] == 0 || Now_Board[i][j - 1] == me) &&
-						(Now_Board[i][j + 1] == 0 || Now_Board[i][j + 1] == me) &&
-						(Now_Board[i + 1][j - 1] == 0 || Now_Board[i + 1][j - 1] == me) &&
-						(Now_Board[i + 1][j] == 0 || Now_Board[i + 1][j] == me) &&
-						(Now_Board[i + 1][j + 1] == 0 || Now_Board[i + 1][j + 1] == me)) {
+					if ((now_board[i - 1][j - 1] == 0 || now_board[i - 1][j - 1] == me) &&
+						(now_board[i - 1][j] == 0 || now_board[i - 1][j] == me) &&
+						(now_board[i - 1][j + 1] == 0 || now_board[i - 1][j + 1] == me) &&
+						(now_board[i][j - 1] == 0 || now_board[i][j - 1] == me) &&
+						(now_board[i][j + 1] == 0 || now_board[i][j + 1] == me) &&
+						(now_board[i + 1][j - 1] == 0 || now_board[i + 1][j - 1] == me) &&
+						(now_board[i + 1][j] == 0 || now_board[i + 1][j] == me) &&
+						(now_board[i + 1][j + 1] == 0 || now_board[i + 1][j + 1] == me)) {
 						continue;
 					}
 				}
-				Now_Board[i][j] = me;
-				if (Check_Cross(i, j, FALSE) == TRUE) {
-					Legal_Moves[i][j] = TRUE;
+				now_board[i][j] = me;
+				if (сheck_сross(i, j, false) == TRUE) {
+					legal_moves[i][j] = TRUE;
 					legal_count++;
-					Legal_Move_Index[0][0] = legal_count;
-					Legal_Move_Index[legal_count][1] = i;
-					Legal_Move_Index[legal_count][2] = j;
+					legal_move_index[0][0] = legal_count;
+					legal_move_index[legal_count][1] = i;
+					legal_move_index[legal_count][2] = j;
 				}
-				Now_Board[i][j] = 0;
+				now_board[i][j] = 0;
 			}
-			else if (Now_Board[i][j] == 1) {
-				B++;
+			else if (now_board[i][j] == 1) {
+				b_count++;
 			}
-			else if (Now_Board[i][j] == 2) {
-				W++;
+			else if (now_board[i][j] == 2) {
+				w_count++;
 			}
 		}
 
 	return legal_count;
 }
 
-int Board::Check_Cross(int x, int y, int update)
+int Board::сheck_сross(int x, int y, bool update)
 {
-	int k, dx, dy;
+	int  dx, dy;
 
-	if (!In_Board(x, y) || Now_Board[x][y] == 0)
+	if (!is_valid_move(x, y) || now_board[x][y] == 0)
 		return FALSE;
 
-	int army = 3 - Now_Board[x][y];
-	int army_count = 0;
+	int enemy = 3 - now_board[x][y];
+	int flip_count = 0;
 
-	for (k = 0; k < 8; k++) {
-		dx = x + DirX[k];
-		dy = y + DirY[k];
-		if (In_Board(dx, dy) && Now_Board[dx][dy] == army) {
-			army_count += Check_Straight_Army(x, y, k, update);
+	for (int k = 0; k < 8; k++) {
+		dx = x + dir_x[k];
+		dy = y + dir_y[k];
+		if (is_valid_move(dx, dy) && now_board[dx][dy] == enemy) {
+			flip_count += flip_enemy(x, y, k, update);
 		}
 	}
 
-	if (army_count > 0)
-		return TRUE;
-	else
-		return FALSE;
+	if (flip_count > 0)	return TRUE;
+	else return FALSE;
 }
 
-int Board::Put_a_Stone(int x, int y, int turn)
+int Board::add_stone(int x, int y, int turn)
 {
-	if (Now_Board[x][y] == 0) {
+	if (now_board[x][y] == 0) {
 
-		Now_Board[x][y] = Stones_color[turn];
+		now_board[x][y] = stone_color[turn];
 		return TRUE;
 	}
 	return FALSE;
 }
 
-int Board::In_Board(int x, int y)
+int Board::is_valid_move(int x, int y)
 {
 	if (x >= 0 && x < Board_Size && y >= 0 && y < Board_Size)
 		return TRUE;
@@ -103,47 +101,45 @@ int Board::In_Board(int x, int y)
 		return FALSE;
 }
 
-int Board::Check_Straight_Army(int x, int y, int d, bool update)
+int Board::flip_enemy(int x, int y, int d, bool update)
 {
-	int me = Now_Board[x][y];
-	int army = 3 - me;
-	int army_count = 0;
-	int found_flag = FALSE;
+	int me = now_board[x][y];
+	int enemy = 3 - me;
+	int flip_count = 0;
+	bool found_flag = false;
 	int flag[Board_Size][Board_Size] = { {0} };
 
 	int tx = x;
 	int ty = y;
 
 	for (int i = 0; i < Board_Size; i++) {
-		tx += DirX[d];
-		ty += DirY[d];
+		tx += dir_x[d];
+		ty += dir_y[d];
 
-		if (In_Board(tx, ty)) {
-			if (Now_Board[tx][ty] == army) {
-				army_count++;
+		if (is_valid_move(tx, ty)) {
+			if (now_board[tx][ty] == enemy) {
+				flip_count++;
 				flag[tx][ty] = TRUE;
 			}
-			else if (Now_Board[tx][ty] == me) {
-				found_flag = TRUE;
+			else if (now_board[tx][ty] == me) {
+				found_flag = true;
 				break;
 			}
-			else
-				break;
+			else break;
 		}
-		else
-			break;
+		else break;
 	}
 
-	if ((found_flag == TRUE) && (army_count > 0) && update) {
+	if (found_flag && (flip_count > 0) && update) {
 		for (int i = 0; i < Board_Size; i++)
 			for (int j = 0; j < Board_Size; j++)
 				if (flag[i][j] == TRUE) {
-					if (Now_Board[i][j] != 0)
-						Now_Board[i][j] = 3 - Now_Board[i][j];
+					if (now_board[i][j] != 0)
+						now_board[i][j] = 3 - now_board[i][j];
 				}
 	}
-	if ((found_flag == TRUE) && (army_count > 0))
-		return army_count;
+	if (found_flag && (flip_count > 0))
+		return flip_count;
 	else return 0;
 }
 
