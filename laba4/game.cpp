@@ -52,7 +52,7 @@ int Game::play_move(int x, int y)
 void Game::undo_move()
 {
 	//now_turn = 1 - now_turn;
-	memcpy(m_board->now_board, m_board->tmp_board, sizeof(int) * Board_Size * Board_Size);
+	std::memcpy(m_board->now_board, m_board->tmp_board, sizeof(int) * Board_Size * Board_Size);
 }
 
 bool Game::player_have_moves()
@@ -165,6 +165,7 @@ void Game::set_comp_take(int take)
 {
 	computer_take = take;
 }
+
 
 int Game::get_exit_code()
 {

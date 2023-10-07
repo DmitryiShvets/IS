@@ -18,7 +18,11 @@ int main(int argc, char* argv[]) {
 	g_game.Init(&g_board);
 	g_ai.Init(&g_game, &g_board, &g_db);
 
-	if (argc > 1) {
+	if (argc == 3) {
+		g_game.set_comp_take(static_cast<int>(*argv[2]) - '0');
+		g_ai.set_dyn_deep_max(static_cast<int>(*argv[1]) - '0');
+	}
+	else if (argc == 2) {
 		g_game.set_comp_take(static_cast<int>(*argv[1]) - '0');
 	}
 	else {
@@ -33,7 +37,7 @@ int main(int argc, char* argv[]) {
 
 	if (g_game.computer_take == 0) {
 		g_ai.computer_think(&rx, &ry);
-		std::cout << "Computer played " << char(rx + 97) << " " << ry + 1 << std::endl;
+		std::cout << "computer played " << char(rx + 97) << " " << ry + 1 << std::endl;
 		std::cerr << char(rx + 97) << ry + 1 << std::endl;
 		g_game.play_move(rx, ry);
 		g_game.print_board_and_set_legal_moves();
@@ -49,11 +53,11 @@ int main(int argc, char* argv[]) {
 			}
 
 			if (g_game.computer_take == 0) {
-				std::cout << "input White move:(a-h 1-8), or undo (U/u)\n";
+				std::cout << "input white move:(a-h 1-8), or undo (U/u)\n";
 				std::cin >> c;
 			}
 			else if (g_game.computer_take == 1) {
-				std::cout << "input Black move:(a-h 1-8), or undo (U/u)\n";
+				std::cout << "input black move:(a-h 1-8), or undo (U/u)\n";
 				std::cin >> c;
 			}
 
@@ -74,10 +78,11 @@ int main(int argc, char* argv[]) {
 					prompt_y = c[1] - 49;
 				}
 			}
-			if (g_game.now_turn != g_game.computer_take)memcpy(g_board.tmp_board, g_board.now_board, sizeof(int) * Board_Size * Board_Size);
+			if (g_game.now_turn != g_game.computer_take)std::memcpy(g_board.tmp_board, g_board.now_board,
+				sizeof(int) * Board_Size * Board_Size);
 
 			if (!g_game.play_move(prompt_x, prompt_y)) {
-				std::cout << c[0] << prompt_y + 1 << " is a Wrong move!" << std::endl;
+				std::cout << c[0] << prompt_y + 1 << " is a wong move!" << std::endl;
 			}
 			else break;
 		}
@@ -85,7 +90,7 @@ int main(int argc, char* argv[]) {
 		g_game.print_board_and_set_legal_moves();
 
 		g_ai.computer_think(&rx, &ry);
-		std::cout << "Computer played " << char(rx + 97) << ry + 1 << std::endl;
+		std::cout << "computer played " << char(rx + 97) << ry + 1 << std::endl;
 		std::cerr << char(rx + 97) << ry + 1 << std::endl;
 		g_game.play_move(rx, ry);
 

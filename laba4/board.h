@@ -13,16 +13,16 @@ public:
 	int legal_move_index[50][3];
 	int now_board[Board_Size][Board_Size];   //текущая позиция
 	int tmp_board[Board_Size][Board_Size];   //предыдущая позиция для отмены хода
-	int b_count, w_count; //колличество черных и белых камней
-	int stone_color[2] = { 1,2 }; // 1: black, 2: white
+	int b_count, w_count;					//колличество черных и белых камней
+	int stone_color[2] = { 1,2 };			// 1: black, 2: white
 
 
 	void Init();
-	//Обновить возможные ходы и вернуть количество возможных ходов.
+	//Обновляет возможные ходы и возвращает количество возможных ходов.
 	int  find_legal_moves(int color);
-	//Определите, валидный ли ход.
+	//Определитет, валидный ли ход.
 	int  is_valid_move(int x, int y);
-	//Определите, можно ли захватить шахматную фигуру
+	//Определитет, можно ли захватить вражеские камни
 	int  сheck_сross(int x, int y, bool update);
 	//Поместить камень
 	int  add_stone(int x, int y, int turn);

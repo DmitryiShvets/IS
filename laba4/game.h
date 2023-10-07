@@ -10,9 +10,9 @@ public:
 	int  play_move(int x, int y);
 	//Отменить ход
 	void  undo_move();
-	//Проверка что у противника нет ходов
+	//Проверка что у игрока нет ходов
 	bool  player_have_moves();
-	//Определите, является ли оно окончательным
+	//Проверка, что игра окончена
 	int  is_game_end();
 	//Показать доску и возможные ходы
 	void print_board_and_set_legal_moves();
@@ -20,6 +20,7 @@ public:
 	int  compute_grades(int flag, int isL);
 	//Задать очередь ходов для компьютера
 	void set_comp_take(int take);
+	//Задать очередь ходов для компьютера
 	//Определить результат игры
 	int get_exit_code();
 	
@@ -33,14 +34,14 @@ private:
 	Board* m_board;
 
 	int winner;
-	int black_count;
+	int black_count;									//коллисетво камней на доске
 	int	white_count;
-	int last_x;
+	int last_x;											//последний соверхшенный ход
 	int last_y;
-	int fS = 4;                                         //Стабильный вес stable discs weight
+	int fS = 4;                                          //Стабильный вес stable discs weight
 	int end_time = 46;                                   //Окончательный поиск Pefect End
 	long long int grades = 0;
 
-	//Рассчитать стабилизатор
+	//Рассчитать колличество стабильных камней
 	int stable_discs(int me);
 };
