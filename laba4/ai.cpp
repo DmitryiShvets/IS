@@ -3,6 +3,16 @@
 #include <stdio.h>
 #include <memory.h>
 #include <chrono>
+
+struct HashNode {
+	long long int checksum;
+	char depth;
+	char entry_type;  // 0=exact, 1=lower_bound, 2=upper_bound
+	int g;
+};
+
+HashNode** h_table;
+
 void AIPlayer::Init(Game* game, Board* board, Database* db)
 {
 	m_board = board;
@@ -22,12 +32,18 @@ void AIPlayer::Init(Game* game, Board* board, Database* db)
 			}
 		}
 	}
-	//Инициализировать таблицу замены
+	//Инициализация таблицы замены
 	for (int i = 0; i < Board_Size; i++) {
 		for (int j = 0; j < Board_Size; j++) {
 			zobrist[0][i][j] = rand64();
 			zobrist[1][i][j] = rand64();
 		}
+	}
+
+	//Инициализация хэш таблицы 
+	h_table = new HashNode * [2];
+	for (int i = 0; i < 2; ++i) {
+		h_table[i] = new HashNode[Hashsize];
 	}
 }
 
@@ -209,13 +225,6 @@ int comparH(const void* a, const void* b) {
 	Position* bb = (Position*)b;
 	return bb->g - aa->g;
 }
-
-struct {
-	long long int checksum;
-	char depth;
-	char entry_type;                                //0=exact, 1=lower_bound, 2=upper_bound
-	int g;
-} h_table[2][Hashsize];
 
 int AIPlayer::search_next(int x, int y, int myturn, int mylevel, int alpha, int beta)
 {

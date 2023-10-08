@@ -22,5 +22,4 @@ void Database::load_openings()
 		//std::cout << " value: " << nextMoveInt << std::endl;
 		opening_book.insert({ pastMoves, nextMoveInt });
 	}
-
 }

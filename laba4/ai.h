@@ -2,7 +2,7 @@
 #include "board.h"
 #include "game.h"
 #include "database.h"
-#define Hashsize 9710886 //(2GB)67108864 (4GB)134217728 (8GB)268435456
+#define Hashsize 134217728 //(2GB)67108864 (4GB)134217728 (8GB)268435456
 #include <chrono>
 
 class Position {
