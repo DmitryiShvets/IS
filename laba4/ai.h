@@ -22,7 +22,7 @@ public:
 	double max_search_time = 0.0;
 
 private:
-	int min_base_deep = 10;									//динамическая глубина
+	int min_base_deep = 8;									//динамическая глубина
 	int deep_start = 8;										//начальная глубина
 	int deep_end = 8;										//конечная глубина
 	int search_deep;
