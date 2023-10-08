@@ -16,3 +16,5 @@ add_subdirectory ("laba1")
 add_subdirectory ("laba2")
 add_subdirectory ("laba3")
 add_subdirectory ("laba4")
+
+add_subdirectory("db")

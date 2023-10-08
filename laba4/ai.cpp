@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <memory.h>
 #include <chrono>
-
 void AIPlayer::Init(Game* game, Board* board, Database* db)
 {
 	m_board = board;
@@ -32,9 +31,9 @@ void AIPlayer::Init(Game* game, Board* board, Database* db)
 	}
 }
 
-void AIPlayer::set_dyn_deep_max(int value)
+void AIPlayer::set_min_base_deep(int value)
 {
-	dyn_deep = value;
+	min_base_deep = value;
 }
 
 void AIPlayer::computer_think(int* x, int* y)
@@ -49,7 +48,6 @@ void AIPlayer::computer_think(int* x, int* y)
 		return;
 	}
 	else {
-		opening = false;
 
 		//разрушение таблицы истории
 		if (history_attenua != 0) {
@@ -61,19 +59,14 @@ void AIPlayer::computer_think(int* x, int* y)
 			}
 		}
 
-		//динамическая глубина
-		if (dyn_deep_start <= m_game->cur_move_number && m_game->cur_move_number <= dyn_deep_end) {
-			deep_end = dyn_deep + dyn_deep_end - m_game->cur_move_number/2;
-			printf("увеличение динамическрй глубины: %d", deep_end);
-		}
 		//Окончательный поиск
-		else if (m_game->cur_move_number >= end_time) {
+		if (m_game->cur_move_number >= m_game->end_time) {
 			deep_end = (Board_Size * Board_Size) - m_game->cur_move_number;
+			deep_start = 4;
+			ending = true;
 		}
 		else {
-			deep_end = dyn_deep;
-			printf("уменьшение динамическрй глубины: %d", deep_end);
-
+			deep_end = min_base_deep;
 		}
 
 		resultX = resultY = -1;
@@ -82,9 +75,12 @@ void AIPlayer::computer_think(int* x, int* y)
 		int find_success = min_max(m_game->now_turn, 0);
 
 		auto end_t = std::chrono::high_resolution_clock::now();
-		auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start_t);
+		auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start_t).count() / 1e+9;
 
-		printf("computer thinking time= %f sec.\n", (duration.count() / 1e+9));
+		//if (!ending && min_deep > open_deep)min_deep = open_deep;
+		if (max_search_time < duration)max_search_time = duration;
+
+		printf("search time= %f sec moves: %d max deep: %d\n", duration, open_moves, open_deep);
 
 		if (find_success) {
 			*x = resultX;
@@ -116,26 +112,45 @@ int AIPlayer::min_max(int myturn, int mylevel)
 	max.x = max.y = -1;
 	max.g = INT_MIN;
 
+	int tmp_max_deep = deep_end;
 	int test, g;
 	int alpha = INT_MIN, beta = INT_MAX;
+	int iteration = 0;
+	open_deep = 0;
 
 	for (int k = 0; k < Board_Size * Board_Size; k++) {
 		int	i = history[myturn][mylevel][k].x;
 		int	j = history[myturn][mylevel][k].y;
 		if (tmp_legal_moves[i][j] == TRUE) {
+			iteration++;
 			std::memcpy(m_board->now_board, tmp_board, sizeof(int) * Board_Size * Board_Size);
 			m_board->now_board[i][j] = m_board->stone_color[myturn];
 			m_board->сheck_сross(i, j, true);
 
+			deep_end = tmp_max_deep;
 			//Итеративное углубление
+			auto start = std::chrono::high_resolution_clock::now();
+
 			for (search_deep = deep_start, g = 0; search_deep <= deep_end; search_deep += 2) {
 				//MTD
+				if (!ending) {
+					auto end_t = std::chrono::high_resolution_clock::now();
+					auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_t - start).count() / 1e+9;
+					if (duration > 0.1 && search_deep > min_base_deep) {
+						break;
+					}
+					else {
+						deep_end += 2;
+					}
+				}
+
 				if (f_MTD) {
 					beta = INT_MAX;
 					alpha = INT_MIN;
 					test = g;
 					do {
 						g = search_next(i, j, 1 - myturn, mylevel + 1, test - 1, test);
+
 						if (g < test)
 							test = beta = g;
 						else {
@@ -145,6 +160,7 @@ int AIPlayer::min_max(int myturn, int mylevel)
 					} while (alpha < beta);
 				}
 				else g = search_next(i, j, 1 - myturn, mylevel + 1, alpha, beta);
+				if (search_deep > open_deep)open_deep = search_deep;
 			}
 
 			if (myturn == 0) {      // max level
@@ -168,9 +184,12 @@ int AIPlayer::min_max(int myturn, int mylevel)
 					j = Board_Size;
 				}
 		}
+
 	}
 
 	std::memcpy(m_board->now_board, tmp_board, sizeof(int) * Board_Size * Board_Size);
+
+	open_moves = iteration;
 
 	if (myturn == 0) {
 		resultX = max.x;

@@ -28,6 +28,7 @@ public:
 	int cur_move_number;
 	int now_turn = 0;
 	int computer_take;
+	int end_time = 46;                                   //Окончательный поиск Pefect End
 
 private:
 
@@ -39,7 +40,6 @@ private:
 	int last_x;											//последний соверхшенный ход
 	int last_y;
 	int fS = 4;                                          //Стабильный вес stable discs weight
-	int end_time = 46;                                   //Окончательный поиск Pefect End
 	long long int grades = 0;
 
 	//Рассчитать колличество стабильных камней

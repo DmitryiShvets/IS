@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 
 	if (argc == 3) {
 		g_game.set_comp_take(static_cast<int>(*argv[2]) - '0');
-		g_ai.set_dyn_deep_max(static_cast<int>(*argv[1]) - '0');
+		g_ai.set_min_base_deep(static_cast<int>(*argv[1]) - '0');
 	}
 	else if (argc == 2) {
 		g_game.set_comp_take(static_cast<int>(*argv[1]) - '0');
@@ -86,7 +86,11 @@ int main(int argc, char* argv[]) {
 			}
 			else break;
 		}
-		if (g_game.is_game_end())	return g_game.get_exit_code();
+		if (g_game.is_game_end()) {
+			//std::cout << "min deep: " << g_ai.min_deep << std::endl;
+			std::cout << "max search time: " << g_ai.max_search_time << std::endl;
+			return g_game.get_exit_code();
+		}
 		g_game.print_board_and_set_legal_moves();
 
 		g_ai.computer_think(&rx, &ry);
@@ -94,13 +98,17 @@ int main(int argc, char* argv[]) {
 		std::cerr << char(rx + 97) << ry + 1 << std::endl;
 		g_game.play_move(rx, ry);
 
-		if (g_game.is_game_end())	return g_game.get_exit_code();
+		if (g_game.is_game_end()) {
+			//std::cout << "min deep: " << g_ai.min_deep << std::endl;
+			std::cout << "max search time: " << g_ai.max_search_time << std::endl;
+			return g_game.get_exit_code();
+		}
 		g_game.print_board_and_set_legal_moves();
 
 	}
 
-	std::cout << "Game is over" << std::endl;
-	std::cin >> n;
 
+	//std::cout << "min deep: " << g_ai.min_deep << std::endl;
+	std::cout << "max search time: " << g_ai.max_search_time << std::endl;
 	return g_game.get_exit_code();
 }

@@ -57,7 +57,7 @@ void Game::undo_move()
 
 bool Game::player_have_moves()
 {
-	int count_move_enemy = m_board->find_legal_moves(1-computer_take);
+	int count_move_enemy = m_board->find_legal_moves(1 - computer_take);
 	if (count_move_enemy == 0) {
 		return false;
 	}
@@ -128,23 +128,23 @@ int Game::compute_grades(int flag, int isL)
 		m_board->find_legal_moves(0);
 		black_count = m_board->b_count;
 		white_count = m_board->w_count;
-		printf("Grade: Black %d, White %d\n", black_count, white_count);
+		printf("Move: %d Grade: Black %d, White %d All: %d\n", cur_move_number, black_count, white_count, black_count + white_count);
 		return 0;
 	}
 	grades++;
 	//миттельшпиль
 	if (cur_move_number < end_time) {
-		int SB, SW, BM;
-		SB = stable_discs(1);
-		SW = stable_discs(2);
+		int stable_black, stable_white, black_mobility;
+		stable_black = stable_discs(1);
+		stable_white = stable_discs(2);
 
 		if (isL == 0) {
-			BM = m_board->find_legal_moves(0);
+			black_mobility = m_board->find_legal_moves(0);
 		}
 		else {
-			BM = m_board->legal_move_index[0][0];
+			black_mobility = m_board->legal_move_index[0][0];
 		}
-		return (fS * (SB - SW) + BM);
+		return (fS * (stable_black - stable_white) + black_mobility);
 	}
 	//эндшпиль
 	else {
