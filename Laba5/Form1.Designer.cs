@@ -112,15 +112,14 @@
             // 
             this.lst_resolve.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lst_resolve.Enabled = false;
             this.lst_resolve.HideSelection = false;
             this.lst_resolve.Location = new System.Drawing.Point(6, 19);
             this.lst_resolve.Name = "lst_resolve";
             this.lst_resolve.Size = new System.Drawing.Size(477, 278);
             this.lst_resolve.TabIndex = 4;
-            this.lst_resolve.TileSize = new System.Drawing.Size(236, 30);
+            this.lst_resolve.TileSize = new System.Drawing.Size(477, 15);
             this.lst_resolve.UseCompatibleStateImageBehavior = false;
-            this.lst_resolve.View = System.Windows.Forms.View.List;
+            this.lst_resolve.View = System.Windows.Forms.View.Tile;
             // 
             // btn_forvard_resolve
             // 

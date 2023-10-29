@@ -13,7 +13,7 @@ namespace Laba5
     public partial class Form1 : Form
     {
         private ProductionModel model;
-        private string target_fact = "f3";
+        private string target_fact = "f18";
         public Form1()
         {
             InitializeComponent();
@@ -28,6 +28,7 @@ namespace Laba5
         private void btn_load_db_Click(object sender, EventArgs e)
         {
             model.Init("../../facts.txt", "../../rules.txt");
+            //model.Init("../../facts_test.txt", "../../rules_test.txt");
             lst_resolve.Clear();
             lst_facts.Items.Clear();
             lst_rules.Clear();
