@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace Laba5
             bool newFactInferred = false;
             resolve.bd_facts.Add(new List<Fact>(inferredFacts));
             if (inferredFacts.Contains(targetFact))
-            {           
+            {
                 resolve.bd_rules = null;
                 resolve.successful = true;
                 return resolve;
@@ -68,6 +69,108 @@ namespace Laba5
             }
             else return resolve; // Невозможно вывести целевой факт
         }
+
+        public Resolve BackChaining(List<string> initialFactIds, string targetFactId)
+        {
+            Resolve resolve = new Resolve();
+
+            var initialFacts = KnowledgeBaseFacts.Where(f => initialFactIds.Contains(f.Id)).ToList();
+            var targetFact = KnowledgeBaseFacts.FirstOrDefault(f => f.Id == targetFactId);
+
+            Dictionary<Fact, Node> resolution_tree = new Dictionary<Fact, Node>();
+
+            foreach (var fact in initialFacts)
+            {
+                resolution_tree[fact] = new Node(fact, null, true);
+            }
+
+            Node root = new Node(targetFact);
+            resolution_tree[targetFact] = root;
+
+            var inferredFacts = new List<Fact>() { targetFact };
+            resolve.bd_facts.Add(new List<Fact>(inferredFacts));
+
+            if (initialFacts.Contains(targetFact))
+            {
+                resolve.bd_rules = null;
+                resolve.successful = true;
+                return resolve;
+            }
+
+            Stack<Node> stack = new Stack<Node>();
+            HashSet<Fact> visited = new HashSet<Fact>();
+
+            stack.Push(root);
+            while (stack.Count > 0)
+            {
+                Node cur_node = stack.Peek();
+                Console.WriteLine(cur_node.fact.ToString());
+                if (cur_node.solved)
+                {
+                    stack.Pop();
+                    continue;
+                }
+
+                bool all_child_checked = true;
+                foreach (var candidateRule in KnowledgeBaseProduction.Where((rule) => rule.Rhs == cur_node.fact))
+                {
+                    bool premisesTrue = true;
+                    foreach (var fact in candidateRule.Lhs)
+                    {
+                        if (!resolution_tree.ContainsKey(fact))
+                        {
+                            var newNode = new Node(fact, cur_node.wayFromTarget);
+                            resolution_tree[fact] = newNode;
+                            newNode.wayFromTarget.Add(cur_node.fact);
+                            stack.Push(newNode);
+                            all_child_checked = false;
+                            premisesTrue = false;
+                        }
+                        else if (!resolution_tree[fact].solved)
+                        {
+                            if (!visited.Contains(fact) && !cur_node.wayFromTarget.Contains(fact))
+                            {
+                                stack.Push(resolution_tree[fact]);
+                                all_child_checked = false;
+                            }
+                            premisesTrue = false;
+                        }
+                    }
+                    if (premisesTrue)
+                    {
+                       if(root.fact != candidateRule.Rhs) inferredFacts.Add(candidateRule.Rhs);
+
+                        resolve.bd_rules.Add(candidateRule);
+                        resolve.bd_facts.Add(new List<Fact>(inferredFacts));
+                        cur_node.solved = true;
+                        all_child_checked = true;
+                        break;
+                    }
+                }
+                if (all_child_checked)
+                {
+                    stack.Pop();
+                    visited.Add(cur_node.fact);
+                }
+            }
+            foreach (var fact in initialFacts)
+            {
+                resolve.bd_facts.Last().Add(fact);
+            }
+            if (!root.solved)
+            {
+                resolve.successful = false;
+                resolve.bd_rules.Reverse();
+                return resolve;
+            }
+            else
+            {
+                resolve.successful = true;
+                resolve.bd_rules.Reverse();
+                return resolve;
+            }
+        }
+
 
         private void LoadFacts(string file_name)
         {
@@ -212,6 +315,20 @@ namespace Laba5
         public static bool ContainsAll<T>(this IEnumerable<T> collection, IEnumerable<T> items)
         {
             return items.All(collection.Contains);
+        }
+    }
+
+    internal class Node
+    {
+        public Fact fact;
+        public HashSet<Fact> wayFromTarget;
+        public bool solved;
+
+        public Node(Fact fact, HashSet<Fact> parentWay = null, bool solved = false)
+        {
+            this.fact = fact;
+            this.solved = solved;
+            this.wayFromTarget = parentWay == null ? new HashSet<Fact>() : new HashSet<Fact>(parentWay);
         }
     }
 

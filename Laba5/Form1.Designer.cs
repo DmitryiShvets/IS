@@ -64,11 +64,12 @@
             // 
             // lst_rules
             // 
-            this.lst_rules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lst_rules.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lst_rules.HideSelection = false;
             this.lst_rules.Location = new System.Drawing.Point(6, 19);
             this.lst_rules.Name = "lst_rules";
-            this.lst_rules.Size = new System.Drawing.Size(324, 278);
+            this.lst_rules.Size = new System.Drawing.Size(370, 278);
             this.lst_rules.TabIndex = 4;
             this.lst_rules.TileSize = new System.Drawing.Size(236, 30);
             this.lst_rules.UseCompatibleStateImageBehavior = false;
@@ -78,9 +79,9 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.lst_rules);
-            this.groupBox1.Location = new System.Drawing.Point(831, 113);
+            this.groupBox1.Location = new System.Drawing.Point(889, 113);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(336, 297);
+            this.groupBox1.Size = new System.Drawing.Size(382, 297);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Список продукций";
@@ -97,11 +98,12 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.lst_resolve);
             this.groupBox3.Location = new System.Drawing.Point(373, 113);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(428, 305);
+            this.groupBox3.Size = new System.Drawing.Size(489, 305);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Вывод";
@@ -114,7 +116,7 @@
             this.lst_resolve.HideSelection = false;
             this.lst_resolve.Location = new System.Drawing.Point(6, 19);
             this.lst_resolve.Name = "lst_resolve";
-            this.lst_resolve.Size = new System.Drawing.Size(416, 278);
+            this.lst_resolve.Size = new System.Drawing.Size(477, 278);
             this.lst_resolve.TabIndex = 4;
             this.lst_resolve.TileSize = new System.Drawing.Size(236, 30);
             this.lst_resolve.UseCompatibleStateImageBehavior = false;
@@ -138,6 +140,7 @@
             this.btn_back_resolve.TabIndex = 1;
             this.btn_back_resolve.Text = "Обратный вывод";
             this.btn_back_resolve.UseVisualStyleBackColor = true;
+            this.btn_back_resolve.Click += new System.EventHandler(this.btn_back_resolve_Click);
             // 
             // btn_clear
             // 
@@ -153,7 +156,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1179, 550);
+            this.ClientSize = new System.Drawing.Size(1283, 550);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);

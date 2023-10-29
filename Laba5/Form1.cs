@@ -13,7 +13,7 @@ namespace Laba5
     public partial class Form1 : Form
     {
         private ProductionModel model;
-
+        private string target_fact = "f3";
         public Form1()
         {
             InitializeComponent();
@@ -34,14 +34,10 @@ namespace Laba5
             foreach (var item in model.KnowledgeBaseFacts)
             {
                 lst_facts.Items.Add(item);
-                //lst_rules.Items.Add(item.ToString());
-                //lst_resolve.Items.Add(item.ToString());
             }
             foreach (var item in model.KnowledgeBaseProduction)
             {
-                //lst_facts.Items.Add(item);
                 lst_rules.Items.Add(item.ToString());
-                //lst_resolve.Items.Add(item.ToString());
             }
         }
 
@@ -63,11 +59,89 @@ namespace Laba5
                 list_base_facts.Add(fact.Id);
             }
 
-            Resolve resolve = model.ForwardChaining(list_base_facts, "f2");
+            Resolve resolve = model.ForwardChaining(list_base_facts, target_fact);
+            ProccesForwardResolve(resolve);
+        }
 
+        private void btn_back_resolve_Click(object sender, EventArgs e)
+        {
+            lst_resolve.Clear();
+            List<string> list_base_facts = new List<string>();
+            var selected = lst_facts.SelectedItems;
+            foreach (var item in selected)
+            {
+                Fact fact = item as Fact;
+                list_base_facts.Add(fact.Id);
+            }
+
+            Resolve resolve = model.BackChaining(list_base_facts, target_fact);
+            ProccesBackResolve(resolve);
+        }
+        private void ProccesBackResolve(Resolve resolve)
+        {
             if (resolve.successful && resolve.bd_rules != null)
             {
-                lst_resolve.Items.Add("Целевой факт удалось вывести\n");
+                lst_resolve.Items.Add("Целевой факт удалось вывести. Порядок вывода:\n");
+                lst_resolve.Items.Add("Целевой факт:\n");
+                string cur_facts = "";
+                for (int j = 0; j < resolve.bd_facts[0].Count; j++)
+                {
+                    cur_facts += resolve.bd_facts[0][j].Id + ", ";
+                }
+                lst_resolve.Items.Add(cur_facts + '\n');
+
+                for (int i = 0; i < resolve.bd_rules.Count; i++)
+                {
+                    lst_resolve.Items.Add("Получен из правила:\n");
+                    lst_resolve.Items.Add(resolve.bd_rules[i].ToString());
+                    lst_resolve.Items.Add("Примененные факты:\n");
+                    cur_facts = "";
+                    for (int j = 0; j < resolve.bd_facts[i + 1].Count; j++)
+                    {
+                        cur_facts += resolve.bd_facts[i + 1][j].Id + ", ";
+                    }
+                    lst_resolve.Items.Add(cur_facts + '\n');
+                }
+            }
+
+            else if (resolve.successful && resolve.bd_rules == null)
+            {
+                lst_resolve.Items.Add("Целевой факт уже является аксиомой\n");
+                lst_resolve.Items.Add("Известные факты:\n");
+                string cur_facts = "";
+                for (int j = 0; j < resolve.bd_facts[0].Count; j++)
+                {
+                    cur_facts += resolve.bd_facts[0][j].Id + ", ";
+                }
+                lst_resolve.Items.Add(cur_facts + '\n');
+            }
+            else
+            {
+                lst_resolve.Items.Add("Целевой факт не удалось вывести. Порядок вывода:");
+                if (resolve.bd_rules.Count > 0)
+                {
+                    for (int i = 0; i < resolve.bd_rules.Count; i++)
+                    {
+                        lst_resolve.Items.Add("Известные факты:\n");
+                        string cur_facts = "";
+                        for (int j = 0; j < resolve.bd_facts[i].Count; j++)
+                        {
+                            cur_facts += resolve.bd_facts[i][j].Id + ", ";
+                        }
+                        lst_resolve.Items.Add(cur_facts + '\n');
+                        lst_resolve.Items.Add("Примененное правило:\n");
+                        lst_resolve.Items.Add(resolve.bd_rules[i].ToString());
+
+                    }
+                }
+            }
+
+        }
+        private void ProccesForwardResolve(Resolve resolve)
+        {
+            if (resolve.successful && resolve.bd_rules != null)
+            {
+                lst_resolve.Items.Add("Целевой факт удалось вывести. Порядок вывода:\n");
                 lst_resolve.Items.Add("Известные факты:\n");
                 string cur_facts = "";
                 for (int j = 0; j < resolve.bd_facts[0].Count; j++)
@@ -82,17 +156,17 @@ namespace Laba5
                     lst_resolve.Items.Add(resolve.bd_rules[i].ToString());
                     lst_resolve.Items.Add("Известные факты:\n");
                     cur_facts = "";
-                    for (int j = 0; j < resolve.bd_facts[i+1].Count; j++)
+                    for (int j = 0; j < resolve.bd_facts[i + 1].Count; j++)
                     {
-                        cur_facts += resolve.bd_facts[i+1][j].Id + ", ";
+                        cur_facts += resolve.bd_facts[i + 1][j].Id + ", ";
                     }
                     lst_resolve.Items.Add(cur_facts + '\n');
                 }
             }
-        
+
             else if (resolve.successful && resolve.bd_rules == null)
             {
-                lst_resolve.Items.Add("Целевой факт удалось вывести\n");
+                lst_resolve.Items.Add("Целевой факт уже является аксиомой\n");
                 lst_resolve.Items.Add("Известные факты:\n");
                 string cur_facts = "";
                 for (int j = 0; j < resolve.bd_facts[0].Count; j++)
@@ -103,7 +177,7 @@ namespace Laba5
             }
             else
             {
-                lst_resolve.Items.Add("Целевой факт не удалось вывести");
+                lst_resolve.Items.Add("Целевой факт не удалось вывести. Порядок вывода:");
                 if (resolve.bd_rules.Count > 0)
                 {
                     for (int i = 0; i < resolve.bd_rules.Count; i++)
