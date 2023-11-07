@@ -34,6 +34,9 @@
             this.codeBox = new System.Windows.Forms.TextBox();
             this.outputBox = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btn_select_task = new System.Windows.Forms.Button();
+            this.cb_hero = new System.Windows.Forms.ComboBox();
+            this.cb_task = new System.Windows.Forms.ComboBox();
             this.add_hero = new System.Windows.Forms.Button();
             this.nextButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
@@ -42,9 +45,6 @@
             this.clipsOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.clipsSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.cb_task = new System.Windows.Forms.ComboBox();
-            this.cb_hero = new System.Windows.Forms.ComboBox();
-            this.btn_select_task = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -125,9 +125,47 @@
             this.panel2.Size = new System.Drawing.Size(1317, 66);
             this.panel2.TabIndex = 6;
             // 
+            // btn_select_task
+            // 
+            this.btn_select_task.Location = new System.Drawing.Point(478, 22);
+            this.btn_select_task.Name = "btn_select_task";
+            this.btn_select_task.Size = new System.Drawing.Size(116, 24);
+            this.btn_select_task.TabIndex = 11;
+            this.btn_select_task.Text = "Выбрать";
+            this.btn_select_task.UseVisualStyleBackColor = true;
+            this.btn_select_task.Click += new System.EventHandler(this.btn_select_task_Click);
+            // 
+            // cb_hero
+            // 
+            this.cb_hero.FormattingEnabled = true;
+            this.cb_hero.Items.AddRange(new object[] {
+            "Juggernaut",
+            "Pudge",
+            "Invoker",
+            "Rubik",
+            "Dazzle"});
+            this.cb_hero.Location = new System.Drawing.Point(644, 23);
+            this.cb_hero.Name = "cb_hero";
+            this.cb_hero.Size = new System.Drawing.Size(121, 24);
+            this.cb_hero.TabIndex = 10;
+            // 
+            // cb_task
+            // 
+            this.cb_task.FormattingEnabled = true;
+            this.cb_task.Items.AddRange(new object[] {
+            "Push",
+            "Burst",
+            "Tank",
+            "Initiator",
+            "Control"});
+            this.cb_task.Location = new System.Drawing.Point(351, 22);
+            this.cb_task.Name = "cb_task";
+            this.cb_task.Size = new System.Drawing.Size(121, 24);
+            this.cb_task.TabIndex = 10;
+            // 
             // add_hero
             // 
-            this.add_hero.Location = new System.Drawing.Point(771, 16);
+            this.add_hero.Location = new System.Drawing.Point(771, 22);
             this.add_hero.Name = "add_hero";
             this.add_hero.Size = new System.Drawing.Size(116, 23);
             this.add_hero.TabIndex = 9;
@@ -190,37 +228,6 @@
             // 
             this.clipsSaveFileDialog.Filter = "CLIPS files|*.clp|All files|*.*";
             this.clipsSaveFileDialog.Title = "Созранить файл как...";
-            // 
-            // cb_task
-            // 
-            this.cb_task.FormattingEnabled = true;
-            this.cb_task.Items.AddRange(new object[] {
-            "Push"});
-            this.cb_task.Location = new System.Drawing.Point(368, 15);
-            this.cb_task.Name = "cb_task";
-            this.cb_task.Size = new System.Drawing.Size(121, 24);
-            this.cb_task.TabIndex = 10;
-            // 
-            // cb_hero
-            // 
-            this.cb_hero.FormattingEnabled = true;
-            this.cb_hero.Items.AddRange(new object[] {
-            "Juggernaut",
-            "Pudge"});
-            this.cb_hero.Location = new System.Drawing.Point(644, 16);
-            this.cb_hero.Name = "cb_hero";
-            this.cb_hero.Size = new System.Drawing.Size(121, 24);
-            this.cb_hero.TabIndex = 10;
-            // 
-            // btn_select_task
-            // 
-            this.btn_select_task.Location = new System.Drawing.Point(495, 15);
-            this.btn_select_task.Name = "btn_select_task";
-            this.btn_select_task.Size = new System.Drawing.Size(116, 23);
-            this.btn_select_task.TabIndex = 11;
-            this.btn_select_task.Text = "Выбрать";
-            this.btn_select_task.UseVisualStyleBackColor = true;
-            this.btn_select_task.Click += new System.EventHandler(this.btn_select_task_Click);
             // 
             // ClipsFormsExample
             // 

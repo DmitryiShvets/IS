@@ -13,7 +13,6 @@ namespace ClipsFormsExample
     public partial class ClipsFormsExample : Form
     {
         private CLIPSNET.Environment clips = new CLIPSNET.Environment();
-        bool task_selected = false;
 
         public ClipsFormsExample()
         {
@@ -45,7 +44,7 @@ namespace ClipsFormsExample
                 string hero_task = cb_task.GetItemText(cb_task.Items[cb_task.SelectedIndex]);
                 outputBox.Text += "Выберите специализацию для героя: " + hero_name + System.Environment.NewLine;
                 clips.Eval("(modify " + f.FactIndex + " (task " + hero_task + "))");
-                clips.Eval("(assert(addtask Juggernaut))");
+                clips.Eval("(assert(addtask "+ hero_name + "))");
                 clips.Run();
             }
 
@@ -104,7 +103,7 @@ namespace ClipsFormsExample
 
         private void btn_select_task_Click(object sender, EventArgs e)
         {
-            task_selected = true;
+
         }
     }
 }
