@@ -1,86 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Windows.Forms;
 
 using CLIPSNET;
-
+using Microsoft.Speech.Synthesis;
 
 namespace ClipsFormsExample
 {
     public partial class ClipsFormsExample : Form
     {
         private CLIPSNET.Environment clips = new CLIPSNET.Environment();
-
+        bool task_selected = false;
 
         public ClipsFormsExample()
         {
             InitializeComponent();
+            cb_task.SelectedIndex = 0;
+            cb_hero.SelectedIndex = 0;
         }
 
         private void HandleResponse()
         {
             //  Вытаскиаваем факт из ЭС
             String evalStr = "(find-fact ((?f ioproxy)) TRUE)";
-            FactAddressValue f = clips.FindFact("ioproxy");
-
-            if (f != null)
-            {
-                MultifieldValue message = (MultifieldValue)f["messages"];
-                outputBox.Text += message.ToString() + System.Environment.NewLine;
-                Console.WriteLine(message.ToString());
-            }
 
             FactAddressValue fv = (FactAddressValue)((MultifieldValue)clips.Eval(evalStr))[0];
 
             MultifieldValue damf = (MultifieldValue)fv["messages"];
-            MultifieldValue vamf = (MultifieldValue)fv["answers"];
-            //outputBox.Text = "Выполнены HandleResponse.\n";
 
             foreach (var v in damf)
             {
                 outputBox.Text += v.ToString() + System.Environment.NewLine;
             }
+            clips.Eval("(assert (clearmessage))");
 
-
-
-            outputBox.Text += "Новая итерация : " + System.Environment.NewLine;
-            for (int i = 0; i < damf.Count; i++)
+            FactAddressValue f = clips.FindFact("select-task");
+            if (f != null)
             {
-                LexemeValue da = (LexemeValue)damf[i];
-                byte[] bytes = Encoding.Default.GetBytes(da.Value);
-                string message = Encoding.UTF8.GetString(bytes);
-                outputBox.Text += message + System.Environment.NewLine;
+                string hero_name = f.GetSlotValue("hero-name").ToString();
+
+                string hero_task = cb_task.GetItemText(cb_task.Items[cb_task.SelectedIndex]);
+                outputBox.Text += "Выберите специализацию для героя: " + hero_name + System.Environment.NewLine;
+                clips.Eval("(modify " + f.FactIndex + " (task " + hero_task + "))");
+                clips.Eval("(assert(addtask Juggernaut))");
+                clips.Run();
             }
 
-            if (vamf.Count > 0)
-            {
-                outputBox.Text += "----------------------------------------------------" + System.Environment.NewLine;
-                for (int i = 0; i < vamf.Count; i++)
-                {
-                    //  Варианты !!!!!
-                    LexemeValue va = (LexemeValue)vamf[i];
-                    byte[] bytes = Encoding.Default.GetBytes(va.Value);
-                    string message = Encoding.UTF8.GetString(bytes);
-                    outputBox.Text += "Добавлен вариант для распознавания " + message + System.Environment.NewLine;
-                }
-            }
-
-            if (vamf.Count == 0)
-                clips.Eval("(assert (clearmessage))");
 
         }
 
         private void nextBtn_Click(object sender, EventArgs e)
         {
             clips.Run();
+            outputBox.Text += "Новая итерация : " + System.Environment.NewLine;
             HandleResponse();
         }
 
         private void resetBtn_Click(object sender, EventArgs e)
         {
-            outputBox.Text = "Выполнены команды Clear и Reset.\n";
+            outputBox.Text = "Выполнены команды Clear и Reset." + System.Environment.NewLine;
             //  Здесь сохранение в файл, и потом инициализация через него
             clips.Clear();
 
@@ -110,6 +91,20 @@ namespace ClipsFormsExample
             {
                 System.IO.File.WriteAllText(clipsSaveFileDialog.FileName, codeBox.Text);
             }
+        }
+
+        private void add_hero_Click(object sender, EventArgs e)
+        {
+            string hero = cb_hero.GetItemText(cb_hero.Items[cb_hero.SelectedIndex]);
+            clips.Eval("(assert(addhero " + hero + "))");
+            clips.Run();
+            clips.Run();
+            HandleResponse();
+        }
+
+        private void btn_select_task_Click(object sender, EventArgs e)
+        {
+            task_selected = true;
         }
     }
 }
