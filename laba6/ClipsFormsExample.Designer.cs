@@ -143,7 +143,12 @@
             "Pudge",
             "Invoker",
             "Rubik",
-            "Dazzle"});
+            "Dazzle",
+            "Lifestealer",
+            "Lina",
+            "Bristleback",
+            "Bane",
+            "Lich"});
             this.cb_hero.Location = new System.Drawing.Point(644, 23);
             this.cb_hero.Name = "cb_hero";
             this.cb_hero.Size = new System.Drawing.Size(121, 24);
@@ -157,7 +162,8 @@
             "Burst",
             "Tank",
             "Initiator",
-            "Control"});
+            "Control",
+            "RoshanDamage"});
             this.cb_task.Location = new System.Drawing.Point(351, 22);
             this.cb_task.Name = "cb_task";
             this.cb_task.Size = new System.Drawing.Size(121, 24);

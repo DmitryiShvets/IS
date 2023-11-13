@@ -208,3 +208,57 @@
 	(assert (teamReady (type Ready)))
 	(assert (sendmessagehalt "Команда готова"))
 )
+
+(defrule rule14
+	(declare (salience 1))
+	(hero (name Lifestealer))
+=>
+	(assert (select-task (hero-name Lifestealer)))
+	(assert (attack (type MeleeCarry)))
+	(assert (sendmessagehalt "Добавлен герой Lifestealer, выберите для него специализацию:"))
+)
+
+(defrule rule15
+	(declare (salience 1))
+	(hero (name Lina))
+=>
+	(assert (select-task (hero-name Lina)))
+	(assert (attack (type RangeMid)))
+	(assert (sendmessagehalt "Добавлен герой Lina, выберите для него специализацию:"))
+)
+
+
+(defrule rule16
+	(declare (salience 1))
+	(hero (name Bristleback))
+=>
+	(assert (select-task (hero-name Bristleback)))
+	(assert (attack (type MeleeHard)))
+	(assert (sendmessagehalt "Добавлен герой Bristleback, выберите для него специализацию:"))
+)
+
+(defrule rule17
+	(declare (salience 1))
+	(hero (name Bane))
+=>
+	(assert (select-task (hero-name Bane)))
+	(assert (attack (type RangeSoftSupport)))
+	(assert (sendmessagehalt "Добавлен герой Bane, выберите для него специализацию:"))
+)
+
+(defrule rule18
+	(declare (salience 1))
+	(hero (name Lich))
+=>
+	(assert (select-task (hero-name Lich)))
+	(assert (attack (type RangeSupport)))
+	(assert (sendmessagehalt "Добавлен герой Lich, выберите для него специализацию:"))
+)
+
+(defrule rule19
+	(declare (salience 1))
+	(task (type RoshanDamage))
+=>
+	(assert (role (type Carry)))
+	(assert (sendmessagehalt "Роль керри найдена"))
+)
