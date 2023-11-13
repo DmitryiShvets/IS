@@ -104,7 +104,6 @@
   <ItemGroup>
     <Compile Include="AccordNet.cs" />
     <Compile Include="BaseNetwork.cs" />
-    <Compile Include="IActivationFunction.cs" />
     <Compile Include="NeuralNetworksStand.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,13 +112,9 @@
     </Compile>
     <Compile Include="ImageGenerator.cs" />
     <Compile Include="Neural.cs" />
-    <Compile Include="SigmoidActivationFunction.cs" />
-    <Compile Include="StudentNetwork.cs" />
+    <Compile Include="StudentNet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StudentNetworkLayer.cs" />
-    <Compile Include="StudentNeuralNetwork.cs" />
-    <Compile Include="StudentPerceptron.cs" />
     <EmbeddedResource Include="NeuralNetworksStand.resx">
       <DependentUpon>NeuralNetworksStand.cs</DependentUpon>
     </EmbeddedResource>
