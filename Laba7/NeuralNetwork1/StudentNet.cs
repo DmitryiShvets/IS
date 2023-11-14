@@ -5,14 +5,112 @@ namespace NeuralNetwork1
 {
     public class StudentNet : BaseNetwork
     {
-        private Network network;
+        private readonly Network network;
 
         public StudentNet(int[] structure)
         {
             network = new Network(structure);
         }
 
+        public override int Train(Sample sample, double accept_rate, bool parallel)
+        {
+            int count = 1;
 
+            var loss = GetLossFunctionValue(network.Compute(sample.input), sample.targetValues);
+            while (loss >= accept_rate && count >= 50)
+            {
+                BackwardPropagation(sample);
+                loss = GetLossFunctionValue(network.Compute(sample.input), sample.targetValues);
+                count++;
+            }
+
+            return count;
+        }
+
+        public override double TrainOnDataSet(SamplesSet samplesSet, int epoch_count, double accept_rate, bool parallel)
+        {
+            var start = DateTime.Now;
+            int all_samples_count = epoch_count * samplesSet.Count;
+            int proc_samples_count = 0;
+            double sum_error = 0;
+            double avg_error = 0;
+            for (int epoch = 0; epoch < epoch_count; epoch++)
+            {
+
+                for (int i = 0; i < samplesSet.samples.Count; i++)
+                {
+                    var sample = samplesSet.samples[i];
+                    sum_error += Train(sample);
+
+                    proc_samples_count++;
+                    if (i % 100 == 0)
+                    {
+                        // Выводим среднюю ошибку для обработанного
+                        OnTrainProgress(1.0 * proc_samples_count / all_samples_count,
+                            sum_error / (epoch * samplesSet.Count + i + 1), DateTime.Now - start);
+                    }
+                }
+
+                avg_error = sum_error / ((epoch + 1) * samplesSet.Count + 1);
+                if (avg_error <= accept_rate)
+                {
+                    OnTrainProgress(1.0, avg_error, DateTime.Now - start);
+                    return avg_error;
+                }
+            }
+            avg_error = sum_error / (epoch_count * samplesSet.Count + 1);
+            OnTrainProgress(1.0, avg_error, DateTime.Now - start);
+            return sum_error / (epoch_count * samplesSet.Count);
+        }
+
+        protected override double[] Compute(double[] input)
+        {
+            return network.Compute(input);
+        }
+
+        public void BackwardPropagation(Sample sample, double learning_rate = 0.1)
+        {
+            var targets = sample.targetValues;
+            //бежим от последнего слоя к первому
+            for (int i = network.LayersCount - 1; i >= 1; i--)
+            {
+                for (int j = 0; j < network.layers[i].perceptrons.Length; j++)
+                {
+                    var current = network.layers[i].perceptrons[j];
+
+                    if (i == network.LayersCount - 1)
+                    {
+                        current.Error = targets[j] - current.ApplyActivationFunction();
+                    }
+
+                    double error = current.GetError();
+
+                    //дельта смещения (alpha*Dj*Xi)
+                    current.Bias += learning_rate * error * current.Bias;
+
+                    for (int k = 0; k < current.weights.Length; k++)
+                    {
+                        //сумма (Dj*Wik)
+                        network.layers[i - 1].perceptrons[k].Error += error * current.weights[k];
+                        
+                        double xi = network.layers[i - 1].perceptrons[k].ApplyActivationFunction();
+
+                        //дельта веса (alpha*Dj*Xi)
+                        current.weights[k] += learning_rate * error * xi;
+                    }
+                    current.Error = 0;
+                }
+            }
+        }
+
+        private double Train(Sample sample)
+        {
+            var loss = GetLossFunctionValue(network.Compute(sample.input), sample.targetValues);
+            BackwardPropagation(sample);
+            return loss;
+        }
+
+        //функция ошибки квадрат разности
         private double GetLossFunctionValue(double[] actualResult, double[] TartgetResults)
         {
             double res = 0;
@@ -24,108 +122,11 @@ namespace NeuralNetwork1
             return 0.5 * res;
         }
 
-        public void backwardPropagation(Sample sample, double learningRate = 0.1)
-        {
-            var targets = sample.targetValues;
-            //бежим от последнего слоя к первому
-            for (int i = network.GetLayersCount() - 1; i >= 1; i--)
-            {
-                for (int j = 0; j < network.layers[i].perceptrons.Length; j++)
-                {
-                    var current = network.layers[i].perceptrons[j];
-
-                    if (i == network.GetLayersCount() - 1)
-                    {
-                        current.Error = targets[j] - current.ApplyActivationFunction();
-                    }
-
-                    double error = current.GetError();
-
-                    current.Bias += learningRate * error * current.Bias;
-
-                    for (int k = 0; k < current.weights.Length; k++)
-                    {
-                        network.layers[i - 1].perceptrons[k].Error += error * current.weights[k];
-                        current.weights[k] += learningRate * error * network.layers[i - 1].perceptrons[k].ApplyActivationFunction();
-                    }
-                    current.Error = 0;
-                }
-            }
-        }
-
-
-        public override int Train(Sample sample, double acceptableError, bool parallel)
-        {
-            int count = 1;
-
-            var lossFunctionResult = GetLossFunctionValue(network.Compute(sample.input), sample.targetValues);
-            while (lossFunctionResult >= acceptableError && count >= 50)
-            {
-                backwardPropagation(sample);
-                lossFunctionResult = GetLossFunctionValue(network.Compute(sample.input), sample.targetValues);
-                count++;
-            }
-
-            return count;
-        }
-
-        private double Train(Sample sample)
-        {
-            var loss = GetLossFunctionValue(network.Compute(sample.input), sample.targetValues);
-            backwardPropagation(sample);
-            return loss;
-        }
-
-
-        public override double TrainOnDataSet(SamplesSet samplesSet, int epochsCount, double acceptableError, bool parallel)
-        {
-            var start = DateTime.Now;
-            int totalSamplesCount = epochsCount * samplesSet.Count;
-            int processedSamplesCount = 0;
-            double sumError = 0;
-            double mean;
-            for (int epoch = 0; epoch < epochsCount; epoch++)
-            {
-                for (int i = 0; i < samplesSet.samples.Count; i++)
-                {
-                    var sample = samplesSet.samples[i];
-                    sumError += Train(sample);
-
-                    processedSamplesCount++;
-                    if (i % 100 == 0)
-                    {
-                        // Выводим среднюю ошибку для обработанного
-                        OnTrainProgress(1.0 * processedSamplesCount / totalSamplesCount,
-                            sumError / (epoch * samplesSet.Count + i + 1), DateTime.Now - start);
-                    }
-                }
-
-                mean = sumError / ((epoch + 1) * samplesSet.Count + 1);
-                if (mean <= acceptableError)
-                {
-                    OnTrainProgress(1.0,
-                        mean, DateTime.Now - start);
-                    return mean;
-                }
-            }
-            mean = sumError / (epochsCount * samplesSet.Count + 1);
-            OnTrainProgress(1.0,
-                       mean, DateTime.Now - start);
-            return sumError / (epochsCount * samplesSet.Count);
-        }
-
-        protected override double[] Compute(double[] input)
-        {
-            return network.Compute(input);
-        }
-
-
-
         class Network
         {
             public Layer[] layers;
 
-            private double[] output;
+            public int LayersCount { get { return layers.Length; } }
 
             public Network(int[] structure)
             {
@@ -138,17 +139,13 @@ namespace NeuralNetwork1
 
             public double[] Compute(double[] input)
             {
+                //бежим от первого слоя к последнему
                 for (int i = 0; i < layers.Length; i++)
                 {
                     input = layers[i].GetLayerOutput(input);
                 }
 
                 return input;
-            }
-
-            public int GetLayersCount()
-            {
-                return layers.Length;
             }
         }
 
@@ -169,27 +166,10 @@ namespace NeuralNetwork1
                 outputs = new double[outputCount];
             }
 
-            public Layer(double[] inputs, int outputCount)
-            {
-                perceptrons = new Perceptron[outputCount];
-                Random r = new Random();
-                for (int i = 0; i < outputCount; i++)
-                {
-                    perceptrons[i] = new Perceptron(inputs, 1);
-                }
-                outputs = new double[outputCount];
-            }
-
-            public int GetPerceptronsCount()
-            {
-                return perceptrons.Length;
-            }
-
             public double[] GetLayerOutput(double[] input, bool isParallel = false)
             {
-                outputs = isParallel ?
-                    perceptrons.AsParallel().Select(x => x.GetWeightedSum(input)).ToArray() :
-                     perceptrons.Select(x => x.GetWeightedSum(input)).ToArray();
+                outputs = isParallel ? perceptrons.AsParallel().Select(x => x.GetPerceptronOutput(input)).ToArray() :
+                     perceptrons.Select(x => x.GetPerceptronOutput(input)).ToArray();
                 return outputs;
             }
         }
@@ -202,18 +182,11 @@ namespace NeuralNetwork1
 
             public double Bias { get; set; }
 
-            public double weightedSum { get; set; }
+            public double WeightedSum { get; set; }
 
             public int InputCount { get { return inputs.Length; } }
 
             public double Error { get; set; }
-
-            public Perceptron(double[] input, double b)
-            {
-                inputs = input;
-                weights = new double[InputCount];
-                Bias = b;
-            }
 
             public Perceptron(int input, Random r)
             {
@@ -221,11 +194,6 @@ namespace NeuralNetwork1
                 weights = new double[InputCount];
                 InitW(r);
                 Bias = GetRandomNumber(r, -0.5, 0.5);
-            }
-
-            private double GetRandomNumber(Random r, double minimum, double maximum)
-            {
-                return r.NextDouble() * (maximum - minimum) + minimum;
             }
 
             private void InitW(Random r)
@@ -236,18 +204,23 @@ namespace NeuralNetwork1
 
             public double ApplyActivationFunction()
             {
-                return GetActivationValue(weightedSum);
+                return GetActivationValue(WeightedSum);
             }
 
-            public double GetWeightedSum(double[] inputs)
+            public double GetPerceptronOutput(double[] inputs)
             {
-                weightedSum = 0;
+                WeightedSum = 0;
                 for (int i = 0; i < InputCount; i++)
                 {
-                    weightedSum += inputs[i] * weights[i];
+                    WeightedSum += inputs[i] * weights[i];
                 }
-                weightedSum += Bias;
+                WeightedSum += Bias;
                 return ApplyActivationFunction();
+            }
+
+            public double GetError()
+            {
+                return Error * GetDerivativeValue(WeightedSum);
             }
 
             public double GetActivationValue(double weightedSum)
@@ -255,16 +228,17 @@ namespace NeuralNetwork1
                 return 1.0 / (1 + Math.Exp(-weightedSum));
             }
 
-            public double GetError()
-            {
-                return Error * GetDerivativeValue(weightedSum);
-            }
-
             public double GetDerivativeValue(double weightedSum)
             {
-                double fval = GetActivationValue(weightedSum);
-                return fval * (1 - fval);
+                double y = GetActivationValue(weightedSum);
+                return y * (1 - y);
             }
+
+            private double GetRandomNumber(Random r, double minimum, double maximum)
+            {
+                return r.NextDouble() * (maximum - minimum) + minimum;
+            }
+
         }
     }
 }
