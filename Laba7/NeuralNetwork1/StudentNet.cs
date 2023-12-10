@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Accord.Neuro;
+using System;
 using System.Linq;
+using System.Text;
 
 namespace NeuralNetwork1
 {
@@ -19,7 +21,7 @@ namespace NeuralNetwork1
             var loss = GetLossFunctionValue(network.Compute(sample.input), sample.targetValues);
             while (loss >= accept_rate && count >= 50)
             {
-                BackwardPropagation(sample);
+                BackwardPropagation(sample.targetValues, sample.input);
                 loss = GetLossFunctionValue(network.Compute(sample.input), sample.targetValues);
                 count++;
             }
@@ -63,42 +65,49 @@ namespace NeuralNetwork1
             return sum_error / (epoch_count * samplesSet.Count);
         }
 
-        protected override double[] Compute(double[] input)
+        public override double[] Compute(double[] input)
         {
             return network.Compute(input);
         }
 
-        public void BackwardPropagation(Sample sample, double learning_rate = 0.1)
+        public void BackwardPropagation(double[] targets, double[]input, double learning_rate = 0.1)
         {
-            var targets = sample.targetValues;
+            //double[] targets = sample.targetValues;
             //бежим от последнего слоя к первому
-            for (int i = network.LayersCount - 1; i >= 1; i--)
+            for (int i = network.layers.Length - 1; i >= 0; i--)
             {
-                for (int j = 0; j < network.layers[i].perceptrons.Length; j++)
+                for (int j = 0; j < network.layers[i].neurons.Length; j++)
                 {
-                    var current = network.layers[i].perceptrons[j];
+                    var current_neuron = network.layers[i].neurons[j];
 
-                    if (i == network.LayersCount - 1)
+                    if (i == network.layers.Length - 1)
                     {
-                        current.Error = targets[j] - current.ApplyActivationFunction();
+                        current_neuron.Error = targets[j] - current_neuron.ApplyActivationFunction();
                     }
 
-                    double error = current.GetError();
+                    double error = current_neuron.GetError();
 
                     //дельта смещения (alpha*Dj*Xi)
-                    current.Bias += learning_rate * error * current.Bias;
+                    current_neuron.Bias += learning_rate * error * current_neuron.Bias;
 
-                    for (int k = 0; k < current.weights.Length; k++)
+                    for (int k = 0; k < current_neuron.weights.Length; k++)
                     {
                         //сумма (Dj*Wik)
-                        network.layers[i - 1].perceptrons[k].Error += error * current.weights[k];
-                        
-                        double xi = network.layers[i - 1].perceptrons[k].ApplyActivationFunction();
+                        double xi;
+                        if (i > 0)
+                        {
+                            network.layers[i - 1].neurons[k].Error += error * current_neuron.weights[k];
 
+                            xi = network.layers[i - 1].neurons[k].ApplyActivationFunction();
+                        }
+                        else
+                        {
+                            xi = input[k];
+                        }
                         //дельта веса (alpha*Dj*Xi)
-                        current.weights[k] += learning_rate * error * xi;
+                        current_neuron.weights[k] += learning_rate * error * xi;
                     }
-                    current.Error = 0;
+                    current_neuron.Error = 0;
                 }
             }
         }
@@ -106,7 +115,7 @@ namespace NeuralNetwork1
         private double Train(Sample sample)
         {
             var loss = GetLossFunctionValue(network.Compute(sample.input), sample.targetValues);
-            BackwardPropagation(sample);
+            BackwardPropagation(sample.targetValues, sample.input);
             return loss;
         }
 
@@ -122,11 +131,16 @@ namespace NeuralNetwork1
             return 0.5 * res;
         }
 
+        public override void Print()
+        {
+            Console.WriteLine(network.ToString());
+        }
+
         class Network
         {
             public Layer[] layers;
 
-            public int LayersCount { get { return layers.Length; } }
+            //public int LayersCount { get { return layers.Length; } }
 
             public Network(int[] structure)
             {
@@ -147,51 +161,63 @@ namespace NeuralNetwork1
 
                 return input;
             }
+
+            public override string ToString()
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < layers.Length; i++)
+                {
+                    sb.Append($"слой {i}\n" + layers[i].ToString());
+                }
+                return sb.ToString();
+            }
         }
 
         class Layer
         {
-            public Perceptron[] perceptrons;
-
-            private double[] outputs;
+            public Neuron[] neurons;
 
             public Layer(int inputCount, int outputCount)
             {
-                perceptrons = new Perceptron[outputCount];
+                neurons = new Neuron[outputCount];
                 Random r = new Random();
                 for (int i = 0; i < outputCount; i++)
                 {
-                    perceptrons[i] = new Perceptron(inputCount, r);
+                    neurons[i] = new Neuron(inputCount, r);
                 }
-                outputs = new double[outputCount];
             }
 
             public double[] GetLayerOutput(double[] input, bool isParallel = false)
             {
-                outputs = isParallel ? perceptrons.AsParallel().Select(x => x.GetPerceptronOutput(input)).ToArray() :
-                     perceptrons.Select(x => x.GetPerceptronOutput(input)).ToArray();
+                double[] outputs = isParallel ? neurons.AsParallel().Select(x => x.GetPerceptronOutput(input)).ToArray() :
+                      neurons.Select(x => x.GetPerceptronOutput(input)).ToArray();
                 return outputs;
+            }
+
+            public override string ToString()
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (var item in neurons)
+                {
+                    sb.Append(item);
+                }
+                return sb.ToString();
             }
         }
 
-        class Perceptron
+        class Neuron
         {
-            private readonly double[] inputs;
-
             public double[] weights;
 
             public double Bias { get; set; }
 
             public double WeightedSum { get; set; }
 
-            public int InputCount { get { return inputs.Length; } }
-
             public double Error { get; set; }
 
-            public Perceptron(int input, Random r)
+            public Neuron(int input, Random r)
             {
-                inputs = new double[input];
-                weights = new double[InputCount];
+                weights = new double[input];
                 InitW(r);
                 Bias = GetRandomNumber(r, -0.5, 0.5);
             }
@@ -210,7 +236,7 @@ namespace NeuralNetwork1
             public double GetPerceptronOutput(double[] inputs)
             {
                 WeightedSum = 0;
-                for (int i = 0; i < InputCount; i++)
+                for (int i = 0; i < inputs.Length; i++)
                 {
                     WeightedSum += inputs[i] * weights[i];
                 }
@@ -239,6 +265,19 @@ namespace NeuralNetwork1
                 return r.NextDouble() * (maximum - minimum) + minimum;
             }
 
+            public override string ToString()
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("v: ");
+                for (int i = 0; i < weights.Length; i++)
+                {
+                    sb.Append($"{weights[i]:f3} ");
+                }
+                sb.Append("b: " + $"{Bias:f3} ");
+                sb.Append("e: " + $"{Error:f3} ");
+                sb.Append("s: " + $"{WeightedSum:f3} \n");
+                return sb.ToString();
+            }
         }
     }
 }

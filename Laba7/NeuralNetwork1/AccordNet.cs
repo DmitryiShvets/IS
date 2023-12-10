@@ -26,8 +26,6 @@ namespace NeuralNetwork1
             new NguyenWidrow(network).Randomize();
         }
 
-
-
         // Обучение сети одному образу  
         public override int Train(Sample sample, double acceptableError, bool parallel)
         {
@@ -72,25 +70,15 @@ namespace NeuralNetwork1
 
             double error = double.PositiveInfinity;
 
-#if DEBUG
-            StreamWriter errorsFile = File.CreateText("errors.csv");
-#endif
-
             stopWatch.Restart();
 
             while (epoch_to_run < epochsCount && error > acceptableError)
             {
                 epoch_to_run++;
                 error = teacher.RunEpoch(inputs, outputs);
-#if DEBUG
-                errorsFile.WriteLine(error);
-#endif
+
                 OnTrainProgress((epoch_to_run * 1.0) / epochsCount, error, stopWatch.Elapsed);
             }
-
-#if DEBUG
-            errorsFile.Close();
-#endif
 
             OnTrainProgress(1.0, error, stopWatch.Elapsed);
 
@@ -99,9 +87,14 @@ namespace NeuralNetwork1
             return error;
         }
 
-        protected override double[] Compute(double[] input)
+        public override double[] Compute(double[] input)
         {
             return network.Compute(input);
+        }
+
+        public override void Print()
+        {
+
         }
     }
 }

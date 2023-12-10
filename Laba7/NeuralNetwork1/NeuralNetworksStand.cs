@@ -22,7 +22,7 @@ namespace NeuralNetwork1
         {
             get
             {
-                var selectedItem = (string) netTypeBox.SelectedItem;
+                var selectedItem = (string)netTypeBox.SelectedItem;
                 if (!networksCache.ContainsKey(selectedItem))
                     networksCache.Add(selectedItem, CreateNetwork(selectedItem));
 
@@ -41,9 +41,9 @@ namespace NeuralNetwork1
         {
             InitializeComponent();
             this.networksFabric = networksFabric;
-            netTypeBox.Items.AddRange(this.networksFabric.Keys.Select(s => (object) s).ToArray());
+            netTypeBox.Items.AddRange(this.networksFabric.Keys.Select(s => (object)s).ToArray());
             netTypeBox.SelectedIndex = 0;
-            generator.FigureCount = (int) classCounter.Value;
+            generator.FigureCount = (int)classCounter.Value;
             button3_Click(this, null);
             pictureBox1.Image = Properties.Resources.Title;
         }
@@ -57,7 +57,7 @@ namespace NeuralNetwork1
             }
 
             StatusLabel.Text = "Ошибка: " + error;
-            int progressPercent = (int) Math.Round(progress * 100);
+            int progressPercent = (int)Math.Round(progress * 100);
             progressPercent = Math.Min(100, Math.Max(0, progressPercent));
             elapsedTimeLabel.Text = "Затраченное время : " + elapsedTime.Duration().ToString(@"hh\:mm\:ss\:ff");
             progressBar1.Value = progressPercent;
@@ -125,7 +125,7 @@ namespace NeuralNetwork1
         private void button1_Click(object sender, EventArgs e)
         {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            train_networkAsync((int) TrainingSizeCounter.Value, (int) EpochesCounter.Value,
+            train_networkAsync((int)TrainingSizeCounter.Value, (int)EpochesCounter.Value,
                 (100 - AccuracyCounter.Value) / 100.0, parallelCheckBox.Checked);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
@@ -137,7 +137,7 @@ namespace NeuralNetwork1
             //  Создаём новую обучающую выборку
             SamplesSet samples = new SamplesSet();
 
-            for (int i = 0; i < (int) TrainingSizeCounter.Value; i++)
+            for (int i = 0; i < (int)TrainingSizeCounter.Value; i++)
                 samples.AddSample(generator.GenerateFigure());
 
             double accuracy = samples.TestNeuralNetwork(Net);
@@ -152,14 +152,14 @@ namespace NeuralNetwork1
         {
             //  Проверяем корректность задания структуры сети
             int[] structure = CurrentNetworkStructure();
-            if (structure.Length < 2 || structure[0] != 400 ||
-                structure[structure.Length - 1] != generator.FigureCount)
-            {
-                MessageBox.Show(
-                    $"В сети должно быть более двух слоёв, первый слой должен содержать 400 нейронов, последний - ${generator.FigureCount}",
-                    "Ошибка", MessageBoxButtons.OK);
-                return;
-            }
+            //if (structure.Length < 2 || structure[0] != 400 ||
+            //    structure[structure.Length - 1] != generator.FigureCount)
+            //{
+            //    MessageBox.Show(
+            //        $"В сети должно быть более двух слоёв, первый слой должен содержать 400 нейронов, последний - ${generator.FigureCount}",
+            //        "Ошибка", MessageBoxButtons.OK);
+            //    return;
+            //}
 
             // Чистим старые подписки сетей
             foreach (var network in networksCache.Values)
@@ -175,7 +175,7 @@ namespace NeuralNetwork1
 
         private void classCounter_ValueChanged(object sender, EventArgs e)
         {
-            generator.FigureCount = (int) classCounter.Value;
+            generator.FigureCount = (int)classCounter.Value;
             var vals = netStructureBox.Text.Split(';');
             if (!int.TryParse(vals.Last(), out _)) return;
             vals[vals.Length - 1] = classCounter.Value.ToString();
@@ -212,6 +212,19 @@ namespace NeuralNetwork1
         private void testNetButton_MouseEnter(object sender, EventArgs e)
         {
             infoStatusLabel.Text = "Тестировать нейросеть на тестовой выборке такого же размера";
+        }
+
+        private void btn_print_Click(object sender, EventArgs e)
+        {
+            Net.Print();
+        }
+
+        private void btn_test_Click(object sender, EventArgs e)
+        {
+            double[] input = new double[3] { 1, 0, 1 };
+            double[] target = new double[2] { 1,1};
+            double[] res = (Net as StudentNet).Compute(input);
+            (Net as StudentNet).BackwardPropagation(target, input);
         }
     }
 }
