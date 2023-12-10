@@ -58,7 +58,6 @@
             this.вапрвапрToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusLabel = new System.Windows.Forms.Label();
             this.btn_print = new System.Windows.Forms.Button();
-            this.btn_test = new System.Windows.Forms.Button();
             label2 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -200,7 +199,7 @@
             this.netStructureBox.Name = "netStructureBox";
             this.netStructureBox.Size = new System.Drawing.Size(120, 20);
             this.netStructureBox.TabIndex = 18;
-            this.netStructureBox.Text = "3;2";
+            this.netStructureBox.Text = "400;50;2";
             // 
             // recreateNetButton
             // 
@@ -410,16 +409,6 @@
             this.btn_print.UseVisualStyleBackColor = true;
             this.btn_print.Click += new System.EventHandler(this.btn_print_Click);
             // 
-            // btn_test
-            // 
-            this.btn_test.Location = new System.Drawing.Point(721, 480);
-            this.btn_test.Name = "btn_test";
-            this.btn_test.Size = new System.Drawing.Size(85, 27);
-            this.btn_test.TabIndex = 8;
-            this.btn_test.Text = "Тест";
-            this.btn_test.UseVisualStyleBackColor = true;
-            this.btn_test.Click += new System.EventHandler(this.btn_test_Click);
-            // 
             // NeuralNetworksStand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -430,7 +419,6 @@
             this.Controls.Add(this.elapsedTimeLabel);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.btn_test);
             this.Controls.Add(this.btn_print);
             this.Controls.Add(this.trainOneButton);
             this.Controls.Add(this.label9);
@@ -484,7 +472,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label StatusLabel;
         private System.Windows.Forms.Button btn_print;
-        private System.Windows.Forms.Button btn_test;
     }
 }
 

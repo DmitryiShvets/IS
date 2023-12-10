@@ -219,12 +219,5 @@ namespace NeuralNetwork1
             Net.Print();
         }
 
-        private void btn_test_Click(object sender, EventArgs e)
-        {
-            double[] input = new double[3] { 1, 0, 1 };
-            double[] target = new double[2] { 1,1};
-            double[] res = (Net as StudentNet).Compute(input);
-            (Net as StudentNet).BackwardPropagation(target, input);
-        }
     }
 }
