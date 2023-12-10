@@ -62,23 +62,23 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.resolutionsBox = new System.Windows.Forms.ComboBox();
-            this.ProcessButton = new System.Windows.Forms.Button();
             this.controlPanel = new System.Windows.Forms.Panel();
+            this.ProcessButton = new System.Windows.Forms.Button();
             this.cb_cur_class = new System.Windows.Forms.ComboBox();
             this.ticksLabel = new System.Windows.Forms.Label();
             this.statusLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.processedImgBox = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tresholdTrackBar = new System.Windows.Forms.TrackBar();
-            this.processedImgBox = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.marginTrackBar = new System.Windows.Forms.TrackBar();
             this.borderTrackBar = new System.Windows.Forms.TrackBar();
-            this.originalImageBox = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.originalImageBox = new System.Windows.Forms.PictureBox();
             this.StartButton = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.cmbVideoSource = new System.Windows.Forms.ComboBox();
@@ -98,14 +98,14 @@
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.controlPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tresholdTrackBar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.processedImgBox)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.processedImgBox)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tresholdTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.marginTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.borderTrackBar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).BeginInit();
-            this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -493,7 +493,7 @@
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Size = new System.Drawing.Size(1058, 682);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "webcam";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // resolutionsBox
@@ -506,17 +506,6 @@
             this.resolutionsBox.Size = new System.Drawing.Size(218, 21);
             this.resolutionsBox.TabIndex = 44;
             // 
-            // ProcessButton
-            // 
-            this.ProcessButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ProcessButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ProcessButton.Location = new System.Drawing.Point(166, 13);
-            this.ProcessButton.Name = "ProcessButton";
-            this.ProcessButton.Size = new System.Drawing.Size(125, 30);
-            this.ProcessButton.TabIndex = 1;
-            this.ProcessButton.Text = "Сохранить";
-            this.ProcessButton.UseVisualStyleBackColor = true;
-            // 
             // controlPanel
             // 
             this.controlPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -528,9 +517,21 @@
             this.controlPanel.Size = new System.Drawing.Size(444, 59);
             this.controlPanel.TabIndex = 43;
             // 
+            // ProcessButton
+            // 
+            this.ProcessButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ProcessButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ProcessButton.Location = new System.Drawing.Point(166, 13);
+            this.ProcessButton.Name = "ProcessButton";
+            this.ProcessButton.Size = new System.Drawing.Size(125, 30);
+            this.ProcessButton.TabIndex = 1;
+            this.ProcessButton.Text = "Сохранить";
+            this.ProcessButton.UseVisualStyleBackColor = true;
+            // 
             // cb_cur_class
             // 
             this.cb_cur_class.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cb_cur_class.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_cur_class.FormattingEnabled = true;
             this.cb_cur_class.Items.AddRange(new object[] {
             "0",
@@ -567,6 +568,40 @@
             this.statusLabel.TabIndex = 40;
             this.statusLabel.Text = "Статус:";
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.processedImgBox);
+            this.panel1.Location = new System.Drawing.Point(518, 15);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(445, 445);
+            this.panel1.TabIndex = 38;
+            // 
+            // processedImgBox
+            // 
+            this.processedImgBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.processedImgBox.Location = new System.Drawing.Point(0, 0);
+            this.processedImgBox.Name = "processedImgBox";
+            this.processedImgBox.Size = new System.Drawing.Size(441, 441);
+            this.processedImgBox.TabIndex = 0;
+            this.processedImgBox.TabStop = false;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.checkBox1);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.tresholdTrackBar);
+            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.label13);
+            this.panel2.Controls.Add(this.marginTrackBar);
+            this.panel2.Controls.Add(this.borderTrackBar);
+            this.panel2.Location = new System.Drawing.Point(518, 466);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(442, 202);
+            this.panel2.TabIndex = 39;
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -597,25 +632,6 @@
             this.tresholdTrackBar.TickFrequency = 25;
             this.tresholdTrackBar.Value = 120;
             this.tresholdTrackBar.ValueChanged += new System.EventHandler(this.tresholdTrackBar_ValueChanged);
-            // 
-            // processedImgBox
-            // 
-            this.processedImgBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.processedImgBox.Location = new System.Drawing.Point(0, 0);
-            this.processedImgBox.Name = "processedImgBox";
-            this.processedImgBox.Size = new System.Drawing.Size(441, 441);
-            this.processedImgBox.TabIndex = 0;
-            this.processedImgBox.TabStop = false;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.processedImgBox);
-            this.panel1.Location = new System.Drawing.Point(518, 15);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(445, 445);
-            this.panel1.TabIndex = 38;
             // 
             // label12
             // 
@@ -659,29 +675,6 @@
             this.borderTrackBar.Value = 40;
             this.borderTrackBar.ValueChanged += new System.EventHandler(this.borderTrackBar_ValueChanged);
             // 
-            // originalImageBox
-            // 
-            this.originalImageBox.Location = new System.Drawing.Point(6, 12);
-            this.originalImageBox.Name = "originalImageBox";
-            this.originalImageBox.Size = new System.Drawing.Size(500, 500);
-            this.originalImageBox.TabIndex = 1;
-            this.originalImageBox.TabStop = false;
-            // 
-            // panel2
-            // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.checkBox1);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.tresholdTrackBar);
-            this.panel2.Controls.Add(this.label12);
-            this.panel2.Controls.Add(this.label13);
-            this.panel2.Controls.Add(this.marginTrackBar);
-            this.panel2.Controls.Add(this.borderTrackBar);
-            this.panel2.Location = new System.Drawing.Point(518, 466);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(442, 202);
-            this.panel2.TabIndex = 39;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.originalImageBox);
@@ -691,6 +684,14 @@
             this.groupBox2.TabIndex = 37;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Камера";
+            // 
+            // originalImageBox
+            // 
+            this.originalImageBox.Location = new System.Drawing.Point(6, 12);
+            this.originalImageBox.Name = "originalImageBox";
+            this.originalImageBox.Size = new System.Drawing.Size(500, 500);
+            this.originalImageBox.TabIndex = 1;
+            this.originalImageBox.TabStop = false;
             // 
             // StartButton
             // 
@@ -717,6 +718,7 @@
             // cmbVideoSource
             // 
             this.cmbVideoSource.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cmbVideoSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbVideoSource.FormattingEnabled = true;
             this.cmbVideoSource.Location = new System.Drawing.Point(7, 575);
             this.cmbVideoSource.Name = "cmbVideoSource";
@@ -750,15 +752,15 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.controlPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.tresholdTrackBar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.processedImgBox)).EndInit();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.marginTrackBar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.borderTrackBar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.processedImgBox)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tresholdTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.marginTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.borderTrackBar)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).EndInit();
             this.ResumeLayout(false);
 
         }

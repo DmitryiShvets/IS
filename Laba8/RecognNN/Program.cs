@@ -17,7 +17,8 @@ namespace NeuralNetwork1
             {
                 // Тут можно добавить свои нейросети
                 {"Accord.Net Perseptron", structure => new AccordNet(structure)},
-                {"Студентческий персептрон", structure => new StudentNet(structure)},
+                {"Персептрон Швеца", structure => new StudentNet(structure)},
+                {"Персептрон Березенцева", structure => new StudentNetwork(structure)},
             }));
         }
     }
