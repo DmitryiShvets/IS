@@ -86,6 +86,8 @@ namespace NeuralNetwork1
 
             comboBoxMethod.Items.Add("Способ сложения");
             comboBoxMethod.Items.Add("Способ шакала");
+            comboBoxMethod.Items.Add("Способ чередования");
+
 
             comboBoxMethod.SelectedIndex = 0;
         }
@@ -502,6 +504,9 @@ namespace NeuralNetwork1
                     break;
                 case 1:
                     netStructureBox.Text = "9" + netStructureBox.Text.Substring(1);
+                    break;
+                case 2:
+                    netStructureBox.Text = "6" + netStructureBox.Text.Substring(1);
                     break;
             }
         }

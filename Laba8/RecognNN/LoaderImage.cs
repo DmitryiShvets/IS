@@ -61,6 +61,9 @@ namespace NeuralNetwork1
                 case 1:
                     MethodShakalCreate();
                     break;
+                case 2:
+                    MethodAltCreate();
+                    break;
                 default:
                     break;
             }
@@ -190,7 +193,7 @@ namespace NeuralNetwork1
                             if (color.R < 50) img30[x, y] = true;
                             if (img30[x, y])
                             {
-                                input[x * 30 + y] = x * 30 + y;
+                                input[x * 30 + y] = 1;
                             }
                         }
                     }
@@ -225,6 +228,85 @@ namespace NeuralNetwork1
             }
         }
 
+        public void MethodAltCreate()
+        {
+            SamplesSet MethodSamples = new SamplesSet();
+            // путь к dataset
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
+            // получение всех директорий
+            List<string> directories = Directory.GetDirectories(path).ToList();
+
+            for (int i = 0; i < FigureCount; i++)
+            {
+                // получение всех файлов из директории
+                List<string> files = Directory.GetFiles(directories[i]).ToList();
+                for (int j = 0; j < files.Count(); j++)
+                {
+                    ClearImage();
+
+                    // загрузка изображения
+                    Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(files[j]));
+
+                    double[] input = new double[600];
+                    for (int k = 0; k < 600; k++)
+                        input[k] = 0;
+
+                    currentFigure = (FigureType)i;
+
+                    for (int x = 0; x < 300; x++)
+                        for (int y = 0; y < 300; y++)
+                        {
+                            Color color = bmp.GetPixel(x, y);
+                            if (color.R < 50) img[x, y] = true;
+                            if (img[x, y])
+                            {
+                                input[x] += 1;
+                                input[300 + y] += 1;
+                            }
+                        }
+                    string text = ((int)currentFigure).ToString() + ";";
+                    for (int w = 0; w < input.Length; w++)
+                    {
+                        if (w != input.Length - 1)
+                        {
+                            text += input[w].ToString() + " ";
+                        }
+                        else
+                        {
+                            text += input[w].ToString();
+                        }
+                    }
+                    MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
+                }
+            }
+
+            // запись в файл
+            string pathFile = path + "\\methodAlt.txt";
+
+            if (!File.Exists(pathFile))
+            {
+                using (StreamWriter sw = File.CreateText(pathFile))
+                {
+                    foreach (Sample sample in MethodSamples)
+                    {
+                        string text = ((int)sample.actualClass).ToString() + ";";
+                        for (int i = 0; i < sample.input.Length; i++)
+                        {
+                            if (i != sample.input.Length - 1)
+                            {
+                                text += sample.input[i].ToString() + " ";
+                            }
+                            else
+                            {
+                                text += sample.input[i].ToString();
+                            }
+                        }
+                        sw.WriteLine(text);
+                    }
+                }
+            }
+        }
+
         public void LoadDataset(int method)
         {
             switch (method)
@@ -234,6 +316,9 @@ namespace NeuralNetwork1
                     break;
                 case 1:
                     MethodShakalLoad();
+                    break;
+                case 2:
+                    MethodAltLoad();
                     break;
                 default:
                     break;
@@ -320,6 +405,46 @@ namespace NeuralNetwork1
             samplesTest = MethodSamplesTest;
         }
 
+        public void MethodAltLoad()
+        {
+            SamplesSet MethodSamples = new SamplesSet();
+            SamplesSet MethodSamplesTest = new SamplesSet();
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
+            string pathFile = path + "\\methodAlt.txt";
+            int c = 1;
+            using (StreamReader sr = File.OpenText(pathFile))
+            {
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    List<string> splitSep = s.Split(';').ToList();
+                    if (Int32.Parse(splitSep[0]) == FigureCount)
+                    {
+                        break;
+                    }
+                    List<string> splitSpace = splitSep[1].Split(' ').ToList();
+                    double[] input = new double[600];
+                    for (int k = 0; k < 600; k++)
+                        input[k] = 0;
+                    for (int i = 0; i < splitSpace.Count(); i++)
+                    {
+                        input[i] = double.Parse(splitSpace[i]);
+                    }
+                    currentFigure = (FigureType)Int32.Parse(splitSep[0]);
+                    if (MethodSamples.samples.Count() < 130 * c)
+                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
+                    else
+                    {
+                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure));
+                        if (MethodSamplesTest.samples.Count() > 21 * c) c += 1;
+                    }
+                }
+            }
+
+            samples = MethodSamples;
+            samplesTest = MethodSamplesTest;
+        }
+
         public Sample LoadImage(int method)
         {
             switch (method)
@@ -329,6 +454,9 @@ namespace NeuralNetwork1
                     break;
                 case 1:
                     return Image30x30();
+                    break;
+                case 2:
+                    return Image300x300();
                     break;
                 default:
                     return null;
@@ -431,6 +559,9 @@ namespace NeuralNetwork1
                     break;
                 case 1:
                     return GenBitmap30();
+                    break;
+                case 2:
+                    return GenBitmap();
                     break;
                 default:
                     return null;
