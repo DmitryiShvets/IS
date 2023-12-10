@@ -273,7 +273,6 @@
             // 
             // createDataset
             // 
-            this.createDataset.Enabled = false;
             this.createDataset.Location = new System.Drawing.Point(292, 120);
             this.createDataset.Margin = new System.Windows.Forms.Padding(2);
             this.createDataset.Name = "createDataset";

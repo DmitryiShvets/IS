@@ -18,7 +18,7 @@ namespace NeuralNetwork1
     {
         public bool[,] img = new bool[300, 300];
         public bool[,] img30 = new bool[30, 30];
-
+        private ImagePreproccessor imageProccessor = new ImagePreproccessor(new Settings1(5, 0.6f));
         //  private int margin = 50;
         private Random rand = new Random();
 
@@ -164,37 +164,41 @@ namespace NeuralNetwork1
                     // загрузка изображения
                     Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(files[j]));
 
+
                     double[] input = new double[900];
                     for (int k = 0; k < 900; k++)
                         input[k] = 0;
 
-                    currentFigure = (FigureType)i;
 
-                    for (int x = 0; x < 300; x++)
-                    {
-                        for (int y = 0; y < 300; y++)
-                        {
-                            Color color = bmp.GetPixel(x, y);
-                            if (color.R < 50) img[x, y] = true;
-                        }
-                    }
+                 var resize=   imageProccessor.ProcessImage(bmp);
+                    //currentFigure = (FigureType)i;
+
+                    //for (int x = 0; x < 300; x++)
+                    //{
+                    //    for (int y = 0; y < 300; y++)
+                    //    {
+                    //        Color color = bmp.GetPixel(x, y);
+                    //        if (color.R < 50) img[x, y] = true;
+                    //    }
+                    //}
+
                     //  Масштабируем изображение до 30x30 - этого достаточно
-                    AForge.Imaging.Filters.ResizeBilinear scaleFilter = new AForge.Imaging.Filters.ResizeBilinear(30, 30);
-                    var resized = scaleFilter.Apply(UnmanagedImage.FromManagedImage(bmp));
-                    Bitmap resized_bmp = resized.ToManagedImage();
-                    for (int x = 0; x < 30; x++)
-                    {
-                        for (int y = 0; y < 30; y++)
-                        {
-                            Color color = resized_bmp.GetPixel(x, y);
-                            if (color.R < 50) img30[x, y] = true;
-                            if (img30[x, y])
-                            {
-                                input[x * 30 + y] = x * 30 + y;
-                            }
-                        }
-                    }
-                    MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
+                    //AForge.Imaging.Filters.ResizeBilinear scaleFilter = new AForge.Imaging.Filters.ResizeBilinear(30, 30);
+                    //var resized = scaleFilter.Apply(UnmanagedImage.FromManagedImage(bmp));
+                    //Bitmap resized_bmp = resized.ToManagedImage();
+                    //for (int x = 0; x < 30; x++)
+                    //{
+                    //    for (int y = 0; y < 30; y++)
+                    //    {
+                    //        Color color = resized_bmp.GetPixel(x, y);
+                    //        if (color.R < 50) img30[x, y] = true;
+                    //        if (img30[x, y])
+                    //        {
+                    //            input[x * 30 + y] = x * 30 + y;
+                    //        }
+                    //    }
+                    //}
+                    MethodSamples.AddSample(new Sample(resize, FigureCount, currentFigure));
                 }
             }
 
