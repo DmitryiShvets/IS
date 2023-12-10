@@ -21,8 +21,8 @@ namespace NeuralNetwork1
         /// <summary>
         /// Генератор изображений (образов)
         /// </summary>
-        GenerateImage generator = new GenerateImage();
-
+        //GenerateImage generator = new GenerateImage();
+        LoaderImage loader = new LoaderImage();
         /// <summary>
         /// Текущая выбранная через селектор нейросеть
         /// </summary>
@@ -51,7 +51,8 @@ namespace NeuralNetwork1
             this.networksFabric = networksFabric;
             netTypeBox.Items.AddRange(this.networksFabric.Keys.Select(s => (object)s).ToArray());
             netTypeBox.SelectedIndex = 0;
-            generator.FigureCount = (int)classCounter.Value;
+            //generator.FigureCount = (int)classCounter.Value;
+            loader.FigureCount = (int)classCounter.Value;
             button3_Click(this, null);
             pictureBox1.Image = Properties.Resources.Title;
 
@@ -105,14 +106,16 @@ namespace NeuralNetwork1
 
             label1.Text = "Распознано : " + figure.recognizedClass;
 
-            label8.Text = string.Join("\n", figure.Output.Select(d => d.ToString(CultureInfo.InvariantCulture)));
-            pictureBox1.Image = generator.GenBitmap();
+            label8.Text = string.Join("\n", figure.Output.Select(d => $"{d:f2}"));
+            //pictureBox1.Image = generator.GenBitmap();
+            pictureBox1.Image = loader.GenBitmap();
             pictureBox1.Invalidate();
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            Sample fig = generator.GenerateFigure();
+            //Sample fig = generator.GenerateFigure();
+            Sample fig = loader.LoadImage();
 
             Net.Predict(fig);
 
@@ -130,10 +133,11 @@ namespace NeuralNetwork1
             trainOneButton.Enabled = false;
 
             //  Создаём новую обучающую выборку
-            SamplesSet samples = new SamplesSet();
+            SamplesSet samples = loader.LoadSampleSet();
+            /*SamplesSet samples = new SamplesSet();
 
             for (int i = 0; i < training_size; i++)
-                samples.AddSample(generator.GenerateFigure());
+                samples.AddSample(generator.GenerateFigure());*/
             try
             {
                 //  Обучение запускаем асинхронно, чтобы не блокировать форму
@@ -170,10 +174,12 @@ namespace NeuralNetwork1
             Enabled = false;
             //  Тут просто тестирование новой выборки
             //  Создаём новую обучающую выборку
-            SamplesSet samples = new SamplesSet();
+            SamplesSet samples = loader.LoadSampleSetTest();
+            //SamplesSet samples = new SamplesSet();
 
+            /*
             for (int i = 0; i < (int)TrainingSizeCounter.Value; i++)
-                samples.AddSample(generator.GenerateFigure());
+                samples.AddSample(generator.GenerateFigure());*/
 
             double accuracy = samples.TestNeuralNetwork(Net);
 
@@ -210,7 +216,8 @@ namespace NeuralNetwork1
 
         private void classCounter_ValueChanged(object sender, EventArgs e)
         {
-            generator.FigureCount = (int)classCounter.Value;
+            //generator.FigureCount = (int)classCounter.Value;
+            loader.FigureCount = (int)classCounter.Value;
             var vals = netStructureBox.Text.Split(';');
             if (!int.TryParse(vals.Last(), out _)) return;
             vals[vals.Length - 1] = classCounter.Value.ToString();
@@ -220,8 +227,10 @@ namespace NeuralNetwork1
         private void btnTrainOne_Click(object sender, EventArgs e)
         {
             if (Net == null) return;
-            Sample fig = generator.GenerateFigure();
-            pictureBox1.Image = generator.GenBitmap();
+            //Sample fig = generator.GenerateFigure();
+            Sample fig = loader.LoadImage();
+            //pictureBox1.Image = generator.GenBitmap();
+            pictureBox1.Image = loader.GenBitmap();
             pictureBox1.Invalidate();
             Net.Train(fig, 0.00005, parallelCheckBox.Checked);
             set_result(fig);
@@ -446,6 +455,16 @@ namespace NeuralNetwork1
         private void ProcessButton_Click(object sender, EventArgs e)
         {
             SaveFile();
+        }
+
+        private void LoadDataset_Click(object sender, EventArgs e)
+        {
+            loader.LoadDataset();
+        }
+
+        private void createDataset_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

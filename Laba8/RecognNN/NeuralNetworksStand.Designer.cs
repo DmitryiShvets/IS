@@ -82,6 +82,9 @@
             this.StartButton = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.cmbVideoSource = new System.Windows.Forms.ComboBox();
+            this.LoadDataset = new System.Windows.Forms.Button();
+            this.createDataset = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             label2 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -223,6 +226,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.createDataset);
+            this.groupBox1.Controls.Add(this.LoadDataset);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.netTypeBox);
             this.groupBox1.Controls.Add(this.parallelCheckBox);
@@ -241,7 +247,7 @@
             this.groupBox1.Controls.Add(label2);
             this.groupBox1.Location = new System.Drawing.Point(557, 52);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(294, 299);
+            this.groupBox1.Size = new System.Drawing.Size(425, 299);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Параметры сети";
@@ -282,7 +288,7 @@
             this.netStructureBox.Name = "netStructureBox";
             this.netStructureBox.Size = new System.Drawing.Size(120, 20);
             this.netStructureBox.TabIndex = 18;
-            this.netStructureBox.Text = "400;50;2";
+            this.netStructureBox.Text = "600;500;50;2";
             // 
             // recreateNetButton
             // 
@@ -299,7 +305,7 @@
             // 
             this.classCounter.Location = new System.Drawing.Point(167, 125);
             this.classCounter.Maximum = new decimal(new int[] {
-            4,
+            10,
             0,
             0,
             0});
@@ -433,7 +439,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(599, 379);
+            this.label8.Location = new System.Drawing.Point(877, 378);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(0, 13);
             this.label8.TabIndex = 6;
@@ -451,11 +457,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(565, 379);
+            this.label9.Location = new System.Drawing.Point(854, 380);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(16, 52);
+            this.label9.Size = new System.Drawing.Size(16, 130);
             this.label9.TabIndex = 7;
-            this.label9.Text = "0:\r\n1:\r\n2:\r\n3:";
+            this.label9.Text = "0:\r\n1:\r\n2:\r\n3:\r\n4:\r\n5:\r\n6:\r\n7:\r\n8:\r\n9:";
             // 
             // trainOneButton
             // 
@@ -726,6 +732,34 @@
             this.cmbVideoSource.TabIndex = 41;
             this.cmbVideoSource.SelectedIndexChanged += new System.EventHandler(this.cmbVideoSource_SelectionChangeCommitted);
             // 
+            // LoadDataset
+            // 
+            this.LoadDataset.Location = new System.Drawing.Point(224, 161);
+            this.LoadDataset.Name = "LoadDataset";
+            this.LoadDataset.Size = new System.Drawing.Size(137, 30);
+            this.LoadDataset.TabIndex = 22;
+            this.LoadDataset.Text = "Загрузить Dataset";
+            this.LoadDataset.UseVisualStyleBackColor = true;
+            this.LoadDataset.Click += new System.EventHandler(this.LoadDataset_Click);
+            // 
+            // createDataset
+            // 
+            this.createDataset.Location = new System.Drawing.Point(300, 117);
+            this.createDataset.Name = "createDataset";
+            this.createDataset.Size = new System.Drawing.Size(119, 33);
+            this.createDataset.TabIndex = 23;
+            this.createDataset.Text = "Создать Dataset";
+            this.createDataset.UseVisualStyleBackColor = true;
+            this.createDataset.Click += new System.EventHandler(this.createDataset_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(298, 90);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 24;
+            // 
             // NeuralNetworksStand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -816,6 +850,9 @@
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox cmbVideoSource;
+        private System.Windows.Forms.Button LoadDataset;
+        private System.Windows.Forms.Button createDataset;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 

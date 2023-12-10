@@ -7,11 +7,6 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork1
 {
-    /// <summary>
-    /// Тип фигуры
-    /// </summary>
-    public enum FigureType : byte { Triangle = 0, Rectangle, Circle, Sinusiod, Undef };
-    
     public class GenerateImage
     {
 
@@ -139,7 +134,7 @@ namespace NeuralNetwork1
 
         public bool create_triangle()
         {
-            currentFigure = FigureType.Triangle;
+            currentFigure = FigureType.Zero;
             Point leftUpper = GetLeftUpperPoint();
             Point downLeft = GetRightDownPoint();
             int centerX = 100 + FigureCenterGitter;
@@ -154,7 +149,7 @@ namespace NeuralNetwork1
 
         public bool create_rectangle()
         {
-            currentFigure = FigureType.Rectangle;
+            currentFigure = FigureType.One;
 
             Point leftUpper = GetLeftUpperPoint();
             Point downLeft = GetRightDownPoint();
@@ -168,7 +163,7 @@ namespace NeuralNetwork1
 
         public bool create_circle()
         {
-            currentFigure = FigureType.Circle;
+            currentFigure = FigureType.Two;
 
             Point center = GetCenterPoint();
 
@@ -185,7 +180,7 @@ namespace NeuralNetwork1
 
         public bool create_sin()
         {
-            currentFigure = FigureType.Sinusiod;
+            currentFigure = FigureType.Three;
 
             Point leftUpper = GetLeftUpperPoint();
             Point downLeft = GetRightDownPoint();
@@ -212,10 +207,10 @@ namespace NeuralNetwork1
             ClearImage();
             switch (type)
             {
-                case FigureType.Rectangle : create_rectangle(); break;
-                case FigureType.Triangle  : create_triangle(); break;
-                case FigureType.Circle    : create_circle(); break;
-                case FigureType.Sinusiod  : create_sin(); break;
+                case FigureType.Zero : create_rectangle(); break;
+                case FigureType.One  : create_triangle(); break;
+                case FigureType.Two    : create_circle(); break;
+                case FigureType.Three  : create_sin(); break;
 
                 default:
                     type = FigureType.Undef;
