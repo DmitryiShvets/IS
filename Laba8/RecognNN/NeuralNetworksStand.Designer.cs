@@ -89,6 +89,7 @@
             this.btn_30_load = new System.Windows.Forms.Button();
             this.test300_pict = new System.Windows.Forms.PictureBox();
             this.test30_pict = new System.Windows.Forms.PictureBox();
+            this.test28_pict = new System.Windows.Forms.PictureBox();
             label2 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -116,6 +117,7 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.test300_pict)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.test30_pict)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.test28_pict)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -780,6 +782,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.test28_pict);
             this.tabPage3.Controls.Add(this.btn_30_load);
             this.tabPage3.Controls.Add(this.test300_pict);
             this.tabPage3.Controls.Add(this.test30_pict);
@@ -817,6 +820,15 @@
             this.test30_pict.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.test30_pict.TabIndex = 0;
             this.test30_pict.TabStop = false;
+            // 
+            // test28_pict
+            // 
+            this.test28_pict.Location = new System.Drawing.Point(762, 96);
+            this.test28_pict.Name = "test28_pict";
+            this.test28_pict.Size = new System.Drawing.Size(300, 300);
+            this.test28_pict.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.test28_pict.TabIndex = 2;
+            this.test28_pict.TabStop = false;
             // 
             // NeuralNetworksStand
             // 
@@ -856,6 +868,7 @@
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.test300_pict)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.test30_pict)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.test28_pict)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -919,6 +932,7 @@
         private System.Windows.Forms.Button btn_30_load;
         private System.Windows.Forms.PictureBox test30_pict;
         private System.Windows.Forms.PictureBox test300_pict;
+        private System.Windows.Forms.PictureBox test28_pict;
     }
 }
 

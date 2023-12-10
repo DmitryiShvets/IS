@@ -484,9 +484,11 @@ namespace NeuralNetwork1
 
         private void btn_30_load_Click(object sender, EventArgs e)
         {
-            Sample sample = loader.Image30x30();
+            Sample sample = loader.Image28x28();
             test300_pict.Image = loader.GenBitmap();
-            test30_pict.Image = loader.GenBitmap30();
+            //test30_pict.Image = loader.GenBitmap30();
+            test28_pict.Image = loader.GenBitmap28();
+
 
             //Bitmap bmp = new Bitmap(test30_pict.Width, test30_pict.Height);
             //Graphics g = Graphics.FromImage(bmp);
@@ -503,7 +505,7 @@ namespace NeuralNetwork1
                     netStructureBox.Text = "6" + netStructureBox.Text.Substring(1);
                     break;
                 case 1:
-                    netStructureBox.Text = "9" + netStructureBox.Text.Substring(1);
+                    netStructureBox.Text = "784" + netStructureBox.Text.Substring(3);
                     break;
                 case 2:
                     netStructureBox.Text = "6" + netStructureBox.Text.Substring(1);

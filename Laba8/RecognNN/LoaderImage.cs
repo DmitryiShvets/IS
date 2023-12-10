@@ -17,7 +17,7 @@ namespace NeuralNetwork1
     class LoaderImage
     {
         public bool[,] img = new bool[300, 300];
-        public bool[,] img30 = new bool[30, 30];
+        public bool[] img28 = new bool[28 * 28];
         private ImagePreproccessor imageProccessor = new ImagePreproccessor(new Settings1(5, 0.6f));
         //  private int margin = 50;
         private Random rand = new Random();
@@ -36,9 +36,10 @@ namespace NeuralNetwork1
             for (int i = 0; i < 300; ++i)
                 for (int j = 0; j < 300; ++j)
                     img[i, j] = false;
-            for (int i = 0; i < 30; ++i)
-                for (int j = 0; j < 30; ++j)
-                    img30[i, j] = false;
+
+            for (int i = 0; i < 28; ++i)
+                for (int j = 0; j < 28; ++j)
+                    img28[i * 28 + j] = false;
         }
 
         public SamplesSet LoadSampleSet()
@@ -173,8 +174,8 @@ namespace NeuralNetwork1
                         input[k] = 0;
 
 
-                 var resize=   imageProccessor.ProcessImage(bmp);
-                    //currentFigure = (FigureType)i;
+                    var resize = imageProccessor.ProcessImage(bmp);
+                    currentFigure = (FigureType)i;
 
                     //for (int x = 0; x < 300; x++)
                     //{
@@ -387,8 +388,8 @@ namespace NeuralNetwork1
                         break;
                     }
                     List<string> splitSpace = splitSep[1].Split(' ').ToList();
-                    double[] input = new double[900];
-                    for (int k = 0; k < 900; k++)
+                    double[] input = new double[784];
+                    for (int k = 0; k < 784; k++)
                         input[k] = 0;
                     for (int i = 0; i < splitSpace.Count(); i++)
                     {
@@ -457,7 +458,7 @@ namespace NeuralNetwork1
                     return Image300x300();
                     break;
                 case 1:
-                    return Image30x30();
+                    return Image28x28();
                     break;
                 case 2:
                     return Image300x300();
@@ -505,7 +506,7 @@ namespace NeuralNetwork1
             return new Sample(input, FigureCount, currentFigure);
         }
 
-        public Sample Image30x30()
+        public Sample Image28x28()
         {
             // путь к dataset
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
@@ -516,42 +517,26 @@ namespace NeuralNetwork1
             List<string> files = Directory.GetFiles(directories[randomDirectory]).ToList();
 
             int randomFile = rand.Next(0, files.Count());
+            currentFigure = (FigureType)randomDirectory;
 
             ClearImage();
 
             // загрузка изображения
             Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(files[randomFile]));
+            var resize = imageProccessor.ProcessImage(bmp);
 
-            double[] input = new double[900];
-            for (int k = 0; k < 900; k++) input[k] = 0;
-
-            currentFigure = (FigureType)randomDirectory;
-            for (int x = 0; x < 300; x++)
+            for (int x = 0; x < 28; x++)
             {
-                for (int y = 0; y < 300; y++)
+                for (int y = 0; y < 28; y++)
                 {
-                    Color color = bmp.GetPixel(x, y);
-                    if (color.R < 50) img[x, y] = true;
-                }
-            }
-            //var resized_bmp = new Bitmap(bmp, 30, 30);
-            //  Масштабируем изображение до 30x30 - этого достаточно
-            AForge.Imaging.Filters.ResizeBilinear scaleFilter = new AForge.Imaging.Filters.ResizeBilinear(30, 30);
-            var resized = scaleFilter.Apply(UnmanagedImage.FromManagedImage(bmp));
-            Bitmap resized_bmp = resized.ToManagedImage();
-            for (int x = 0; x < 30; x++)
-            {
-                for (int y = 0; y < 30; y++)
-                {
-                    Color color = resized_bmp.GetPixel(x, y);
-                    if (color.R < 50) img30[x, y] = true;
-                    if (img30[x, y])
+                    if (resize[x * 28 + y] > 0)
                     {
-                        input[x * 30 + y] = 1;
+                        img28[x * 28 + y] = true;
                     }
                 }
             }
-            return new Sample(input, FigureCount, currentFigure);
+
+            return new Sample(resize, FigureCount, currentFigure);
         }
 
         public Bitmap GenImage(int method)
@@ -562,7 +547,7 @@ namespace NeuralNetwork1
                     return GenBitmap();
                     break;
                 case 1:
-                    return GenBitmap30();
+                    return GenBitmap28();
                     break;
                 case 2:
                     return GenBitmap();
@@ -583,12 +568,12 @@ namespace NeuralNetwork1
             return drawArea;
         }
 
-        public Bitmap GenBitmap30()
+        public Bitmap GenBitmap28()
         {
-            Bitmap drawArea = new Bitmap(30, 30);
-            for (int i = 0; i < 30; ++i)
-                for (int j = 0; j < 30; ++j)
-                    if (img30[i, j]) drawArea.SetPixel(i, j, Color.Black);
+            Bitmap drawArea = new Bitmap(28, 28);
+            for (int i = 0; i < 28; ++i)
+                for (int j = 0; j < 28; ++j)
+                    if (img28[i * 28 + j]) drawArea.SetPixel(i, j, Color.Black);
             return drawArea;
         }
     }

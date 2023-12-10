@@ -54,7 +54,7 @@ namespace NeuralNetwork1
             {
                 for (int j = 0; j < processed.Width; j++)
                 {
-                    input[i * size + j] = processed.GetPixel(j, i).R;
+                    input[i * size + j] = processed.GetPixel(i, j).R;
                 }
 
             }
