@@ -85,6 +85,10 @@
             this.StartButton = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.cmbVideoSource = new System.Windows.Forms.ComboBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btn_30_load = new System.Windows.Forms.Button();
+            this.test300_pict = new System.Windows.Forms.PictureBox();
+            this.test30_pict = new System.Windows.Forms.PictureBox();
             label2 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -109,6 +113,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.borderTrackBar)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.test300_pict)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.test30_pict)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -178,7 +185,7 @@
             this.tabPage1.Controls.Add(this.trainOneButton);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1058, 682);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Обучение";
@@ -206,8 +213,8 @@
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Location = new System.Drawing.Point(14, 5);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(500, 500);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -247,7 +254,7 @@
             this.groupBox1.Controls.Add(label2);
             this.groupBox1.Location = new System.Drawing.Point(557, 52);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(421, 299);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
@@ -266,7 +273,7 @@
             // createDataset
             // 
             this.createDataset.Location = new System.Drawing.Point(292, 120);
-            this.createDataset.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.createDataset.Margin = new System.Windows.Forms.Padding(2);
             this.createDataset.Name = "createDataset";
             this.createDataset.Size = new System.Drawing.Size(117, 27);
             this.createDataset.TabIndex = 23;
@@ -277,7 +284,7 @@
             // LoadDataset
             // 
             this.LoadDataset.Location = new System.Drawing.Point(292, 151);
-            this.LoadDataset.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.LoadDataset.Margin = new System.Windows.Forms.Padding(2);
             this.LoadDataset.Name = "LoadDataset";
             this.LoadDataset.Size = new System.Drawing.Size(117, 24);
             this.LoadDataset.TabIndex = 22;
@@ -512,6 +519,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(1, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -769,6 +777,46 @@
             this.cmbVideoSource.TabIndex = 41;
             this.cmbVideoSource.SelectedIndexChanged += new System.EventHandler(this.cmbVideoSource_SelectionChangeCommitted);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.btn_30_load);
+            this.tabPage3.Controls.Add(this.test300_pict);
+            this.tabPage3.Controls.Add(this.test30_pict);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1058, 682);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Тест";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btn_30_load
+            // 
+            this.btn_30_load.Location = new System.Drawing.Point(215, 462);
+            this.btn_30_load.Name = "btn_30_load";
+            this.btn_30_load.Size = new System.Drawing.Size(123, 23);
+            this.btn_30_load.TabIndex = 1;
+            this.btn_30_load.Text = "Загузить 30";
+            this.btn_30_load.UseVisualStyleBackColor = true;
+            this.btn_30_load.Click += new System.EventHandler(this.btn_30_load_Click);
+            // 
+            // test300_pict
+            // 
+            this.test300_pict.Location = new System.Drawing.Point(122, 96);
+            this.test300_pict.Name = "test300_pict";
+            this.test300_pict.Size = new System.Drawing.Size(300, 300);
+            this.test300_pict.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.test300_pict.TabIndex = 0;
+            this.test300_pict.TabStop = false;
+            // 
+            // test30_pict
+            // 
+            this.test30_pict.Location = new System.Drawing.Point(449, 96);
+            this.test30_pict.Name = "test30_pict";
+            this.test30_pict.Size = new System.Drawing.Size(300, 300);
+            this.test30_pict.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.test30_pict.TabIndex = 0;
+            this.test30_pict.TabStop = false;
+            // 
             // NeuralNetworksStand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -776,7 +824,7 @@
             this.ClientSize = new System.Drawing.Size(1070, 713);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "NeuralNetworksStand";
             this.Text = "Продвинутый студенческий перспетрон";
@@ -804,6 +852,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.borderTrackBar)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.test300_pict)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.test30_pict)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -862,6 +913,11 @@
         private System.Windows.Forms.Button LoadDataset;
         private System.Windows.Forms.Button createDataset;
         private System.Windows.Forms.ComboBox comboBoxMethod;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button btn_30_load;
+        private System.Windows.Forms.PictureBox test30_pict;
+        private System.Windows.Forms.PictureBox test300_pict;
     }
 }
 

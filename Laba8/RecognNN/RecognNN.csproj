@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccordNet.cs" />
+    <Compile Include="AugmentationImage.cs" />
     <Compile Include="BaseNetwork.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="LoaderImage.cs" />

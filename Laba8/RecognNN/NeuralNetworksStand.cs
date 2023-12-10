@@ -22,7 +22,8 @@ namespace NeuralNetwork1
         /// Генератор изображений (образов)
         /// </summary>
         //GenerateImage generator = new GenerateImage();
-        LoaderImage loader = new LoaderImage();
+       // LoaderImage loader = new LoaderImage();
+        AugmentationImage augmentation = new AugmentationImage();
         /// <summary>
         /// Текущая выбранная через селектор нейросеть
         /// </summary>
@@ -52,7 +53,8 @@ namespace NeuralNetwork1
             netTypeBox.Items.AddRange(this.networksFabric.Keys.Select(s => (object)s).ToArray());
             netTypeBox.SelectedIndex = 0;
             //generator.FigureCount = (int)classCounter.Value;
-            loader.FigureCount = (int)classCounter.Value;
+            //loader.FigureCount = (int)classCounter.Value;
+            augmentation.FigureCount = (int)classCounter.Value;
             button3_Click(this, null);
             pictureBox1.Image = Properties.Resources.Title;
 
@@ -111,14 +113,16 @@ namespace NeuralNetwork1
 
             label8.Text = string.Join("\n", figure.Output.Select(d => $"{d:f2}"));
             //pictureBox1.Image = generator.GenBitmap();
-            pictureBox1.Image = loader.GenBitmap();
+            //pictureBox1.Image = loader.GenBitmap();
+            pictureBox1.Image = augmentation.GenBitmap();
             pictureBox1.Invalidate();
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             //Sample fig = generator.GenerateFigure();
-            Sample fig = loader.LoadImage();
+            //Sample fig = loader.LoadImage();
+            Sample fig = augmentation.Get30x30();
 
             Net.Predict(fig);
 
@@ -136,7 +140,8 @@ namespace NeuralNetwork1
             trainOneButton.Enabled = false;
 
             //  Создаём новую обучающую выборку
-            SamplesSet samples = loader.LoadSampleSet();
+            //SamplesSet samples = loader.LoadSampleSet();
+            SamplesSet samples = augmentation.LoadSampleSet();
             /*SamplesSet samples = new SamplesSet();
 
             for (int i = 0; i < training_size; i++)
@@ -177,7 +182,8 @@ namespace NeuralNetwork1
             Enabled = false;
             //  Тут просто тестирование новой выборки
             //  Создаём новую обучающую выборку
-            SamplesSet samples = loader.LoadSampleSetTest();
+           // SamplesSet samples = loader.LoadSampleSetTest();
+            SamplesSet samples = augmentation.LoadSampleSetTest();
             //SamplesSet samples = new SamplesSet();
 
             /*
@@ -220,7 +226,8 @@ namespace NeuralNetwork1
         private void classCounter_ValueChanged(object sender, EventArgs e)
         {
             //generator.FigureCount = (int)classCounter.Value;
-            loader.FigureCount = (int)classCounter.Value;
+            //loader.FigureCount = (int)classCounter.Value;
+            augmentation.FigureCount = (int)classCounter.Value;
             var vals = netStructureBox.Text.Split(';');
             if (!int.TryParse(vals.Last(), out _)) return;
             vals[vals.Length - 1] = classCounter.Value.ToString();
@@ -231,9 +238,11 @@ namespace NeuralNetwork1
         {
             if (Net == null) return;
             //Sample fig = generator.GenerateFigure();
-            Sample fig = loader.LoadImage();
+            //Sample fig = loader.LoadImage();
+            Sample fig = augmentation.Get30x30();
             //pictureBox1.Image = generator.GenBitmap();
-            pictureBox1.Image = loader.GenBitmap();
+            //pictureBox1.Image = loader.GenBitmap();
+            pictureBox1.Image = augmentation.GenBitmap();
             pictureBox1.Invalidate();
             Net.Train(fig, 0.00005, parallelCheckBox.Checked);
             set_result(fig);
@@ -462,12 +471,27 @@ namespace NeuralNetwork1
 
         private void LoadDataset_Click(object sender, EventArgs e)
         {
-            loader.LoadDataset(comboBoxMethod.SelectedIndex);
+           // loader.LoadDataset(comboBoxMethod.SelectedIndex);
         }
 
         private void createDataset_Click(object sender, EventArgs e)
         {
-            loader.CreateDataset(comboBoxMethod.SelectedIndex);
+           // loader.LoadDataset(comboBoxMethod.SelectedIndex);
+        }
+
+        private void btn_30_load_Click(object sender, EventArgs e)
+        {
+            Sample sample = augmentation.Get30x30();
+            test300_pict.Image = augmentation.GenBitmap();
+            test30_pict.Image = augmentation.GenBitmap30();
+
+            //Bitmap bmp = new Bitmap(test30_pict.Width, test30_pict.Height);
+            //Graphics g = Graphics.FromImage(bmp);
+            //g.Clear(Color.White);
+            //g.DrawImage(test300_pict.Image, new Rectangle(0, 0, 30, 30));
+            //test30_pict.Image = bmp;
+
+
         }
     }
 }
