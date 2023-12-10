@@ -1,0 +1,805 @@
+﻿namespace NeuralNetwork1
+{
+    partial class NeuralNetworksStand
+    {
+        /// <summary>
+        /// Обязательная переменная конструктора.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Освободить все используемые ресурсы.
+        /// </summary>
+        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Код, автоматически созданный конструктором форм Windows
+
+        /// <summary>
+        /// Требуемый метод для поддержки конструктора — не изменяйте 
+        /// содержимое этого метода с помощью редактора кода.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label4;
+            System.Windows.Forms.Label label5;
+            System.Windows.Forms.Label label6;
+            System.Windows.Forms.Label label7;
+            this.вапрвапрToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.trainOneButton = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btn_print = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.elapsedTimeLabel = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TrainingSizeCounter = new System.Windows.Forms.NumericUpDown();
+            this.EpochesCounter = new System.Windows.Forms.NumericUpDown();
+            this.AccuracyCounter = new System.Windows.Forms.TrackBar();
+            this.netTrainButton = new System.Windows.Forms.Button();
+            this.testNetButton = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.classCounter = new System.Windows.Forms.NumericUpDown();
+            this.recreateNetButton = new System.Windows.Forms.Button();
+            this.netStructureBox = new System.Windows.Forms.TextBox();
+            this.parallelCheckBox = new System.Windows.Forms.CheckBox();
+            this.netTypeBox = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.st_lable = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.infoStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.resolutionsBox = new System.Windows.Forms.ComboBox();
+            this.ProcessButton = new System.Windows.Forms.Button();
+            this.controlPanel = new System.Windows.Forms.Panel();
+            this.PlayButton = new System.Windows.Forms.Button();
+            this.ticksLabel = new System.Windows.Forms.Label();
+            this.statusLabel = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.tresholdTrackBar = new System.Windows.Forms.TrackBar();
+            this.processedImgBox = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.marginTrackBar = new System.Windows.Forms.TrackBar();
+            this.borderTrackBar = new System.Windows.Forms.TrackBar();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.originalImageBox = new System.Windows.Forms.PictureBox();
+            this.StartButton = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.cmbVideoSource = new System.Windows.Forms.ComboBox();
+            label2 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            label5 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
+            this.tabPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrainingSizeCounter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.EpochesCounter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccuracyCounter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.classCounter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.statusStrip1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.controlPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tresholdTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.processedImgBox)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.marginTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.borderTrackBar)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // вапрвапрToolStripMenuItem
+            // 
+            this.вапрвапрToolStripMenuItem.Name = "вапрвапрToolStripMenuItem";
+            this.вапрвапрToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.вапрвапрToolStripMenuItem.Text = "вапрвапр";
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.statusStrip1);
+            this.tabPage1.Controls.Add(this.pictureBox1);
+            this.tabPage1.Controls.Add(this.st_lable);
+            this.tabPage1.Controls.Add(label7);
+            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Controls.Add(this.elapsedTimeLabel);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.progressBar1);
+            this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.btn_print);
+            this.tabPage1.Controls.Add(this.label9);
+            this.tabPage1.Controls.Add(this.trainOneButton);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1058, 787);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Обучение";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // trainOneButton
+            // 
+            this.trainOneButton.Location = new System.Drawing.Point(557, 492);
+            this.trainOneButton.Name = "trainOneButton";
+            this.trainOneButton.Size = new System.Drawing.Size(126, 30);
+            this.trainOneButton.TabIndex = 8;
+            this.trainOneButton.Text = "Обучить образцу";
+            this.trainOneButton.UseVisualStyleBackColor = true;
+            this.trainOneButton.Click += new System.EventHandler(this.btnTrainOne_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(565, 379);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(16, 52);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "0:\r\n1:\r\n2:\r\n3:";
+            // 
+            // btn_print
+            // 
+            this.btn_print.Location = new System.Drawing.Point(689, 497);
+            this.btn_print.Name = "btn_print";
+            this.btn_print.Size = new System.Drawing.Size(69, 25);
+            this.btn_print.TabIndex = 8;
+            this.btn_print.Text = "Принт";
+            this.btn_print.UseVisualStyleBackColor = true;
+            this.btn_print.Click += new System.EventHandler(this.btn_print_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(599, 379);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(0, 13);
+            this.label8.TabIndex = 6;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(560, 436);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(291, 22);
+            this.progressBar1.Step = 1;
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 10;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(557, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(226, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Выберите сеть, обучите или протестируйте";
+            // 
+            // elapsedTimeLabel
+            // 
+            this.elapsedTimeLabel.AutoSize = true;
+            this.elapsedTimeLabel.Location = new System.Drawing.Point(565, 461);
+            this.elapsedTimeLabel.Name = "elapsedTimeLabel";
+            this.elapsedTimeLabel.Size = new System.Drawing.Size(43, 13);
+            this.elapsedTimeLabel.TabIndex = 12;
+            this.elapsedTimeLabel.Text = "Время:";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.netTypeBox);
+            this.groupBox1.Controls.Add(this.parallelCheckBox);
+            this.groupBox1.Controls.Add(this.netStructureBox);
+            this.groupBox1.Controls.Add(this.recreateNetButton);
+            this.groupBox1.Controls.Add(this.classCounter);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.testNetButton);
+            this.groupBox1.Controls.Add(this.netTrainButton);
+            this.groupBox1.Controls.Add(this.AccuracyCounter);
+            this.groupBox1.Controls.Add(label6);
+            this.groupBox1.Controls.Add(this.EpochesCounter);
+            this.groupBox1.Controls.Add(label5);
+            this.groupBox1.Controls.Add(this.TrainingSizeCounter);
+            this.groupBox1.Controls.Add(label4);
+            this.groupBox1.Controls.Add(label2);
+            this.groupBox1.Location = new System.Drawing.Point(557, 52);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(294, 299);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Параметры сети";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(77, 47);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(84, 13);
+            label2.TabIndex = 2;
+            label2.Text = "Структура сети";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(8, 73);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(153, 13);
+            label4.TabIndex = 5;
+            label4.Text = "Размер обучающей выборки";
+            // 
+            // TrainingSizeCounter
+            // 
+            this.TrainingSizeCounter.Location = new System.Drawing.Point(167, 71);
+            this.TrainingSizeCounter.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.TrainingSizeCounter.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.TrainingSizeCounter.Name = "TrainingSizeCounter";
+            this.TrainingSizeCounter.Size = new System.Drawing.Size(120, 20);
+            this.TrainingSizeCounter.TabIndex = 6;
+            this.TrainingSizeCounter.Value = new decimal(new int[] {
+            700,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(69, 100);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(92, 13);
+            label5.TabIndex = 7;
+            label5.Text = "Количество эпох";
+            // 
+            // EpochesCounter
+            // 
+            this.EpochesCounter.Location = new System.Drawing.Point(167, 98);
+            this.EpochesCounter.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.EpochesCounter.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.EpochesCounter.Name = "EpochesCounter";
+            this.EpochesCounter.Size = new System.Drawing.Size(120, 20);
+            this.EpochesCounter.TabIndex = 8;
+            this.EpochesCounter.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(23, 194);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(54, 13);
+            label6.TabIndex = 9;
+            label6.Text = "Точность";
+            // 
+            // AccuracyCounter
+            // 
+            this.AccuracyCounter.Location = new System.Drawing.Point(25, 210);
+            this.AccuracyCounter.Maximum = 100;
+            this.AccuracyCounter.Name = "AccuracyCounter";
+            this.AccuracyCounter.Size = new System.Drawing.Size(245, 45);
+            this.AccuracyCounter.TabIndex = 10;
+            this.AccuracyCounter.TickFrequency = 10;
+            this.AccuracyCounter.Value = 80;
+            // 
+            // netTrainButton
+            // 
+            this.netTrainButton.Location = new System.Drawing.Point(31, 261);
+            this.netTrainButton.Name = "netTrainButton";
+            this.netTrainButton.Size = new System.Drawing.Size(100, 30);
+            this.netTrainButton.TabIndex = 11;
+            this.netTrainButton.Text = "Обучить";
+            this.netTrainButton.UseVisualStyleBackColor = true;
+            this.netTrainButton.Click += new System.EventHandler(this.button1_Click);
+            this.netTrainButton.MouseEnter += new System.EventHandler(this.netTrainButton_MouseEnter);
+            // 
+            // testNetButton
+            // 
+            this.testNetButton.Location = new System.Drawing.Point(163, 261);
+            this.testNetButton.Name = "testNetButton";
+            this.testNetButton.Size = new System.Drawing.Size(100, 30);
+            this.testNetButton.TabIndex = 14;
+            this.testNetButton.Text = "Тест";
+            this.testNetButton.UseVisualStyleBackColor = true;
+            this.testNetButton.Click += new System.EventHandler(this.button2_Click);
+            this.testNetButton.MouseEnter += new System.EventHandler(this.testNetButton_MouseEnter);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(50, 125);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(111, 13);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "Количество классов";
+            // 
+            // classCounter
+            // 
+            this.classCounter.Location = new System.Drawing.Point(167, 125);
+            this.classCounter.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.classCounter.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.classCounter.Name = "classCounter";
+            this.classCounter.Size = new System.Drawing.Size(120, 20);
+            this.classCounter.TabIndex = 16;
+            this.classCounter.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.classCounter.ValueChanged += new System.EventHandler(this.classCounter_ValueChanged);
+            // 
+            // recreateNetButton
+            // 
+            this.recreateNetButton.Location = new System.Drawing.Point(77, 161);
+            this.recreateNetButton.Name = "recreateNetButton";
+            this.recreateNetButton.Size = new System.Drawing.Size(140, 30);
+            this.recreateNetButton.TabIndex = 17;
+            this.recreateNetButton.Text = "Пересоздать сеть";
+            this.recreateNetButton.UseVisualStyleBackColor = true;
+            this.recreateNetButton.Click += new System.EventHandler(this.button3_Click);
+            this.recreateNetButton.MouseEnter += new System.EventHandler(this.recreateNetButton_MouseEnter);
+            // 
+            // netStructureBox
+            // 
+            this.netStructureBox.Location = new System.Drawing.Point(167, 44);
+            this.netStructureBox.Name = "netStructureBox";
+            this.netStructureBox.Size = new System.Drawing.Size(120, 20);
+            this.netStructureBox.TabIndex = 18;
+            this.netStructureBox.Text = "400;50;2";
+            // 
+            // parallelCheckBox
+            // 
+            this.parallelCheckBox.AutoSize = true;
+            this.parallelCheckBox.Checked = true;
+            this.parallelCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.parallelCheckBox.Location = new System.Drawing.Point(34, 243);
+            this.parallelCheckBox.Name = "parallelCheckBox";
+            this.parallelCheckBox.Size = new System.Drawing.Size(139, 17);
+            this.parallelCheckBox.TabIndex = 19;
+            this.parallelCheckBox.Text = "Параллельный расчёт";
+            this.parallelCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // netTypeBox
+            // 
+            this.netTypeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.netTypeBox.FormattingEnabled = true;
+            this.netTypeBox.Location = new System.Drawing.Point(166, 19);
+            this.netTypeBox.Name = "netTypeBox";
+            this.netTypeBox.Size = new System.Drawing.Size(121, 21);
+            this.netTypeBox.TabIndex = 20;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(129, 22);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(31, 13);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Сеть";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(588, 354);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(40, 13);
+            label7.TabIndex = 14;
+            label7.Text = "Status:";
+            // 
+            // st_lable
+            // 
+            this.st_lable.AutoSize = true;
+            this.st_lable.Location = new System.Drawing.Point(631, 354);
+            this.st_lable.Name = "st_lable";
+            this.st_lable.Size = new System.Drawing.Size(38, 13);
+            this.st_lable.TabIndex = 15;
+            this.st_lable.Text = "NONE";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox1.Location = new System.Drawing.Point(14, 5);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(500, 500);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.infoStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(3, 762);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1052, 22);
+            this.statusStrip1.TabIndex = 11;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // infoStatusLabel
+            // 
+            this.infoStatusLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.infoStatusLabel.Name = "infoStatusLabel";
+            this.infoStatusLabel.Size = new System.Drawing.Size(80, 17);
+            this.infoStatusLabel.Text = "Обучите сеть";
+            this.infoStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(1, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1066, 813);
+            this.tabControl1.TabIndex = 16;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.resolutionsBox);
+            this.tabPage2.Controls.Add(this.controlPanel);
+            this.tabPage2.Controls.Add(this.ticksLabel);
+            this.tabPage2.Controls.Add(this.statusLabel);
+            this.tabPage2.Controls.Add(this.panel1);
+            this.tabPage2.Controls.Add(this.panel2);
+            this.tabPage2.Controls.Add(this.groupBox2);
+            this.tabPage2.Controls.Add(this.StartButton);
+            this.tabPage2.Controls.Add(this.label15);
+            this.tabPage2.Controls.Add(this.cmbVideoSource);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(1058, 787);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Вэбка";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // resolutionsBox
+            // 
+            this.resolutionsBox.AllowDrop = true;
+            this.resolutionsBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.resolutionsBox.FormattingEnabled = true;
+            this.resolutionsBox.Location = new System.Drawing.Point(61, 633);
+            this.resolutionsBox.Name = "resolutionsBox";
+            this.resolutionsBox.Size = new System.Drawing.Size(218, 21);
+            this.resolutionsBox.TabIndex = 44;
+            // 
+            // ProcessButton
+            // 
+            this.ProcessButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ProcessButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ProcessButton.Location = new System.Drawing.Point(166, 13);
+            this.ProcessButton.Name = "ProcessButton";
+            this.ProcessButton.Size = new System.Drawing.Size(125, 30);
+            this.ProcessButton.TabIndex = 26;
+            this.ProcessButton.Text = "Обработать";
+            this.ProcessButton.UseVisualStyleBackColor = true;
+            // 
+            // controlPanel
+            // 
+            this.controlPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.controlPanel.Controls.Add(this.ProcessButton);
+            this.controlPanel.Controls.Add(this.PlayButton);
+            this.controlPanel.Enabled = false;
+            this.controlPanel.Location = new System.Drawing.Point(567, 700);
+            this.controlPanel.Name = "controlPanel";
+            this.controlPanel.Size = new System.Drawing.Size(444, 59);
+            this.controlPanel.TabIndex = 43;
+            // 
+            // PlayButton
+            // 
+            this.PlayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.PlayButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PlayButton.Location = new System.Drawing.Point(297, 13);
+            this.PlayButton.Name = "PlayButton";
+            this.PlayButton.Size = new System.Drawing.Size(125, 30);
+            this.PlayButton.TabIndex = 25;
+            this.PlayButton.Text = "Играть";
+            this.PlayButton.UseVisualStyleBackColor = true;
+            // 
+            // ticksLabel
+            // 
+            this.ticksLabel.AutoSize = true;
+            this.ticksLabel.Location = new System.Drawing.Point(423, 610);
+            this.ticksLabel.Name = "ticksLabel";
+            this.ticksLabel.Size = new System.Drawing.Size(131, 13);
+            this.ticksLabel.TabIndex = 42;
+            this.ticksLabel.Text = "Ticks for frame processing";
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.statusLabel.Location = new System.Drawing.Point(57, 556);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(77, 24);
+            this.statusLabel.TabIndex = 41;
+            this.statusLabel.Text = "Статус:";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(174, 91);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(86, 17);
+            this.checkBox1.TabIndex = 24;
+            this.checkBox1.Text = "Обработать";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(56, 98);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(38, 13);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "Порог";
+            // 
+            // tresholdTrackBar
+            // 
+            this.tresholdTrackBar.LargeChange = 1;
+            this.tresholdTrackBar.Location = new System.Drawing.Point(7, 133);
+            this.tresholdTrackBar.Maximum = 255;
+            this.tresholdTrackBar.Name = "tresholdTrackBar";
+            this.tresholdTrackBar.Size = new System.Drawing.Size(140, 45);
+            this.tresholdTrackBar.TabIndex = 22;
+            this.tresholdTrackBar.TickFrequency = 25;
+            this.tresholdTrackBar.Value = 120;
+            // 
+            // processedImgBox
+            // 
+            this.processedImgBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.processedImgBox.Location = new System.Drawing.Point(0, 0);
+            this.processedImgBox.Name = "processedImgBox";
+            this.processedImgBox.Size = new System.Drawing.Size(441, 441);
+            this.processedImgBox.TabIndex = 0;
+            this.processedImgBox.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.processedImgBox);
+            this.panel1.Location = new System.Drawing.Point(566, 40);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(445, 445);
+            this.panel1.TabIndex = 39;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(213, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(38, 13);
+            this.label13.TabIndex = 21;
+            this.label13.Text = "Зазор";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(61, 9);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(33, 13);
+            this.label14.TabIndex = 20;
+            this.label14.Text = "Поля";
+            // 
+            // marginTrackBar
+            // 
+            this.marginTrackBar.LargeChange = 10;
+            this.marginTrackBar.Location = new System.Drawing.Point(162, 31);
+            this.marginTrackBar.Maximum = 40;
+            this.marginTrackBar.Name = "marginTrackBar";
+            this.marginTrackBar.Size = new System.Drawing.Size(140, 45);
+            this.marginTrackBar.TabIndex = 19;
+            this.marginTrackBar.TickFrequency = 4;
+            this.marginTrackBar.Value = 10;
+            // 
+            // borderTrackBar
+            // 
+            this.borderTrackBar.LargeChange = 60;
+            this.borderTrackBar.Location = new System.Drawing.Point(7, 31);
+            this.borderTrackBar.Maximum = 160;
+            this.borderTrackBar.Name = "borderTrackBar";
+            this.borderTrackBar.Size = new System.Drawing.Size(140, 45);
+            this.borderTrackBar.TabIndex = 18;
+            this.borderTrackBar.TickFrequency = 10;
+            this.borderTrackBar.Value = 40;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.checkBox1);
+            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.tresholdTrackBar);
+            this.panel2.Controls.Add(this.label13);
+            this.panel2.Controls.Add(this.label14);
+            this.panel2.Controls.Add(this.marginTrackBar);
+            this.panel2.Controls.Add(this.borderTrackBar);
+            this.panel2.Location = new System.Drawing.Point(566, 491);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(442, 202);
+            this.panel2.TabIndex = 40;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.originalImageBox);
+            this.groupBox2.Location = new System.Drawing.Point(48, 28);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(512, 519);
+            this.groupBox2.TabIndex = 38;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Камера";
+            // 
+            // originalImageBox
+            // 
+            this.originalImageBox.Location = new System.Drawing.Point(6, 12);
+            this.originalImageBox.Name = "originalImageBox";
+            this.originalImageBox.Size = new System.Drawing.Size(500, 500);
+            this.originalImageBox.TabIndex = 1;
+            this.originalImageBox.TabStop = false;
+            // 
+            // StartButton
+            // 
+            this.StartButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.StartButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.StartButton.Location = new System.Drawing.Point(285, 624);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(125, 30);
+            this.StartButton.TabIndex = 37;
+            this.StartButton.Text = "Старт";
+            this.StartButton.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(57, 590);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(83, 13);
+            this.label15.TabIndex = 36;
+            this.label15.Text = "Выбор камеры";
+            // 
+            // cmbVideoSource
+            // 
+            this.cmbVideoSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmbVideoSource.FormattingEnabled = true;
+            this.cmbVideoSource.Location = new System.Drawing.Point(60, 606);
+            this.cmbVideoSource.Name = "cmbVideoSource";
+            this.cmbVideoSource.Size = new System.Drawing.Size(219, 21);
+            this.cmbVideoSource.TabIndex = 35;
+            // 
+            // NeuralNetworksStand
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1079, 902);
+            this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MaximizeBox = false;
+            this.Name = "NeuralNetworksStand";
+            this.Text = "Продвинутый студенческий перспетрон";
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrainingSizeCounter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.EpochesCounter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccuracyCounter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.classCounter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.controlPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tresholdTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.processedImgBox)).EndInit();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.marginTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.borderTrackBar)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.ToolStripMenuItem вапрвапрToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel infoStatusLabel;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label st_lable;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox netTypeBox;
+        private System.Windows.Forms.CheckBox parallelCheckBox;
+        private System.Windows.Forms.TextBox netStructureBox;
+        private System.Windows.Forms.Button recreateNetButton;
+        private System.Windows.Forms.NumericUpDown classCounter;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button testNetButton;
+        private System.Windows.Forms.Button netTrainButton;
+        private System.Windows.Forms.TrackBar AccuracyCounter;
+        private System.Windows.Forms.NumericUpDown EpochesCounter;
+        private System.Windows.Forms.NumericUpDown TrainingSizeCounter;
+        private System.Windows.Forms.Label elapsedTimeLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btn_print;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button trainOneButton;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ComboBox resolutionsBox;
+        private System.Windows.Forms.Panel controlPanel;
+        private System.Windows.Forms.Button ProcessButton;
+        private System.Windows.Forms.Button PlayButton;
+        private System.Windows.Forms.Label ticksLabel;
+        private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox processedImgBox;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TrackBar tresholdTrackBar;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TrackBar marginTrackBar;
+        private System.Windows.Forms.TrackBar borderTrackBar;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.PictureBox originalImageBox;
+        private System.Windows.Forms.Button StartButton;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox cmbVideoSource;
+    }
+}
+
