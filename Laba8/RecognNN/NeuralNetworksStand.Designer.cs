@@ -40,7 +40,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.st_lable = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxMethod = new System.Windows.Forms.ComboBox();
             this.createDataset = new System.Windows.Forms.Button();
             this.LoadDataset = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
@@ -226,7 +226,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.comboBoxMethod);
             this.groupBox1.Controls.Add(this.createDataset);
             this.groupBox1.Controls.Add(this.LoadDataset);
             this.groupBox1.Controls.Add(this.label11);
@@ -253,14 +253,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Параметры сети";
             // 
-            // comboBox1
+            // comboBoxMethod
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(292, 95);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(117, 21);
-            this.comboBox1.TabIndex = 24;
+            this.comboBoxMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMethod.FormattingEnabled = true;
+            this.comboBoxMethod.Location = new System.Drawing.Point(292, 95);
+            this.comboBoxMethod.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxMethod.Name = "comboBoxMethod";
+            this.comboBoxMethod.Size = new System.Drawing.Size(117, 21);
+            this.comboBoxMethod.TabIndex = 24;
             // 
             // createDataset
             // 
@@ -860,7 +861,7 @@
         private System.Windows.Forms.ComboBox cmbVideoSource;
         private System.Windows.Forms.Button LoadDataset;
         private System.Windows.Forms.Button createDataset;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxMethod;
     }
 }
 

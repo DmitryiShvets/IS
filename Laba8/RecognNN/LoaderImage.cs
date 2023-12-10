@@ -36,10 +36,21 @@ namespace NeuralNetwork1
                     img[i, j] = false;
         }
 
-        public void LoadDataset()
+        public void CreateDataset(int method)
         {
-            samples = new SamplesSet();
-            samplesTest = new SamplesSet();
+            switch (method)
+            {
+                case 0:
+                    MethodSumCreate();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void MethodSumCreate()
+        {
+            SamplesSet MethodSamples = new SamplesSet();
             // путь к dataset
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
             // получение всех директорий
@@ -73,16 +84,99 @@ namespace NeuralNetwork1
                                 input[300 + y] += 1;
                             }
                         }
-                    if (j < 130)
+                    string text = ((int)currentFigure).ToString() + ";";
+                    for (int w = 0; w < input.Length; w++)
                     {
-                        samples.AddSample(new Sample(input, FigureCount, currentFigure));
+                        if (w != input.Length - 1)
+                        {
+                            text += input[w].ToString() + " ";
+                        }
+                        else
+                        {
+                            text += input[w].ToString();
+                        }
                     }
-                    else
+                    MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
+                }
+            }
+
+            // запись в файл
+            string pathFile = path + "\\methodSum.txt";
+
+            if (!File.Exists(pathFile))
+            {
+                using (StreamWriter sw = File.CreateText(pathFile))
+                {
+                    foreach (Sample sample in MethodSamples)
                     {
-                        samplesTest.AddSample(new Sample(input, FigureCount, currentFigure));
+                        string text = ((int)sample.actualClass).ToString() + ";";
+                        for (int i = 0; i < sample.input.Length; i++)
+                        {
+                            if (i != sample.input.Length - 1)
+                            {
+                                text += sample.input[i].ToString() + " ";
+                            }
+                            else
+                            {
+                                text += sample.input[i].ToString();
+                            }
+                        }
+                        sw.WriteLine(text);
                     }
                 }
             }
+        }
+
+        public void LoadDataset(int method)
+        {
+            switch (method)
+            {
+                case 0:
+                    MethodSumLoad();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void MethodSumLoad()
+        {
+            SamplesSet MethodSamples = new SamplesSet();
+            SamplesSet MethodSamplesTest = new SamplesSet();
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
+            string pathFile = path + "\\methodSum.txt";
+            int c = 1;
+            using (StreamReader sr = File.OpenText(pathFile))
+            {
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    List<string> splitSep = s.Split(';').ToList();
+                    if (Int32.Parse(splitSep[0]) == FigureCount)
+                    {
+                        break;
+                    }
+                    List<string> splitSpace = splitSep[1].Split(' ').ToList();
+                    double[] input = new double[600];
+                    for (int k = 0; k < 600; k++)
+                        input[k] = 0;
+                    for (int i = 0; i < splitSpace.Count(); i++)
+                    {
+                        input[i] = double.Parse(splitSpace[i]);
+                    }
+                    currentFigure = (FigureType)Int32.Parse(splitSep[0]);
+                    if (MethodSamples.samples.Count() < 130 * c)
+                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
+                    else
+                    {
+                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure));
+                        if (MethodSamplesTest.samples.Count() > 21 * c) c += 1;
+                    }
+                }
+            }
+
+            samples = MethodSamples;
+            samplesTest = MethodSamplesTest;
         }
 
         public SamplesSet LoadSampleSet()

@@ -82,6 +82,9 @@ namespace NeuralNetwork1
 
             cb_cur_class.SelectedIndex = 0;
 
+            comboBoxMethod.Items.Add("Способ сложения");
+
+            comboBoxMethod.SelectedIndex = 0;
         }
 
         public void UpdateLearningInfo(double progress, double error, TimeSpan elapsedTime)
@@ -459,12 +462,12 @@ namespace NeuralNetwork1
 
         private void LoadDataset_Click(object sender, EventArgs e)
         {
-            loader.LoadDataset();
+            loader.LoadDataset(comboBoxMethod.SelectedIndex);
         }
 
         private void createDataset_Click(object sender, EventArgs e)
         {
-
+            loader.CreateDataset(comboBoxMethod.SelectedIndex);
         }
     }
 }
