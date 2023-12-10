@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace NeuralNetwork1
 {
@@ -65,12 +66,20 @@ namespace NeuralNetwork1
             if (cmbVideoSource.Items.Count > 0)
             {
                 cmbVideoSource.SelectedIndex = 0;
+                var vcd = new VideoCaptureDevice(videoDevicesList[cmbVideoSource.SelectedIndex].MonikerString);
+                resolutionsBox.Items.Clear();
+                for (int i = 0; i < vcd.VideoCapabilities.Length; i++)
+                    resolutionsBox.Items.Add(vcd.VideoCapabilities[i].FrameSize.ToString());
+                resolutionsBox.SelectedIndex = 0;
             }
             else
             {
                 MessageBox.Show("А нет у вас камеры!", "Ошибочка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             controller = new Controller(new FormUpdateDelegate(UpdateFormFields));
+            // updateTmr = new System.Threading.Timer(Tick, evnt, 500, 100);
+
+            cb_cur_class.SelectedIndex = 0;
 
         }
 
@@ -302,6 +311,7 @@ namespace NeuralNetwork1
             return;
         }
 
+
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             //  Время засекаем
@@ -390,6 +400,10 @@ namespace NeuralNetwork1
                 case Keys.D: controller.settings.incLeft(); Debug.WriteLine("Right!"); break;
                 case Keys.Q: controller.settings.border++; Debug.WriteLine("Plus!"); break;
                 case Keys.E: controller.settings.border--; Debug.WriteLine("Minus!"); break;
+                case Keys.F:
+                    SaveFile();
+                    break;
+
             }
         }
 
@@ -405,6 +419,33 @@ namespace NeuralNetwork1
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             controller.settings.processImg = checkBox1.Checked;
+        }
+
+        private void SaveFile()
+        {
+            if (controlPanel.Enabled)
+            {
+                int fclass = cb_cur_class.SelectedIndex;
+
+                if (Directory.Exists(fclass.ToString()))
+                {
+                    int cfiles = Directory.GetFiles(Directory.GetCurrentDirectory() + "/" + fclass).Length + 30;
+                    controller.processor.processed.Save(fclass + "/" + fclass + "_" + cfiles + ".jpg");
+                }
+                else
+                {
+                    Directory.CreateDirectory(fclass.ToString());
+                    int cfiles = Directory.GetFiles(Directory.GetCurrentDirectory() + "/" + fclass).Length + 30;
+                    controller.processor.processed.Save(fclass + "/" + fclass + "_" + cfiles + ".jpg");
+                }
+                Debug.WriteLine("Photo!");
+            }
+
+        }
+
+        private void ProcessButton_Click(object sender, EventArgs e)
+        {
+            SaveFile();
         }
     }
 }
