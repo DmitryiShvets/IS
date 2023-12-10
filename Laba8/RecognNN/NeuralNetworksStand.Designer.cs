@@ -265,13 +265,15 @@
             this.comboBoxMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMethod.FormattingEnabled = true;
             this.comboBoxMethod.Location = new System.Drawing.Point(292, 95);
-            this.comboBoxMethod.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxMethod.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxMethod.Name = "comboBoxMethod";
             this.comboBoxMethod.Size = new System.Drawing.Size(117, 21);
             this.comboBoxMethod.TabIndex = 24;
+            this.comboBoxMethod.SelectedIndexChanged += new System.EventHandler(this.comboBoxMethod_SelectedIndexChanged);
             // 
             // createDataset
             // 
+            this.createDataset.Enabled = false;
             this.createDataset.Location = new System.Drawing.Point(292, 120);
             this.createDataset.Margin = new System.Windows.Forms.Padding(2);
             this.createDataset.Name = "createDataset";
