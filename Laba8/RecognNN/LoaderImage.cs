@@ -18,7 +18,7 @@ namespace NeuralNetwork1
     class LoaderImage
     {
         public bool[,] img = new bool[300, 300];
-        public bool[] img28 = new bool[28 * 28];
+        public bool[] img48 = new bool[48 * 48];
         private ImagePreproccessor imageProccessor = new ImagePreproccessor(new Settings1(5, 0.6f));
         //  private int margin = 50;
         private Random rand = new Random();
@@ -39,9 +39,9 @@ namespace NeuralNetwork1
                 for (int j = 0; j < 300; ++j)
                     img[i, j] = false;
 
-            for (int i = 0; i < 28; ++i)
-                for (int j = 0; j < 28; ++j)
-                    img28[i * 28 + j] = false;
+            for (int i = 0; i < 48; ++i)
+                for (int j = 0; j < 48; ++j)
+                    img48[i * 48 + j] = false;
         }
 
         // геттеры выборок
@@ -357,7 +357,7 @@ namespace NeuralNetwork1
                         input[i] = double.Parse(splitSpace[i]);
                     }
                     currentFigure = (FigureType)Int32.Parse(splitSep[0]);
-                    if (MethodSamples.samples.Count() < 150 * c) 
+                    if (MethodSamples.samples.Count() < 150 * c)
                         MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 150 векторов для обучения
                     else
                     {
@@ -464,16 +464,12 @@ namespace NeuralNetwork1
             {
                 case 0:
                     return Image300x300(); // загрузка изображения 300x300
-                    break;
                 case 1:
                     return Image28x28(); // загрузка изображения 28x28
-                    break;
                 case 2:
                     return Image300x300_2(); // загрузка изображения 300x300
-                    break;
                 default:
                     return null;
-                    break;
             }
         }
 
@@ -548,7 +544,7 @@ namespace NeuralNetwork1
                 {
                     if (resize[x * 28 + y] > 0)
                     {
-                        img28[x * 28 + y] = true;
+                        img48[x * 28 + y] = true;
                     }
                 }
             }
@@ -615,16 +611,12 @@ namespace NeuralNetwork1
             {
                 case 0:
                     return GenBitmap(); // Отрисовка изображения 300x300
-                    break;
                 case 1:
-                    return GenBitmap28(); // Отрисовка изображения 28x28
-                    break;
+                    return GenBitmap48(); // Отрисовка изображения 28x28
                 case 2:
                     return GenBitmap(); // Отрисовка изображения 300x300
-                    break;
                 default:
                     return null;
-                    break;
             }
         }
 
@@ -639,13 +631,13 @@ namespace NeuralNetwork1
             return drawArea;
         }
 
-        // Отрисовка изображения 28x28
-        private Bitmap GenBitmap28()
+        // Отрисовка изображения 48x48
+        private Bitmap GenBitmap48()
         {
-            Bitmap drawArea = new Bitmap(28, 28);
-            for (int i = 0; i < 28; ++i)
-                for (int j = 0; j < 28; ++j)
-                    if (img28[i * 28 + j]) drawArea.SetPixel(i, j, Color.Black);
+            Bitmap drawArea = new Bitmap(48, 48);
+            for (int i = 0; i < 48; ++i)
+                for (int j = 0; j < 48; ++j)
+                    if (img48[i * 48 + j]) drawArea.SetPixel(i, j, Color.Black);
             return drawArea;
         }
 
@@ -656,16 +648,12 @@ namespace NeuralNetwork1
             {
                 case 0:
                     return CheckImage300x300(); // Распознавание изображения 300x300
-                    break;
                 case 1:
-                    return CheckImage28x28(); // Распознавание изображения 28x28
-                    break;
+                    return CheckImage48x48(); // Распознавание изображения 28x28
                 case 2:
                     return CheckImage300x300_2(); // Распознавание изображения 300x300
-                    break;
                 default:
                     return null;
-                    break;
             }
         }
 
@@ -700,8 +688,8 @@ namespace NeuralNetwork1
             return new Sample(input, FigureCount);
         }
 
-        // Распознавание изображения 28x28
-        private Sample CheckImage28x28()
+        // Распознавание изображения 48x48
+        private Sample CheckImage48x48()
         {
             // путь к фото
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
@@ -711,15 +699,19 @@ namespace NeuralNetwork1
 
             // загрузка изображения
             Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(pathFile));
-            var resize = imageProccessor.ProcessImage(bmp);
-
-            for (int x = 0; x < 28; x++)
+            double[] resize = new double[48 * 48];
+            for (int k = 0; k < 48 * 48; k++)
             {
-                for (int y = 0; y < 28; y++)
+                resize[k] = 0;
+            }
+            for (int x = 0; x < 48; x++)
+            {
+                for (int y = 0; y < 48; y++)
                 {
-                    if (resize[x * 28 + y] > 0)
+                    if (bmp.GetPixel(x, y).R > 0)
                     {
-                        img28[x * 28 + y] = true;
+                        resize[x * 48 + y] = 1;
+                        img48[x * 48 + y] = true;
                     }
                 }
             }

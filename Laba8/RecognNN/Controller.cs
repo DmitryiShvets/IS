@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Diagnostics;
+using System.Drawing.Imaging;
 
 namespace NeuralNetwork1
 {
-
-
 
     /// <summary>
     /// Класс-диспетчер, управляющий всеми остальными и служащий для связи с формой
@@ -58,13 +58,21 @@ namespace NeuralNetwork1
 
         private bool _imageProcessed = true;
 
+        /// <summary>
+        /// Готов ли процессор к обработке нового изображения
+        /// </summary>
         public bool Ready { get { return _imageProcessed; } }
 
-
+        /// <summary>
+        /// Класс чтобы править ими всеми - и художником, и певцом, и мудрецом
+        /// </summary>
+        /// <param name="updater"></param>
         public Controller(FormUpdateDelegate updater)
         {
             formUpdateDelegate = updater;
         }
+
+
         
         /// <summary>
         /// Задаёт изображение для обработки
@@ -76,7 +84,7 @@ namespace NeuralNetwork1
             if (!Ready) return false;
             _imageProcessed = false;
 
-            bool processResult = await Task.Run(() => processor.ProcessImage(image));
+            bool processResult = await Task.Run(() => processor.ProcessImage(image, true));
 
             //  Более того, проверяем, не сдох ли султан, пока мы ишака дрессировали
             if (!workNeeded) return false;
@@ -87,6 +95,31 @@ namespace NeuralNetwork1
             _imageProcessed = true;
 
             return true;
+        }
+
+        public Sample getSampleFromCurrent()
+        {
+            Bitmap processed = processor.processed;
+            Rectangle rect = new Rectangle(0, 0, processed.Width, processed.Height);
+            BitmapData bmpData = processed.LockBits(rect, ImageLockMode.ReadOnly, processed.PixelFormat);
+            double[] input = new double[48 * 48];
+            unsafe
+            {
+                byte* ptr = (byte*)bmpData.Scan0;
+                int heightInPixels = bmpData.Height;
+                int widthInBytes = bmpData.Stride;
+                for (int y = 0; y < heightInPixels; y++)
+                {
+                    for (int x = 0; x < widthInBytes; x = x + 1)
+                    {
+                        double grayValue = ptr[(y * bmpData.Stride) + x] / 255.0;
+                        input[(y * bmpData.Stride) + x] = grayValue;
+
+                    }
+                }
+            }
+            Sample sample = new Sample(input, 10);
+            return sample;
         }
 
         /// <summary>
@@ -104,6 +137,12 @@ namespace NeuralNetwork1
         /// <returns></returns>
         public Bitmap GetProcessedImage()
         {
+            return processor.processed;
+        }
+
+        public Bitmap prepareRawImage(Bitmap rawImage)
+        {
+            processor.ProcessImage(rawImage, false);
             return processor.processed;
         }
     }

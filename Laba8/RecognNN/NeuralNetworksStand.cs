@@ -1,6 +1,5 @@
 ﻿using AForge.Video.DirectShow;
 using AForge.Video;
-using AForge.Video.DirectShow;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace NeuralNetwork1
 {
@@ -391,16 +392,6 @@ namespace NeuralNetwork1
             controller.settings.differenceLim = (float)tresholdTrackBar.Value / tresholdTrackBar.Maximum;
         }
 
-        private void borderTrackBar_ValueChanged(object sender, EventArgs e)
-        {
-            controller.settings.border = borderTrackBar.Value;
-        }
-
-        private void marginTrackBar_ValueChanged(object sender, EventArgs e)
-        {
-            controller.settings.margin = marginTrackBar.Value;
-        }
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (updateTmr != null)
@@ -486,10 +477,28 @@ namespace NeuralNetwork1
 
         private void btn_30_load_Click(object sender, EventArgs e)
         {
-            //Sample sample = loader.Image28x28();
-            //test300_pict.Image = loader.GenBitmap();
-            //test30_pict.Image = loader.GenBitmap30();
-            //test28_pict.Image = loader.GenBitmap28();
+            Random rand = new Random();
+
+            // путь к dataset
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
+            // получение всех директорий
+            List<string> directories = Directory.GetDirectories(path).ToList();
+
+            // получение случайной директории(класса)
+            int randomDirectory = rand.Next(0, 10);
+            List<string> files = Directory.GetFiles(directories[randomDirectory]).ToList();
+
+            // получение случайной файла
+            int randomFile = rand.Next(0, files.Count());
+
+
+            // загрузка изображения
+            Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(files[randomFile]));
+
+            controller.processor.ProcessImage(bmp, true);
+
+            test300_pict.Image = bmp;
+            test30_pict.Image = controller.processor.processed;
 
 
             //Bitmap bmp = new Bitmap(test30_pict.Width, test30_pict.Height);
@@ -517,6 +526,7 @@ namespace NeuralNetwork1
 
         private void button_F_Click(object sender, EventArgs e)
         {
+            recognizedBox.Image = controller.processor.processed;
             MakePhoto();
         }
 
