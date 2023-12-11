@@ -14,6 +14,7 @@ namespace NeuralNetwork1
     /// </summary>
     public enum FigureType : byte { Zero = 0, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Undef };
 
+    // Класс загрузчика фотографий
     class LoaderImage
     {
         public bool[,] img = new bool[300, 300];
@@ -31,7 +32,8 @@ namespace NeuralNetwork1
         // Создание тестовой выборки
         public SamplesSet samplesTest = new SamplesSet();
 
-        public void ClearImage()
+        // функция очистки изображений
+        private void ClearImage()
         {
             for (int i = 0; i < 300; ++i)
                 for (int j = 0; j < 300; ++j)
@@ -42,6 +44,7 @@ namespace NeuralNetwork1
                     img28[i * 28 + j] = false;
         }
 
+        // геттеры выборок
         public SamplesSet LoadSampleSet()
         {
             return samples;
@@ -52,25 +55,27 @@ namespace NeuralNetwork1
             return samplesTest;
         }
 
+        // Функция создание файла с векторами признаков для разных методов
         public void CreateDataset(int method)
         {
             switch (method)
             {
                 case 0:
-                    MethodSumCreate();
+                    MethodSumCreate(); // метод сложение пикселей по строке и столбцу
                     break;
                 case 1:
-                    MethodShakalCreate();
+                    MethodShakalCreate(); // метод преобразование фотографии 300x300 к 28x28 и создание вектора признаков по черным пикселям
                     break;
                 case 2:
-                    MethodAltCreate();
+                    MethodAltCreate(); // Функция загрузки файла с векторами признаков для разных методов
                     break;
                 default:
                     break;
             }
         }
 
-        public void MethodSumCreate()
+        // метод сложение пикселей по строке и столбцу
+        private void MethodSumCreate()
         {
             SamplesSet MethodSamples = new SamplesSet();
             // путь к dataset
@@ -95,29 +100,18 @@ namespace NeuralNetwork1
 
                     currentFigure = (FigureType)i;
 
+                    // получение вектора признаков
                     for (int x = 0; x < 300; x++)
                         for (int y = 0; y < 300; y++)
                         {
                             Color color = bmp.GetPixel(x, y);
-                            if (color.R < 50) img[x, y] = true;
+                            if (color.R + color.G + color.B < 50) img[x, y] = true;
                             if (img[x, y])
                             {
                                 input[x] += 1;
                                 input[300 + y] += 1;
                             }
                         }
-                    string text = ((int)currentFigure).ToString() + ";";
-                    for (int w = 0; w < input.Length; w++)
-                    {
-                        if (w != input.Length - 1)
-                        {
-                            text += input[w].ToString() + " ";
-                        }
-                        else
-                        {
-                            text += input[w].ToString();
-                        }
-                    }
                     MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
                 }
             }
@@ -149,7 +143,8 @@ namespace NeuralNetwork1
             }
         }
 
-        public void MethodShakalCreate()
+        // метод преобразование фотографии 300x300 к 28x28 и создание вектора признаков по черным пикселям
+        private void MethodShakalCreate()
         {
             SamplesSet MethodSamples = new SamplesSet();
             // путь к dataset
@@ -173,7 +168,7 @@ namespace NeuralNetwork1
                     for (int k = 0; k < 900; k++)
                         input[k] = 0;
 
-
+                    // получение вектора признаков
                     var resize = imageProccessor.ProcessImage(bmp);
                     currentFigure = (FigureType)i;
 
@@ -233,7 +228,8 @@ namespace NeuralNetwork1
             }
         }
 
-        public void MethodAltCreate()
+        // метод чередования пикселей
+        private void MethodAltCreate()
         {
             SamplesSet MethodSamples = new SamplesSet();
             // путь к dataset
@@ -258,29 +254,29 @@ namespace NeuralNetwork1
 
                     currentFigure = (FigureType)i;
 
+                    // получение битового изображения
                     for (int x = 0; x < 300; x++)
                         for (int y = 0; y < 300; y++)
                         {
                             Color color = bmp.GetPixel(x, y);
-                            if (color.R < 50) img[x, y] = true;
-                            if (img[x, y])
+                            if (color.R + color.G + color.B < 50) img[x, y] = true;
+                        }
+
+                    // получение вектора признаков
+                    for (int x = 0; x < 300; x++)
+                        for (int y = 0; y < 300; y++)
+                            if (x - 1 > 0 && img[x, y] != img[x - 1, y])
                             {
                                 input[x] += 1;
+                            }
+
+                    for (int x = 0; x < 300; x++)
+                        for (int y = 0; y < 300; y++)
+                            if (y - 1 > 0 && img[x, y] != img[x, y - 1])
+                            {
                                 input[300 + y] += 1;
                             }
-                        }
-                    string text = ((int)currentFigure).ToString() + ";";
-                    for (int w = 0; w < input.Length; w++)
-                    {
-                        if (w != input.Length - 1)
-                        {
-                            text += input[w].ToString() + " ";
-                        }
-                        else
-                        {
-                            text += input[w].ToString();
-                        }
-                    }
+
                     MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
                 }
             }
@@ -312,41 +308,46 @@ namespace NeuralNetwork1
             }
         }
 
+        // Функция загрузки файла с векторами признаков для разных методов
         public void LoadDataset(int method)
         {
             switch (method)
             {
                 case 0:
-                    MethodSumLoad();
+                    MethodSumLoad(); // метод сложение пикселей по строке и столбцу
                     break;
                 case 1:
-                    MethodShakalLoad();
+                    MethodShakalLoad(); // метод преобразование фотографии 300x300 к 28x28 и создание вектора признаков по черным пикселям
                     break;
                 case 2:
-                    MethodAltLoad();
+                    MethodAltLoad(); // Функция загрузки файла с векторами признаков для разных методов
                     break;
                 default:
                     break;
             }
         }
 
-        public void MethodSumLoad()
+        // метод сложение пикселей по строке и столбцу
+        private void MethodSumLoad()
         {
             SamplesSet MethodSamples = new SamplesSet();
             SamplesSet MethodSamplesTest = new SamplesSet();
+            // получение директории,  где хранится файл с векторами признаков
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
             string pathFile = path + "\\methodSum.txt";
-            int c = 1;
+            int c = 1; // текущий класс, который загружаем
             using (StreamReader sr = File.OpenText(pathFile))
             {
                 string s;
                 while ((s = sr.ReadLine()) != null)
                 {
                     List<string> splitSep = s.Split(';').ToList();
+                    // загружаем из файла все классы, пока не достигли выбранного
                     if (Int32.Parse(splitSep[0]) == FigureCount)
                     {
                         break;
                     }
+                    // parse
                     List<string> splitSpace = splitSep[1].Split(' ').ToList();
                     double[] input = new double[600];
                     for (int k = 0; k < 600; k++)
@@ -356,12 +357,12 @@ namespace NeuralNetwork1
                         input[i] = double.Parse(splitSpace[i]);
                     }
                     currentFigure = (FigureType)Int32.Parse(splitSep[0]);
-                    if (MethodSamples.samples.Count() < 130 * c)
-                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
+                    if (MethodSamples.samples.Count() < 150 * c) 
+                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 150 векторов для обучения
                     else
                     {
-                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure));
-                        if (MethodSamplesTest.samples.Count() > 21 * c) c += 1;
+                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 30 векторов для обучения
+                        if (MethodSamplesTest.samples.Count() > 30 * c) c += 1;
                     }
                 }
             }
@@ -370,10 +371,12 @@ namespace NeuralNetwork1
             samplesTest = MethodSamplesTest;
         }
 
-        public void MethodShakalLoad()
+        // метод преобразование фотографии 300x300 к 28x28 и создание вектора признаков по черным пикселям
+        private void MethodShakalLoad()
         {
             SamplesSet MethodSamples = new SamplesSet();
             SamplesSet MethodSamplesTest = new SamplesSet();
+            // получение директории,  где хранится файл с векторами признаков
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
             string pathFile = path + "\\methodShakal.txt";
             int c = 1;
@@ -383,6 +386,7 @@ namespace NeuralNetwork1
                 while ((s = sr.ReadLine()) != null)
                 {
                     List<string> splitSep = s.Split(';').ToList();
+                    // загружаем из файла все классы, пока не достигли выбранного
                     if (Int32.Parse(splitSep[0]) == FigureCount)
                     {
                         break;
@@ -396,12 +400,12 @@ namespace NeuralNetwork1
                         input[i] = double.Parse(splitSpace[i]);
                     }
                     currentFigure = (FigureType)Int32.Parse(splitSep[0]);
-                    if (MethodSamples.samples.Count() < 130 * c)
-                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
+                    if (MethodSamples.samples.Count() < 150 * c)
+                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 150 векторов для обучения
                     else
                     {
-                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure));
-                        if (MethodSamplesTest.samples.Count() > 21 * c) c += 1;
+                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 30 векторов для обучения
+                        if (MethodSamplesTest.samples.Count() > 30 * c) c += 1;
                     }
                 }
             }
@@ -410,10 +414,12 @@ namespace NeuralNetwork1
             samplesTest = MethodSamplesTest;
         }
 
-        public void MethodAltLoad()
+        // метод чередования пикселей
+        private void MethodAltLoad()
         {
             SamplesSet MethodSamples = new SamplesSet();
             SamplesSet MethodSamplesTest = new SamplesSet();
+            // получение директории,  где хранится файл с векторами признаков
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
             string pathFile = path + "\\methodAlt.txt";
             int c = 1;
@@ -423,6 +429,7 @@ namespace NeuralNetwork1
                 while ((s = sr.ReadLine()) != null)
                 {
                     List<string> splitSep = s.Split(';').ToList();
+                    // загружаем из файла все классы, пока не достигли выбранного
                     if (Int32.Parse(splitSep[0]) == FigureCount)
                     {
                         break;
@@ -436,12 +443,12 @@ namespace NeuralNetwork1
                         input[i] = double.Parse(splitSpace[i]);
                     }
                     currentFigure = (FigureType)Int32.Parse(splitSep[0]);
-                    if (MethodSamples.samples.Count() < 130 * c)
-                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure));
+                    if (MethodSamples.samples.Count() < 150 * c)
+                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 150 векторов для обучения
                     else
                     {
-                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure));
-                        if (MethodSamplesTest.samples.Count() > 21 * c) c += 1;
+                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 30 векторов для обучения
+                        if (MethodSamplesTest.samples.Count() > 30 * c) c += 1;
                     }
                 }
             }
@@ -450,18 +457,19 @@ namespace NeuralNetwork1
             samplesTest = MethodSamplesTest;
         }
 
+        // Функция загрузки случайного изображения для тестирования в зависимости от метода(при нажатии на экран)
         public Sample LoadImage(int method)
         {
             switch (method)
             {
                 case 0:
-                    return Image300x300();
+                    return Image300x300(); // загрузка изображения 300x300
                     break;
                 case 1:
-                    return Image28x28();
+                    return Image28x28(); // загрузка изображения 28x28
                     break;
                 case 2:
-                    return Image300x300();
+                    return Image300x300_2(); // загрузка изображения 300x300
                     break;
                 default:
                     return null;
@@ -469,16 +477,20 @@ namespace NeuralNetwork1
             }
         }
 
-        public Sample Image300x300()
+        // загрузка изображения 300x300
+        private Sample Image300x300()
         {
             // путь к dataset
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
             // получение всех директорий
             List<string> directories = Directory.GetDirectories(path).ToList();
 
+            // получение случайной директории(класса)
             int randomDirectory = rand.Next(0, FigureCount);
+            // получение всех файлов
             List<string> files = Directory.GetFiles(directories[randomDirectory]).ToList();
 
+            // получение случайной файла
             int randomFile = rand.Next(0, files.Count());
 
             ClearImage();
@@ -492,11 +504,12 @@ namespace NeuralNetwork1
 
             currentFigure = (FigureType)randomDirectory;
 
+            // создание вектора признаков
             for (int x = 0; x < 300; x++)
                 for (int y = 0; y < 300; y++)
                 {
                     Color color = bmp.GetPixel(x, y);
-                    if (color.R < 50) img[x, y] = true;
+                    if (color.R + color.G + color.B < 50) img[x, y] = true; // создание изображения 300x300
                     if (img[x, y])
                     {
                         input[x] += 1;
@@ -506,16 +519,19 @@ namespace NeuralNetwork1
             return new Sample(input, FigureCount, currentFigure);
         }
 
-        public Sample Image28x28()
+        // загрузка изображения 28x28
+        private Sample Image28x28()
         {
             // путь к dataset
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
             // получение всех директорий
             List<string> directories = Directory.GetDirectories(path).ToList();
 
+            // получение случайной директории(класса)
             int randomDirectory = rand.Next(0, FigureCount);
             List<string> files = Directory.GetFiles(directories[randomDirectory]).ToList();
 
+            // получение случайной файла
             int randomFile = rand.Next(0, files.Count());
             currentFigure = (FigureType)randomDirectory;
 
@@ -523,8 +539,9 @@ namespace NeuralNetwork1
 
             // загрузка изображения
             Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(files[randomFile]));
-            var resize = imageProccessor.ProcessImage(bmp);
+            var resize = imageProccessor.ProcessImage(bmp); // создание вектора признаков
 
+            // создание изображения 28x28
             for (int x = 0; x < 28; x++)
             {
                 for (int y = 0; y < 28; y++)
@@ -539,18 +556,71 @@ namespace NeuralNetwork1
             return new Sample(resize, FigureCount, currentFigure);
         }
 
+        // загрузка изображения 300x300
+        private Sample Image300x300_2()
+        {
+            // путь к dataset
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
+            // получение всех директорий
+            List<string> directories = Directory.GetDirectories(path).ToList();
+
+            // получение случайной директории(класса)
+            int randomDirectory = rand.Next(0, FigureCount);
+            // получение всех файлов
+            List<string> files = Directory.GetFiles(directories[randomDirectory]).ToList();
+
+            // получение случайной файла
+            int randomFile = rand.Next(0, files.Count());
+
+            ClearImage();
+
+            // загрузка изображения
+            Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(files[randomFile]));
+
+            double[] input = new double[600];
+            for (int k = 0; k < 600; k++)
+                input[k] = 0;
+
+            currentFigure = (FigureType)randomDirectory;
+
+            // получение битового изображения
+            for (int x = 0; x < 300; x++)
+                for (int y = 0; y < 300; y++)
+                {
+                    Color color = bmp.GetPixel(x, y);
+                    if (color.R + color.G + color.B < 50) img[x, y] = true;
+                }
+
+            // получение вектора признаков
+            for (int x = 0; x < 300; x++)
+                for (int y = 0; y < 300; y++)
+                {
+                    if (x - 1 > 0 && img[x, y] != img[x - 1, y])
+                    {
+                        input[x] += 1;
+                    }
+                    if (y - 1 > 0 && img[x, y] != img[x, y - 1])
+                    {
+                        input[300 + y] += 1;
+                    }
+                }
+
+            return new Sample(input, FigureCount, currentFigure);
+        }
+
+        // Функция отрисовки изображения на pictureBox в зависимости от метода(размера изображения)
         public Bitmap GenImage(int method)
         {
             switch (method)
             {
                 case 0:
-                    return GenBitmap();
+                    return GenBitmap(); // Отрисовка изображения 300x300
                     break;
                 case 1:
-                    return GenBitmap28();
+                    return GenBitmap28(); // Отрисовка изображения 28x28
                     break;
                 case 2:
-                    return GenBitmap();
+                    return GenBitmap(); // Отрисовка изображения 300x300
                     break;
                 default:
                     return null;
@@ -558,7 +628,8 @@ namespace NeuralNetwork1
             }
         }
 
-        public Bitmap GenBitmap()
+        // Отрисовка изображения 300x300
+        private Bitmap GenBitmap()
         {
             Bitmap drawArea = new Bitmap(300, 300);
             for (int i = 0; i < 300; ++i)
@@ -568,13 +639,133 @@ namespace NeuralNetwork1
             return drawArea;
         }
 
-        public Bitmap GenBitmap28()
+        // Отрисовка изображения 28x28
+        private Bitmap GenBitmap28()
         {
             Bitmap drawArea = new Bitmap(28, 28);
             for (int i = 0; i < 28; ++i)
                 for (int j = 0; j < 28; ++j)
                     if (img28[i * 28 + j]) drawArea.SetPixel(i, j, Color.Black);
             return drawArea;
+        }
+
+        // Функция распознавания изображения в зависимости от метода
+        public Sample CheckImage(int method)
+        {
+            switch (method)
+            {
+                case 0:
+                    return CheckImage300x300(); // Распознавание изображения 300x300
+                    break;
+                case 1:
+                    return CheckImage28x28(); // Распознавание изображения 28x28
+                    break;
+                case 2:
+                    return CheckImage300x300_2(); // Распознавание изображения 300x300
+                    break;
+                default:
+                    return null;
+                    break;
+            }
+        }
+
+        // Распознавание изображения 300x300
+        private Sample CheckImage300x300()
+        {
+            // путь к фото
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
+            string pathFile = path + "\\input.jpg";
+
+            ClearImage();
+
+            // загрузка изображения
+            Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(pathFile));
+
+            double[] input = new double[600];
+            for (int k = 0; k < 600; k++)
+                input[k] = 0;
+
+            // создание вектора признаков
+            for (int x = 0; x < 300; x++)
+                for (int y = 0; y < 300; y++)
+                {
+                    Color color = bmp.GetPixel(x, y);
+                    if (color.R < 50) img[x, y] = true;
+                    if (img[x, y])
+                    {
+                        input[x] += 1;
+                        input[300 + y] += 1;
+                    }
+                }
+            return new Sample(input, FigureCount);
+        }
+
+        // Распознавание изображения 28x28
+        private Sample CheckImage28x28()
+        {
+            // путь к фото
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
+            string pathFile = path + "\\input.jpg";
+
+            ClearImage();
+
+            // загрузка изображения
+            Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(pathFile));
+            var resize = imageProccessor.ProcessImage(bmp);
+
+            for (int x = 0; x < 28; x++)
+            {
+                for (int y = 0; y < 28; y++)
+                {
+                    if (resize[x * 28 + y] > 0)
+                    {
+                        img28[x * 28 + y] = true;
+                    }
+                }
+            }
+
+            return new Sample(resize, FigureCount);
+        }
+
+        // Распознавание изображения 300x300
+        private Sample CheckImage300x300_2()
+        {
+            // путь к фото
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
+            string pathFile = path + "\\input.jpg";
+
+            ClearImage();
+
+            // загрузка изображения
+            Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(pathFile));
+
+            double[] input = new double[600];
+            for (int k = 0; k < 600; k++)
+                input[k] = 0;
+
+            // получение битового изображения
+            for (int x = 0; x < 300; x++)
+                for (int y = 0; y < 300; y++)
+                {
+                    Color color = bmp.GetPixel(x, y);
+                    if (color.R + color.G + color.B < 50) img[x, y] = true;
+                }
+
+            // получение вектора признаков
+            for (int x = 0; x < 300; x++)
+                for (int y = 0; y < 300; y++)
+                {
+                    if (x - 1 > 0 && img[x, y] != img[x - 1, y])
+                    {
+                        input[x] += 1;
+                    }
+                    if (y - 1 > 0 && img[x, y] != img[x, y - 1])
+                    {
+                        input[300 + y] += 1;
+                    }
+                }
+
+            return new Sample(input, FigureCount);
         }
     }
 }

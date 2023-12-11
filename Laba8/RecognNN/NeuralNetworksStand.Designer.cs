@@ -86,10 +86,14 @@
             this.label14 = new System.Windows.Forms.Label();
             this.cmbVideoSource = new System.Windows.Forms.ComboBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.test28_pict = new System.Windows.Forms.PictureBox();
             this.btn_30_load = new System.Windows.Forms.Button();
             this.test300_pict = new System.Windows.Forms.PictureBox();
             this.test30_pict = new System.Windows.Forms.PictureBox();
-            this.test28_pict = new System.Windows.Forms.PictureBox();
+            this.button_F = new System.Windows.Forms.Button();
+            this.check_photo = new System.Windows.Forms.Button();
+            this.button_dop = new System.Windows.Forms.Button();
+            this.textBox_dop = new System.Windows.Forms.TextBox();
             label2 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -115,9 +119,9 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.test28_pict)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.test300_pict)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.test30_pict)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.test28_pict)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -173,6 +177,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.textBox_dop);
+            this.tabPage1.Controls.Add(this.button_dop);
+            this.tabPage1.Controls.Add(this.check_photo);
             this.tabPage1.Controls.Add(this.statusStrip1);
             this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.st_lable);
@@ -562,6 +569,7 @@
             // controlPanel
             // 
             this.controlPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.controlPanel.Controls.Add(this.button_F);
             this.controlPanel.Controls.Add(this.ProcessButton);
             this.controlPanel.Controls.Add(this.cb_cur_class);
             this.controlPanel.Enabled = false;
@@ -793,6 +801,15 @@
             this.tabPage3.Text = "Тест";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // test28_pict
+            // 
+            this.test28_pict.Location = new System.Drawing.Point(762, 96);
+            this.test28_pict.Name = "test28_pict";
+            this.test28_pict.Size = new System.Drawing.Size(300, 300);
+            this.test28_pict.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.test28_pict.TabIndex = 2;
+            this.test28_pict.TabStop = false;
+            // 
             // btn_30_load
             // 
             this.btn_30_load.Location = new System.Drawing.Point(215, 462);
@@ -821,14 +838,42 @@
             this.test30_pict.TabIndex = 0;
             this.test30_pict.TabStop = false;
             // 
-            // test28_pict
+            // button_F
             // 
-            this.test28_pict.Location = new System.Drawing.Point(762, 96);
-            this.test28_pict.Name = "test28_pict";
-            this.test28_pict.Size = new System.Drawing.Size(300, 300);
-            this.test28_pict.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.test28_pict.TabIndex = 2;
-            this.test28_pict.TabStop = false;
+            this.button_F.Location = new System.Drawing.Point(297, 13);
+            this.button_F.Name = "button_F";
+            this.button_F.Size = new System.Drawing.Size(101, 30);
+            this.button_F.TabIndex = 2;
+            this.button_F.Text = "Зафиксировать";
+            this.button_F.UseVisualStyleBackColor = true;
+            this.button_F.Click += new System.EventHandler(this.button_F_Click);
+            // 
+            // check_photo
+            // 
+            this.check_photo.Location = new System.Drawing.Point(557, 528);
+            this.check_photo.Name = "check_photo";
+            this.check_photo.Size = new System.Drawing.Size(126, 37);
+            this.check_photo.TabIndex = 16;
+            this.check_photo.Text = "Проверить фото";
+            this.check_photo.UseVisualStyleBackColor = true;
+            this.check_photo.Click += new System.EventHandler(this.check_photo_Click);
+            // 
+            // button_dop
+            // 
+            this.button_dop.Location = new System.Drawing.Point(689, 568);
+            this.button_dop.Name = "button_dop";
+            this.button_dop.Size = new System.Drawing.Size(75, 23);
+            this.button_dop.TabIndex = 17;
+            this.button_dop.Text = "Дообучить";
+            this.button_dop.UseVisualStyleBackColor = true;
+            this.button_dop.Click += new System.EventHandler(this.button_dop_Click);
+            // 
+            // textBox_dop
+            // 
+            this.textBox_dop.Location = new System.Drawing.Point(690, 542);
+            this.textBox_dop.Name = "textBox_dop";
+            this.textBox_dop.Size = new System.Drawing.Size(74, 20);
+            this.textBox_dop.TabIndex = 18;
             // 
             // NeuralNetworksStand
             // 
@@ -866,9 +911,9 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.test28_pict)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.test300_pict)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.test30_pict)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.test28_pict)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -933,6 +978,10 @@
         private System.Windows.Forms.PictureBox test30_pict;
         private System.Windows.Forms.PictureBox test300_pict;
         private System.Windows.Forms.PictureBox test28_pict;
+        private System.Windows.Forms.Button button_F;
+        private System.Windows.Forms.Button check_photo;
+        private System.Windows.Forms.Button button_dop;
+        private System.Windows.Forms.TextBox textBox_dop;
     }
 }
 

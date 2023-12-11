@@ -427,7 +427,9 @@ namespace NeuralNetwork1
                 case Keys.F:
                     SaveFile();
                     break;
-
+                case Keys.G:
+                    MakePhoto();
+                    break;
             }
         }
 
@@ -484,10 +486,10 @@ namespace NeuralNetwork1
 
         private void btn_30_load_Click(object sender, EventArgs e)
         {
-            Sample sample = loader.Image28x28();
-            test300_pict.Image = loader.GenBitmap();
+            //Sample sample = loader.Image28x28();
+            //test300_pict.Image = loader.GenBitmap();
             //test30_pict.Image = loader.GenBitmap30();
-            test28_pict.Image = loader.GenBitmap28();
+            //test28_pict.Image = loader.GenBitmap28();
 
 
             //Bitmap bmp = new Bitmap(test30_pict.Width, test30_pict.Height);
@@ -502,15 +504,52 @@ namespace NeuralNetwork1
             switch (comboBoxMethod.SelectedIndex)
             {
                 case 0:
-                    netStructureBox.Text = "6" + netStructureBox.Text.Substring(1);
+                    netStructureBox.Text = "600" + netStructureBox.Text.Substring(3);
                     break;
                 case 1:
                     netStructureBox.Text = "784" + netStructureBox.Text.Substring(3);
                     break;
                 case 2:
-                    netStructureBox.Text = "6" + netStructureBox.Text.Substring(1);
+                    netStructureBox.Text = "600" + netStructureBox.Text.Substring(3);
                     break;
             }
+        }
+
+        private void button_F_Click(object sender, EventArgs e)
+        {
+            MakePhoto();
+        }
+
+        private void MakePhoto()
+        {
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
+            controller.processor.processed.Save(path + "\\input.jpg");
+        }
+
+        private void check_photo_Click(object sender, EventArgs e)
+        {
+            Sample photo = loader.CheckImage(comboBoxMethod.SelectedIndex);
+
+            // отрисовка
+            if (Net == null) return;
+            pictureBox1.Image = loader.GenImage(comboBoxMethod.SelectedIndex);
+            pictureBox1.Invalidate();
+
+            //
+            Net.Predict(photo);
+            set_result(photo);
+        }
+
+        private void button_dop_Click(object sender, EventArgs e)
+        {
+            if (Net == null) return;
+            Sample fig = loader.CheckImage(comboBoxMethod.SelectedIndex);
+            fig.actualClass = (FigureType)Int32.Parse(textBox_dop.Text);
+
+            Console.WriteLine(fig.actualClass);
+
+            Net.Train(fig, 0.00005, parallelCheckBox.Checked);
+            set_result(fig);
         }
     }
 }
