@@ -18,7 +18,7 @@ namespace NeuralNetwork1
     class LoaderImage
     {
         public bool[,] img = new bool[300, 300];
-        public bool[] img48 = new bool[48 * 48];
+        public bool[] img28 = new bool[28 * 28];
         private ImagePreproccessor imageProccessor = new ImagePreproccessor(new Settings1(5, 0.6f));
         //  private int margin = 50;
         private Random rand = new Random();
@@ -39,9 +39,9 @@ namespace NeuralNetwork1
                 for (int j = 0; j < 300; ++j)
                     img[i, j] = false;
 
-            for (int i = 0; i < 48; ++i)
-                for (int j = 0; j < 48; ++j)
-                    img48[i * 48 + j] = false;
+            for (int i = 0; i < 28; ++i)
+                for (int j = 0; j < 28; ++j)
+                    img28[i * 28 + j] = false;
         }
 
         // геттеры выборок
@@ -117,7 +117,7 @@ namespace NeuralNetwork1
             }
 
             // запись в файл
-            string pathFile = path + "\\methodSum.txt";
+            string pathFile = path + "\\oldMethod\\methodSum.txt";
 
             if (!File.Exists(pathFile))
             {
@@ -202,7 +202,7 @@ namespace NeuralNetwork1
             }
 
             // запись в файл
-            string pathFile = path + "\\methodShakal.txt";
+            string pathFile = path + "\\oldMethod\\methodShakal.txt";
 
             if (!File.Exists(pathFile))
             {
@@ -282,7 +282,7 @@ namespace NeuralNetwork1
             }
 
             // запись в файл
-            string pathFile = path + "\\methodAlt.txt";
+            string pathFile = path + "\\oldMethod\\methodAlt.txt";
 
             if (!File.Exists(pathFile))
             {
@@ -334,7 +334,7 @@ namespace NeuralNetwork1
             SamplesSet MethodSamplesTest = new SamplesSet();
             // получение директории,  где хранится файл с векторами признаков
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
-            string pathFile = path + "\\methodSum.txt";
+            string pathFile = path + "\\oldMethod\\methodSum.txt";
             int c = 1; // текущий класс, который загружаем
             using (StreamReader sr = File.OpenText(pathFile))
             {
@@ -357,12 +357,12 @@ namespace NeuralNetwork1
                         input[i] = double.Parse(splitSpace[i]);
                     }
                     currentFigure = (FigureType)Int32.Parse(splitSep[0]);
-                    if (MethodSamples.samples.Count() < 150 * c)
-                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 150 векторов для обучения
+                    if (MethodSamples.samples.Count() < 15 * c)
+                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 15 векторов для обучения
                     else
                     {
-                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 30 векторов для обучения
-                        if (MethodSamplesTest.samples.Count() > 30 * c) c += 1;
+                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 5 векторов для обучения
+                        if (MethodSamplesTest.samples.Count() > 5 * c) c += 1;
                     }
                 }
             }
@@ -378,7 +378,7 @@ namespace NeuralNetwork1
             SamplesSet MethodSamplesTest = new SamplesSet();
             // получение директории,  где хранится файл с векторами признаков
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
-            string pathFile = path + "\\methodShakal.txt";
+            string pathFile = path + "\\oldMethod\\methodShakal.txt";
             int c = 1;
             using (StreamReader sr = File.OpenText(pathFile))
             {
@@ -400,18 +400,20 @@ namespace NeuralNetwork1
                         input[i] = double.Parse(splitSpace[i]);
                     }
                     currentFigure = (FigureType)Int32.Parse(splitSep[0]);
-                    if (MethodSamples.samples.Count() < 150 * c)
-                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 150 векторов для обучения
+                    if (MethodSamples.samples.Count() < 15 * c)
+                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 15 векторов для обучения
                     else
                     {
-                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 30 векторов для обучения
-                        if (MethodSamplesTest.samples.Count() > 30 * c) c += 1;
+                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 5 векторов для обучения
+                        if (MethodSamplesTest.samples.Count() > 5 * c) c += 1;
                     }
                 }
             }
 
             samples = MethodSamples;
             samplesTest = MethodSamplesTest;
+
+            Console.WriteLine($"samples = {samples.samples.Count()}, samplesTest = {samplesTest.samples.Count()}");
         }
 
         // метод чередования пикселей
@@ -421,7 +423,7 @@ namespace NeuralNetwork1
             SamplesSet MethodSamplesTest = new SamplesSet();
             // получение директории,  где хранится файл с векторами признаков
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
-            string pathFile = path + "\\methodAlt.txt";
+            string pathFile = path + "\\oldMethod\\methodAlt.txt";
             int c = 1;
             using (StreamReader sr = File.OpenText(pathFile))
             {
@@ -443,12 +445,12 @@ namespace NeuralNetwork1
                         input[i] = double.Parse(splitSpace[i]);
                     }
                     currentFigure = (FigureType)Int32.Parse(splitSep[0]);
-                    if (MethodSamples.samples.Count() < 150 * c)
-                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 150 векторов для обучения
+                    if (MethodSamples.samples.Count() < 15 * c)
+                        MethodSamples.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 15 векторов для обучения
                     else
                     {
-                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 30 векторов для обучения
-                        if (MethodSamplesTest.samples.Count() > 30 * c) c += 1;
+                        MethodSamplesTest.AddSample(new Sample(input, FigureCount, currentFigure)); // берем по 5 векторов для обучения
+                        if (MethodSamplesTest.samples.Count() > 5 * c) c += 1;
                     }
                 }
             }
@@ -544,7 +546,7 @@ namespace NeuralNetwork1
                 {
                     if (resize[x * 28 + y] > 0)
                     {
-                        img48[x * 28 + y] = true;
+                        img28[x * 28 + y] = true;
                     }
                 }
             }
@@ -612,7 +614,7 @@ namespace NeuralNetwork1
                 case 0:
                     return GenBitmap(); // Отрисовка изображения 300x300
                 case 1:
-                    return GenBitmap48(); // Отрисовка изображения 28x28
+                    return GenBitmap28(); // Отрисовка изображения 28x28
                 case 2:
                     return GenBitmap(); // Отрисовка изображения 300x300
                 default:
@@ -631,13 +633,13 @@ namespace NeuralNetwork1
             return drawArea;
         }
 
-        // Отрисовка изображения 48x48
-        private Bitmap GenBitmap48()
+        // Отрисовка изображения 28x28
+        private Bitmap GenBitmap28()
         {
-            Bitmap drawArea = new Bitmap(48, 48);
-            for (int i = 0; i < 48; ++i)
-                for (int j = 0; j < 48; ++j)
-                    if (img48[i * 48 + j]) drawArea.SetPixel(i, j, Color.Black);
+            Bitmap drawArea = new Bitmap(28, 28);
+            for (int i = 0; i < 28; ++i)
+                for (int j = 0; j < 28; ++j)
+                    if (img28[i * 28 + j]) drawArea.SetPixel(i, j, Color.Black);
             return drawArea;
         }
 
@@ -699,19 +701,15 @@ namespace NeuralNetwork1
 
             // загрузка изображения
             Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(pathFile));
-            double[] resize = new double[48 * 48];
-            for (int k = 0; k < 48 * 48; k++)
+            var resize = imageProccessor.ProcessImage(bmp);
+
+            for (int x = 0; x < 28; x++)
             {
-                resize[k] = 0;
-            }
-            for (int x = 0; x < 48; x++)
-            {
-                for (int y = 0; y < 48; y++)
+                for (int y = 0; y < 28; y++)
                 {
                     if (bmp.GetPixel(x, y).R > 0)
                     {
-                        resize[x * 48 + y] = 1;
-                        img48[x * 48 + y] = true;
+                        img28[x * 28 + y] = true;
                     }
                 }
             }

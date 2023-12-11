@@ -54,9 +54,16 @@ namespace NeuralNetwork1
             {
                 for (int j = 0; j < processed.Width; j++)
                 {
-                    input[i * size + j] = processed.GetPixel(i, j).R;
+                    Color newColor = processed.GetPixel(i, j);
+                    if (newColor.R > 0 || newColor.G > 0 || newColor.B > 0)
+                    {
+                        input[i * size + j] = 1;
+                    }
+                    else
+                    {
+                        input[i * size + j] = 0;
+                    }
                 }
-
             }
             return input;
         }

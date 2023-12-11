@@ -124,6 +124,7 @@
     <Compile Include="BaseNetwork.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="ImagePreproccessor.cs" />
+    <Compile Include="ImprovedLoader.cs" />
     <Compile Include="LoaderImage.cs" />
     <Compile Include="NeuralNetworksStand.cs">
       <SubType>Form</SubType>
