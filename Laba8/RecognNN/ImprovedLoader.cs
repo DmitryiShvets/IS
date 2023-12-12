@@ -274,8 +274,16 @@ namespace NeuralNetwork1
 
             // загрузка изображения
             Bitmap bmp = new Bitmap(Image.FromFile(pathFile));
-            controller.processor.ProcessImage(bmp, true);
-            return controller.processor.processed;
+            if (bmp.Width > 48)
+            {
+                controller.processor.ProcessImage(bmp, true);
+
+                return controller.processor.processed;
+            }
+            else
+            {
+                return bmp;
+            }
         }
 
         // метод сумм
