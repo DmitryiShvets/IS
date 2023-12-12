@@ -290,7 +290,7 @@ namespace NeuralNetwork1
             for (int x = 0; x < 48; x++)
                 for (int y = 0; y < 48; y++)
                 {
-                    if (img48[x * 48 + y])
+                    if (!img48[x * 48 + y])
                     {
                         inputSum[x] += 1;
                         inputSum[48 + y] += 1;
@@ -314,7 +314,7 @@ namespace NeuralNetwork1
             {
                 for (int y = 0; y < 48; y++)
                 {
-                    if (img48[x * 48 + y])
+                    if (!img48[x * 48 + y])
                     {
                         inputShakal[x * 48 + y] = 1;
                     }

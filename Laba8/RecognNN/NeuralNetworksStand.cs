@@ -559,12 +559,12 @@ namespace NeuralNetwork1
 
         private void button_F_Click(object sender, EventArgs e)
         {
-            recognizedBox.Image = controller.processor.processed;
             MakePhoto();
         }
 
         private void MakePhoto()
         {
+            recognizedBox.Image = controller.processor.processed;
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers";
             controller.processor.processed.Save(path + "\\input.jpg");
         }
