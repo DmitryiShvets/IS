@@ -50,6 +50,8 @@
 (deftemplate line (slot type))
 (deftemplate hero (slot name))
 (deftemplate task (slot type))
+(deftemplate confidence_factor (slot value))
+(deftemplate threshold (slot value))
 (deftemplate teamReady (slot type))
 
 (defrule set-input-hero-and-halt
