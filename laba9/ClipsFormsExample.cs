@@ -44,8 +44,14 @@ namespace ClipsFormsExample
                 string hero_task = cb_task.GetItemText(cb_task.Items[cb_task.SelectedIndex]);
                 outputBox.Text += "Выберите специализацию для героя: " + hero_name + System.Environment.NewLine;
                 clips.Eval("(modify " + f.FactIndex + " (task " + hero_task + "))");
-                clips.Eval("(assert(addtask "+ hero_name + "))");
+                clips.Eval("(assert(addtask " + hero_name + "))");
                 clips.Run();
+            }
+
+            FactAddressValue trash = clips.FindFact("threshold");
+            if (trash != null)
+            {
+                Console.WriteLine(trash.GetSlotValue("value"));
             }
         }
 
@@ -54,6 +60,7 @@ namespace ClipsFormsExample
             clips.Run();
             outputBox.Text += "Новая итерация : " + System.Environment.NewLine;
             HandleResponse();
+
         }
 
         private void resetBtn_Click(object sender, EventArgs e)
@@ -98,7 +105,8 @@ namespace ClipsFormsExample
 
         private void btn_select_task_Click(object sender, EventArgs e)
         {
-
+            clips.Eval("(assert(threshold (value " + 0.5 + ")))");
+            clips.Run();
         }
     }
 }
