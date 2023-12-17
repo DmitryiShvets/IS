@@ -1,3 +1,12 @@
+(deftemplate role (slot type))
+(deftemplate attack (slot type))
+(deftemplate line (slot type))
+(deftemplate hero (slot name))
+(deftemplate task (slot type))
+(deftemplate confidence_factor (slot value))
+(deftemplate threshold (slot value))
+(deftemplate teamReady (slot type))
+
 ;========================================================================
 ; Этот блок реализует логику обмена информацией с графической оболочкой,
 ; а также механизм остановки и повторного пуска машины вывода
@@ -36,7 +45,7 @@
 )
 
 (defrule set-output-and-halt
-	(declare (salience 99))
+	(declare (salience 98))
 	?current-message <- (sendmessagehalt ?new-msg)
 	?proxy <- (ioproxy (messages $?msg-list))
 	=>
@@ -45,14 +54,6 @@
 	(halt)
 )
 
-(deftemplate role (slot type))
-(deftemplate attack (slot type))
-(deftemplate line (slot type))
-(deftemplate hero (slot name))
-(deftemplate task (slot type))
-(deftemplate confidence_factor (slot value))
-(deftemplate threshold (slot value))
-(deftemplate teamReady (slot type))
 
 (defrule set-input-hero-and-halt
 	(declare (salience 98))
@@ -90,3 +91,15 @@
 ;)
 
 ;======================================================================================
+
+
+(defrule set-input-hero-and
+    (declare (salience 98))
+    ?current-message <- (addhero ?new-answer)
+    ?trashold <- (threshold (value ?ratio))
+    (test (< ?ratio 1)) 
+    =>
+    (assert (sendmessagehalt " кэфф меньше:"))
+    (assert (sendmessagehalt " кэфф больше:"))
+    (halt)
+)
