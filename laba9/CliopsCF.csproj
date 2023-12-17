@@ -129,6 +129,7 @@
     </Compile>
     <None Include="test.clp" />
     <None Include="test1.clp" />
+    <None Include="test_cf.clp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

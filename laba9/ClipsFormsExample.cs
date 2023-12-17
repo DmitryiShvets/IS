@@ -47,8 +47,6 @@ namespace ClipsFormsExample
                 clips.Eval("(assert(addtask "+ hero_name + "))");
                 clips.Run();
             }
-
-
         }
 
         private void nextBtn_Click(object sender, EventArgs e)
@@ -64,14 +62,11 @@ namespace ClipsFormsExample
             //  Здесь сохранение в файл, и потом инициализация через него
             clips.Clear();
 
-            /*string stroka = codeBox.Text;
-            System.IO.File.WriteAllText("tmp.clp", codeBox.Text);
-            clips.Load("tmp.clp");*/
-
             //  Так тоже можно - без промежуточного вывода в файл
             clips.LoadFromString(codeBox.Text);
 
             clips.Reset();
+            clips.Eval("(assert (clearmessage))");
         }
 
         private void openFile_Click(object sender, EventArgs e)
