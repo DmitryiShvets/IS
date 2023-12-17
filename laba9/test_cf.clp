@@ -4,7 +4,7 @@
 (deftemplate hero (slot name))
 (deftemplate task (slot type))
 (deftemplate confidence_factor (slot value))
-(deftemplate threshold (slot value))
+(deftemplate threshold (slot value (type FLOAT) (default 0.0)))
 (deftemplate teamReady (slot type))
 
 ;========================================================================
@@ -55,16 +55,6 @@
 )
 
 
-(defrule set-input-hero-and-halt
-	(declare (salience 98))
-	?current-message <- (addhero ?new-answer)
-	;?proxy <- (ioproxy (answers $?msg-list))
-	=>
-
-	(assert (hero (name ?new-answer)))
-	(retract ?current-message)
-	(halt)
-)
 
 (defrule set-input-task-and-halt
 	(declare (salience 98))
@@ -96,10 +86,17 @@
 (defrule set-input-hero-and
     (declare (salience 98))
     ?current-message <- (addhero ?new-answer)
-    ?trashold <- (threshold (value ?ratio))
-    (test (< ?ratio 1)) 
+    ?trashold <- (threshold (value ?rat))
+    (test (< ?rat 3.6)) 
     =>
-    (assert (sendmessagehalt " кэфф меньше:"))
-    (assert (sendmessagehalt " кэфф больше:"))
-    (halt)
+    (assert (sendmessagehalt ?rat))
+)
+
+(defrule rule1
+	(declare (salience 1))
+	(hero (name Juggernaut))
+=>
+	(assert (select-task (hero-name Juggernaut)))
+	(assert (attack (type MeleeCarry)))
+	(assert (sendmessagehalt "Добавлен герой Juggernaut, выберите для него специализацию:"))
 )
