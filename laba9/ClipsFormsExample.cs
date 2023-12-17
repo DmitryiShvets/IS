@@ -98,14 +98,17 @@ namespace ClipsFormsExample
         {
             string hero = cb_hero.GetItemText(cb_hero.Items[cb_hero.SelectedIndex]);
             clips.Eval("(assert(addhero " + hero + "))");
-            clips.Run();
-            clips.Run();
+            //clips.Run();
+            //clips.Run();
             HandleResponse();
         }
 
         private void btn_select_task_Click(object sender, EventArgs e)
         {
-            clips.Eval("(assert(threshold (value " + 0.5 + ")))");
+            string t = "0.2";
+           
+            clips.Eval($"(assert(threshold (value (string-to-field \"{t}\"))))");
+            
             clips.Run();
         }
     }
