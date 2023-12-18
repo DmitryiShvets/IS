@@ -43,19 +43,6 @@ namespace ClipsFormsExample
                 outputBox.Text += "Выберите специализацию для героя: " + hero_name + System.Environment.NewLine;
             }
 
-            /*
-            FactAddressValue trash = clips.FindFact("threshold");
-            if (trash != null)
-            {
-                Console.WriteLine(trash.GetSlotValue("cf"));
-            }
-            */
-
-            FactAddressValue nameHero = clips.FindFact("winrate");
-            if (nameHero != null)
-            {
-                Console.WriteLine($"winrate = {nameHero.GetSlotValue("value")}");
-            }
         }
 
         private void nextBtn_Click(object sender, EventArgs e)
@@ -123,6 +110,19 @@ namespace ClipsFormsExample
                 string newStr2 = numeric_task.Value.ToString().Replace(',', '.');
                 clips.Eval($"(assert(addtask {hero_name} (string-to-field \"{newStr2}\")))");
                 clips.Run();
+            }
+        }
+
+        private void btn_res_Click(object sender, EventArgs e)
+        {
+            FactAddressValue f = clips.FindFact("winrate");
+            FactAddressValue d = clips.FindFact("countHeroes");
+            if (f != null)
+            {
+                string wr = f.GetSlotValue("value").ToString();
+                string count = d.GetSlotValue("value").ToString();
+
+                outputBox.Text += "Текущий винрейт " + wr + "% c " + count + " героями " + System.Environment.NewLine;
             }
         }
     }

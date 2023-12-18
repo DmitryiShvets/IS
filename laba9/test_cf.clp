@@ -240,7 +240,7 @@
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
 	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.8)))
-	(assert (sendmessagehalt (str-cat "С командой из 1-го героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.8) 100))))
+	;(assert (sendmessagehalt (str-cat "С командой из 1-го героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.8) 100))))
 )
 
 (defrule rule12
@@ -254,7 +254,7 @@
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
 	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.4)))
-	(assert (sendmessagehalt (str-cat "С командой из 2-ух героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.4) 100))))
+	;(assert (sendmessagehalt (str-cat "С командой из 2-ух героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.4) 100))))
 )
 
 (defrule rule13
@@ -268,7 +268,7 @@
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
 	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.1)))
-	(assert (sendmessagehalt (str-cat "С командой из 3-х героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.1) 100))))
+	;(assert (sendmessagehalt (str-cat "С командой из 3-х героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.1) 100))))
 )
 
 (defrule rule14
@@ -282,7 +282,7 @@
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
 	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.6)))
-	(assert (sendmessagehalt (str-cat "С командой из 4-ух героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.6) 100))))
+	;(assert (sendmessagehalt (str-cat "С командой из 4-ух героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.6) 100))))
 )
 
 (defrule rule15
@@ -296,5 +296,5 @@
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
 	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.95)))
-	(assert (sendmessagehalt (str-cat "С командой из 5-х героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.95) 100))))
+	;(assert (sendmessagehalt (str-cat "С командой из 5-х героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.95) 100))))
 )

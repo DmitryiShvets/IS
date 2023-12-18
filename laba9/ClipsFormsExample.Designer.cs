@@ -47,6 +47,7 @@
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.clipsSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.numeric_trash = new System.Windows.Forms.NumericUpDown();
+            this.btn_res = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -124,6 +125,7 @@
             this.panel2.Controls.Add(this.add_hero);
             this.panel2.Controls.Add(this.nextButton);
             this.panel2.Controls.Add(this.resetButton);
+            this.panel2.Controls.Add(this.btn_res);
             this.panel2.Controls.Add(this.openButton);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 746);
@@ -140,7 +142,7 @@
             0,
             0,
             65536});
-            this.numeric_task.Location = new System.Drawing.Point(580, 22);
+            this.numeric_task.Location = new System.Drawing.Point(590, 26);
             this.numeric_task.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numeric_task.Maximum = new decimal(new int[] {
             1,
@@ -164,7 +166,7 @@
             0,
             0,
             65536});
-            this.numeric_hero.Location = new System.Drawing.Point(907, 25);
+            this.numeric_hero.Location = new System.Drawing.Point(922, 25);
             this.numeric_hero.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numeric_hero.Maximum = new decimal(new int[] {
             1,
@@ -182,7 +184,7 @@
             // 
             // btn_select_task
             // 
-            this.btn_select_task.Location = new System.Drawing.Point(477, 22);
+            this.btn_select_task.Location = new System.Drawing.Point(490, 24);
             this.btn_select_task.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_select_task.Name = "btn_select_task";
             this.btn_select_task.Size = new System.Drawing.Size(93, 25);
@@ -205,7 +207,7 @@
             "Bristleback",
             "Bane",
             "Lich"});
-            this.cb_hero.Location = new System.Drawing.Point(644, 23);
+            this.cb_hero.Location = new System.Drawing.Point(672, 25);
             this.cb_hero.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cb_hero.Name = "cb_hero";
             this.cb_hero.Size = new System.Drawing.Size(121, 24);
@@ -220,7 +222,7 @@
             "Tank",
             "Initiator",
             "Control"});
-            this.cb_task.Location = new System.Drawing.Point(351, 22);
+            this.cb_task.Location = new System.Drawing.Point(363, 25);
             this.cb_task.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cb_task.Name = "cb_task";
             this.cb_task.Size = new System.Drawing.Size(121, 24);
@@ -228,7 +230,7 @@
             // 
             // add_hero
             // 
-            this.add_hero.Location = new System.Drawing.Point(771, 22);
+            this.add_hero.Location = new System.Drawing.Point(799, 25);
             this.add_hero.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.add_hero.Name = "add_hero";
             this.add_hero.Size = new System.Drawing.Size(116, 23);
@@ -240,7 +242,7 @@
             // nextButton
             // 
             this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.nextButton.Location = new System.Drawing.Point(1140, 15);
+            this.nextButton.Location = new System.Drawing.Point(1155, 15);
             this.nextButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nextButton.Name = "nextButton";
             this.nextButton.Size = new System.Drawing.Size(160, 37);
@@ -252,7 +254,7 @@
             // resetButton
             // 
             this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.resetButton.Location = new System.Drawing.Point(972, 15);
+            this.resetButton.Location = new System.Drawing.Point(987, 17);
             this.resetButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(160, 37);
@@ -263,10 +265,10 @@
             // 
             // openButton
             // 
-            this.openButton.Location = new System.Drawing.Point(16, 15);
+            this.openButton.Location = new System.Drawing.Point(4, 15);
             this.openButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(160, 37);
+            this.openButton.Size = new System.Drawing.Size(132, 37);
             this.openButton.TabIndex = 5;
             this.openButton.Text = "Открыть";
             this.openButton.UseVisualStyleBackColor = true;
@@ -290,7 +292,7 @@
             0,
             0,
             65536});
-            this.numeric_trash.Location = new System.Drawing.Point(202, 22);
+            this.numeric_trash.Location = new System.Drawing.Point(299, 24);
             this.numeric_trash.Margin = new System.Windows.Forms.Padding(4);
             this.numeric_trash.Maximum = new decimal(new int[] {
             1,
@@ -310,6 +312,17 @@
             0,
             0,
             65536});
+            // 
+            // btn_res
+            // 
+            this.btn_res.Location = new System.Drawing.Point(144, 15);
+            this.btn_res.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_res.Name = "btn_res";
+            this.btn_res.Size = new System.Drawing.Size(124, 37);
+            this.btn_res.TabIndex = 5;
+            this.btn_res.Text = "Винрейт";
+            this.btn_res.UseVisualStyleBackColor = true;
+            this.btn_res.Click += new System.EventHandler(this.btn_res_Click);
             // 
             // ClipsFormsExample
             // 
@@ -357,6 +370,7 @@
         private System.Windows.Forms.NumericUpDown numeric_hero;
         private System.Windows.Forms.NumericUpDown numeric_task;
         private System.Windows.Forms.NumericUpDown numeric_trash;
+        private System.Windows.Forms.Button btn_res;
     }
 }
 
