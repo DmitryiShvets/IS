@@ -43,15 +43,23 @@ namespace ClipsFormsExample
 
                 string hero_task = cb_task.GetItemText(cb_task.Items[cb_task.SelectedIndex]);
                 outputBox.Text += "Выберите специализацию для героя: " + hero_name + System.Environment.NewLine;
-                clips.Eval("(modify " + f.FactIndex + " (task " + hero_task + "))");
+                clips.Eval("(modify " + f.FactIndex + " (task " + hero_task + "))"); //TODO add cf
                 clips.Eval("(assert(addtask " + hero_name + "))");
                 clips.Run();
             }
 
+            /*
             FactAddressValue trash = clips.FindFact("threshold");
             if (trash != null)
             {
-                Console.WriteLine(trash.GetSlotValue("value"));
+                Console.WriteLine(trash.GetSlotValue("cf"));
+            }
+            */
+
+            FactAddressValue nameHero = clips.FindFact("hero");
+            if (nameHero != null)
+            {
+                Console.WriteLine(nameHero.GetSlotValue("cf"));
             }
         }
 
@@ -97,7 +105,8 @@ namespace ClipsFormsExample
         private void add_hero_Click(object sender, EventArgs e)
         {
             string hero = cb_hero.GetItemText(cb_hero.Items[cb_hero.SelectedIndex]);
-            clips.Eval("(assert(addhero " + hero + "))");
+            string cf = "0.1"; // TODO захардкодить для каждого героя
+            clips.Eval("(assert(addhero " + hero + " " + cf + "))");
             //clips.Run();
             //clips.Run();
             HandleResponse();
@@ -107,7 +116,7 @@ namespace ClipsFormsExample
         {
             string t = "0.2";
            
-            clips.Eval($"(assert(threshold (value (string-to-field \"{t}\"))))");
+            clips.Eval($"(assert(threshold (cf (string-to-field \"{t}\"))))");
             
             clips.Run();
         }
