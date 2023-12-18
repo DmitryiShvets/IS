@@ -91,6 +91,8 @@
 	(declare (salience 98))
 	?current-message <- (addhero ?new-answer ?new_cf)
 	;?proxy <- (ioproxy (answers $?msg-list))
+	?existed_trashold <- (threshold (cf ?trash))
+	(test (> ?new_cf ?trash))
 	=>
 	(assert (hero (name ?new-answer) (cf ?new_cf)))
 	(retract ?current-message)
@@ -111,12 +113,14 @@
 	?existed_hero <- (hero (name ?hero) (cf ?old_hero_cf))
 	?existed_task <- (task (type ?hero-task) (cf ?old_cf))
 	?existed_heroes <- (countHeroes (value ?count))
+	?existed_trashold <- (threshold (cf ?trash))
+	(test (> (cmb (* ?cf_task ?old_hero_cf) ?old_cf) ?trash))
 	=>
 	(modify ?existed_task (cf (cmb (* ?cf_task ?old_hero_cf) ?old_cf)))
 	(modify ?existed_heroes (value (+ ?count 1)))
 	(retract ?current-message)
 	(retract ?proxy)
-	(assert (sendmessagehalt "Специализация добавлена"))
+	(assert (sendmessagehalt (str-cat "Специализация добавлена "  (cmb (* ?cf_task ?old_hero_cf) ?old_cf))))
 	(halt)
 )
 
@@ -224,6 +228,7 @@
 	(assert (sendmessagehalt "Добавлен герой Lich, выберите для него специализацию:"))
 )
 
+
 (defrule rule11
 	(declare (salience 1))
 	?existed_heroes <- (countHeroes (value 1))
@@ -235,10 +240,7 @@
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
 	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.8)))
-	(assert (sendmessagehalt "С командой из 1ого героя я даю вам winrate(в %):"))
-	(assert (sendmessagehalt (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.8) 100)))
-	(assert (teamReady (type Ready)))
-	(assert (sendmessagehalt "Команда готова"))
+	(assert (sendmessagehalt (str-cat "С командой из 1-го героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.8) 100))))
 )
 
 (defrule rule12
@@ -252,10 +254,7 @@
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
 	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.4)))
-	(assert (sendmessagehalt "С командой из 2ух героев я даю вам winrate(в %):"))
-	(assert (sendmessagehalt (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.4) 100)))
-	(assert (teamReady (type Ready)))
-	(assert (sendmessagehalt "Команда готова"))
+	(assert (sendmessagehalt (str-cat "С командой из 2-ух героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) -0.4) 100))))
 )
 
 (defrule rule13
@@ -269,10 +268,7 @@
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
 	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.1)))
-	(assert (sendmessagehalt "С командой из 3ех героев я даю вам winrate(в %):"))
-	(assert (sendmessagehalt (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.1) 100)))
-	(assert (teamReady (type Ready)))
-	(assert (sendmessagehalt "Команда готова"))
+	(assert (sendmessagehalt (str-cat "С командой из 3-х героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.1) 100))))
 )
 
 (defrule rule14
@@ -286,10 +282,7 @@
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
 	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.6)))
-	(assert (sendmessagehalt "С командой из 4ех героев я даю вам winrate(в %):"))
-	(assert (sendmessagehalt (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.6) 100)))
-	(assert (teamReady (type Ready)))
-	(assert (sendmessagehalt "Команда готова"))
+	(assert (sendmessagehalt (str-cat "С командой из 4-ух героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.6) 100))))
 )
 
 (defrule rule15
@@ -302,9 +295,6 @@
 	?existed_initiator <- (task (type Initiator) (cf ?cf_initiator))
 	?existed_control <- (task (type Control) (cf ?cf_control))
 =>
-	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 1.0)))
-	(assert (sendmessagehalt "С командой из 5и героев я даю вам winrate(в %):"))
-	(assert (sendmessagehalt (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 1.0) 100)))
-	(assert (teamReady (type Ready)))
-	(assert (sendmessagehalt "Команда готова"))
+	(modify ?existed_winrate (value (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.95)))
+	(assert (sendmessagehalt (str-cat "С командой из 5-х героев я даю вам winrate(в %):" (* (cmb (cmb ?cf_push (cmb ?cf_burst (cmb ?cf_tank (cmb ?cf_initiator ?cf_control)))) 0.95) 100))))
 )
