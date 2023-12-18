@@ -45,12 +45,16 @@
             this.clipsOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.clipsSaveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.numeric_hero = new System.Windows.Forms.NumericUpDown();
+            this.numeric_task = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_hero)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_task)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -78,7 +82,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.outputBox);
             this.splitContainer1.Size = new System.Drawing.Size(986, 606);
-            this.splitContainer1.SplitterDistance = 462;
+            this.splitContainer1.SplitterDistance = 439;
             this.splitContainer1.TabIndex = 2;
             // 
             // codeBox
@@ -89,7 +93,7 @@
             this.codeBox.Multiline = true;
             this.codeBox.Name = "codeBox";
             this.codeBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.codeBox.Size = new System.Drawing.Size(462, 606);
+            this.codeBox.Size = new System.Drawing.Size(439, 606);
             this.codeBox.TabIndex = 2;
             // 
             // outputBox
@@ -100,11 +104,13 @@
             this.outputBox.Multiline = true;
             this.outputBox.Name = "outputBox";
             this.outputBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.outputBox.Size = new System.Drawing.Size(520, 606);
+            this.outputBox.Size = new System.Drawing.Size(543, 606);
             this.outputBox.TabIndex = 1;
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.numeric_task);
+            this.panel2.Controls.Add(this.numeric_hero);
             this.panel2.Controls.Add(this.btn_select_task);
             this.panel2.Controls.Add(this.cb_hero);
             this.panel2.Controls.Add(this.cb_task);
@@ -122,9 +128,9 @@
             // btn_select_task
             // 
             this.btn_select_task.Location = new System.Drawing.Point(358, 18);
-            this.btn_select_task.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_select_task.Margin = new System.Windows.Forms.Padding(2);
             this.btn_select_task.Name = "btn_select_task";
-            this.btn_select_task.Size = new System.Drawing.Size(87, 20);
+            this.btn_select_task.Size = new System.Drawing.Size(70, 20);
             this.btn_select_task.TabIndex = 11;
             this.btn_select_task.Text = "Выбрать";
             this.btn_select_task.UseVisualStyleBackColor = true;
@@ -145,7 +151,7 @@
             "Bane",
             "Lich"});
             this.cb_hero.Location = new System.Drawing.Point(483, 19);
-            this.cb_hero.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cb_hero.Margin = new System.Windows.Forms.Padding(2);
             this.cb_hero.Name = "cb_hero";
             this.cb_hero.Size = new System.Drawing.Size(92, 21);
             this.cb_hero.TabIndex = 10;
@@ -158,10 +164,9 @@
             "Burst",
             "Tank",
             "Initiator",
-            "Control",
-            "RoshanDamage"});
+            "Control"});
             this.cb_task.Location = new System.Drawing.Point(263, 18);
-            this.cb_task.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cb_task.Margin = new System.Windows.Forms.Padding(2);
             this.cb_task.Name = "cb_task";
             this.cb_task.Size = new System.Drawing.Size(92, 21);
             this.cb_task.TabIndex = 10;
@@ -169,7 +174,7 @@
             // add_hero
             // 
             this.add_hero.Location = new System.Drawing.Point(578, 18);
-            this.add_hero.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.add_hero.Margin = new System.Windows.Forms.Padding(2);
             this.add_hero.Name = "add_hero";
             this.add_hero.Size = new System.Drawing.Size(87, 19);
             this.add_hero.TabIndex = 9;
@@ -229,6 +234,52 @@
             this.clipsSaveFileDialog.Filter = "CLIPS files|*.clp|All files|*.*";
             this.clipsSaveFileDialog.Title = "Созранить файл как...";
             // 
+            // numeric_hero
+            // 
+            this.numeric_hero.DecimalPlaces = 1;
+            this.numeric_hero.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numeric_hero.Location = new System.Drawing.Point(680, 20);
+            this.numeric_hero.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numeric_hero.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.numeric_hero.Name = "numeric_hero";
+            this.numeric_hero.Size = new System.Drawing.Size(43, 20);
+            this.numeric_hero.TabIndex = 13;
+            // 
+            // numeric_task
+            // 
+            this.numeric_task.DecimalPlaces = 1;
+            this.numeric_task.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numeric_task.Location = new System.Drawing.Point(435, 19);
+            this.numeric_task.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numeric_task.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.numeric_task.Name = "numeric_task";
+            this.numeric_task.Size = new System.Drawing.Size(43, 20);
+            this.numeric_task.TabIndex = 14;
+            // 
             // ClipsFormsExample
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,6 +299,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_hero)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numeric_task)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -269,6 +322,8 @@
         private System.Windows.Forms.ComboBox cb_task;
         private System.Windows.Forms.ComboBox cb_hero;
         private System.Windows.Forms.Button btn_select_task;
+        private System.Windows.Forms.NumericUpDown numeric_hero;
+        private System.Windows.Forms.NumericUpDown numeric_task;
     }
 }
 

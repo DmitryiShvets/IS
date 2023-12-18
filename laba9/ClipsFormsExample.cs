@@ -43,8 +43,9 @@ namespace ClipsFormsExample
 
                 string hero_task = cb_task.GetItemText(cb_task.Items[cb_task.SelectedIndex]);
                 outputBox.Text += "Выберите специализацию для героя: " + hero_name + System.Environment.NewLine;
-                clips.Eval("(modify " + f.FactIndex + " (task " + hero_task + "))"); //TODO add cf
-                clips.Eval("(assert(addtask " + hero_name + "))");
+                clips.Eval("(modify " + f.FactIndex + " (task " + hero_task + "))");
+                string newStr = numeric_task.Value.ToString().Replace(',', '.');
+                clips.Eval($"(assert(addtask {hero_name} (string-to-field \"{newStr}\")))");
                 clips.Run();
             }
 
@@ -56,10 +57,10 @@ namespace ClipsFormsExample
             }
             */
 
-            FactAddressValue nameHero = clips.FindFact("hero");
+            FactAddressValue nameHero = clips.FindFact("winrate");
             if (nameHero != null)
             {
-                Console.WriteLine(nameHero.GetSlotValue("cf"));
+                Console.WriteLine($"winrate = {nameHero.GetSlotValue("value")}");
             }
         }
 
@@ -105,8 +106,8 @@ namespace ClipsFormsExample
         private void add_hero_Click(object sender, EventArgs e)
         {
             string hero = cb_hero.GetItemText(cb_hero.Items[cb_hero.SelectedIndex]);
-            string cf = "0.1"; // TODO захардкодить для каждого героя
-            clips.Eval("(assert(addhero " + hero + " " + cf + "))");
+            string newStr = numeric_hero.Value.ToString().Replace(',', '.');
+            clips.Eval($"(assert(addhero {hero} (string-to-field \"{newStr}\")))");
             //clips.Run();
             //clips.Run();
             HandleResponse();
@@ -115,7 +116,7 @@ namespace ClipsFormsExample
         private void btn_select_task_Click(object sender, EventArgs e)
         {
             string t = "0.2";
-           
+
             clips.Eval($"(assert(threshold (cf (string-to-field \"{t}\"))))");
             
             clips.Run();
