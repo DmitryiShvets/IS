@@ -40,13 +40,7 @@ namespace ClipsFormsExample
             if (f != null)
             {
                 string hero_name = f.GetSlotValue("hero-name").ToString();
-
-                string hero_task = cb_task.GetItemText(cb_task.Items[cb_task.SelectedIndex]);
                 outputBox.Text += "Выберите специализацию для героя: " + hero_name + System.Environment.NewLine;
-                clips.Eval("(modify " + f.FactIndex + " (task " + hero_task + "))");
-                string newStr = numeric_task.Value.ToString().Replace(',', '.');
-                clips.Eval($"(assert(addtask {hero_name} (string-to-field \"{newStr}\")))");
-                clips.Run();
             }
 
             /*
@@ -69,7 +63,6 @@ namespace ClipsFormsExample
             clips.Run();
             outputBox.Text += "Новая итерация : " + System.Environment.NewLine;
             HandleResponse();
-
         }
 
         private void resetBtn_Click(object sender, EventArgs e)
@@ -83,6 +76,9 @@ namespace ClipsFormsExample
 
             clips.Reset();
             clips.Eval("(assert (clearmessage))");
+            string newStr = numeric_trash.Value.ToString().Replace(',', '.');
+            clips.Eval($"(assert(threshold (cf (string-to-field \"{newStr}\"))))");
+
         }
 
         private void openFile_Click(object sender, EventArgs e)
@@ -108,18 +104,26 @@ namespace ClipsFormsExample
             string hero = cb_hero.GetItemText(cb_hero.Items[cb_hero.SelectedIndex]);
             string newStr = numeric_hero.Value.ToString().Replace(',', '.');
             clips.Eval($"(assert(addhero {hero} (string-to-field \"{newStr}\")))");
-            //clips.Run();
-            //clips.Run();
+            clips.Run();
+
             HandleResponse();
         }
 
         private void btn_select_task_Click(object sender, EventArgs e)
         {
-            string t = "0.2";
 
-            clips.Eval($"(assert(threshold (cf (string-to-field \"{t}\"))))");
-            
-            clips.Run();
+            FactAddressValue f = clips.FindFact("select-task");
+            if (f != null)
+            {
+                string hero_name = f.GetSlotValue("hero-name").ToString();
+
+                string hero_task = cb_task.GetItemText(cb_task.Items[cb_task.SelectedIndex]);
+
+                clips.Eval("(modify " + f.FactIndex + " (task " + hero_task + "))");
+                string newStr2 = numeric_task.Value.ToString().Replace(',', '.');
+                clips.Eval($"(assert(addtask {hero_name} (string-to-field \"{newStr2}\")))");
+                clips.Run();
+            }
         }
     }
 }
