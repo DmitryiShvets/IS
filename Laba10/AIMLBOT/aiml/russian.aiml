@@ -156,6 +156,14 @@
 					Попроси программиста проверить 10 строк кода, он найдёт 10 проблем.
 					Попроси его проверить 500 строк, он скажет, что выглядит норм.
 				</li>
+				<li>
+					- Доктор, я себя чувствую, как C++.
+					- Это как?
+					- Меня никто не понимает, все боятся, и говорят, что я больше не нужен...
+				</li>
+				<li>
+					Когда появятся беспилотные самолеты, первыми в них откажутся летать программисты.
+				</li>
 			</random>
 		</template>
 	</category>
@@ -356,12 +364,75 @@
 	</category>
 
 	<category>
+		<pattern>Расскажи о ней *</pattern>
+		<template>
+			<srai>Расскажи подробнее</srai>
+		</template>
+	</category>
+	
+	<category>
 		<pattern>Расскажи факт о цифре</pattern>
 		<template>
 			<srai>Расскажи подробнее</srai>
 		</template>
 	</category>
 
+	<category>
+		<pattern>Расскажи о цифре</pattern>
+		<template>
+			<srai>Расскажи подробнее</srai>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Расскажи о ней подробнее</pattern>
+		<template>
+			<srai>Расскажи подробнее</srai>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Расскажи о ней поподробнее</pattern>
+		<template>
+			<srai>Расскажи подробнее</srai>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Расскажи о цифре *</pattern>
+		<template>
+			<srai>fact <star/></srai>
+		</template>
+	</category>
+
+	<category>
+		<pattern>О чем мы</pattern>
+		<template>
+			<srai>А о чем мы разговариваем</srai>
+		</template>
+	</category>
+
+	<category>
+		<pattern>О чем мы говорим</pattern>
+		<template>
+			<srai>А о чем мы разговариваем</srai>
+		</template>
+	</category>
+
+	<category>
+		<pattern>О чем мы *</pattern>
+		<template>
+			<srai>А о чем мы разговариваем</srai>
+		</template>
+	</category>
+
+	<category>
+		<pattern>А о чем мы разговариваем</pattern>
+		<template>
+			Мы разговариваем о цифре <get name="number"/>
+		</template>
+	</category>
+	
 	<category>
 		<pattern>Расскажи интересный факт о цифре</pattern>
 		<template>
