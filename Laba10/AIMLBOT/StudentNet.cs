@@ -325,16 +325,16 @@ namespace NeuralNetwork1
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append($"{Bias:f3}b");
+                sb.Append($"{Bias:f9}b");
                 for (int i = 0; i < weights.Length; i++)
                 {
                     if (i == 0)
                     {
-                        sb.Append($"{weights[i]:f3}");
+                        sb.Append($"{weights[i]:f9}");
                     }
                     else
                     {
-                        sb.Append($" {weights[i]:f3}");
+                        sb.Append($" {weights[i]:f9}");
                     }
                 }
                 sb.Append("\n");

@@ -25,10 +25,9 @@
   <category>
     <pattern>кто ты</pattern>
     <template>
-      <random>
-        <li>Я заготовка бота, <get name="user-name" /></li>
-      </random>
-    </template>
+		Я самый квалифицированный собеседник, когда речь заходит о цифрах. Благодаря моей виртуозности в распознавании и анализе цифровых данных, я могу помочь вам узнать все, что нужно о цифрах. Просто спросите меня о конкретной цифре, и я с радостью поделюсь с вами интересными фактами и увлекательными вопросами. Разделяйте со мной свою любовь к цифрам и готовьтесь восхищаться их великолепием с Егором, вашим верным гидом в цифровом мире!
+		Какие цифры я знаю? ВСЕ!!!
+	</template>
   </category>
   
   <category>
@@ -39,70 +38,129 @@
   </category>
 
   <category>
-    <pattern>Кря *</pattern>
-    <template>
-      <srai>Кря</srai>
-    </template>
-  </category>
-  
-  <category>
-    <pattern>_ Кря *</pattern>
-    <template>
-      <srai>Кря</srai>
-    </template>
-  </category>
-
-  <category>
-    <pattern>_ Кря</pattern>
-    <template>
-      <srai>Кря</srai>
-    </template>
-  </category>
-
-  <category>
-    <pattern>Кря</pattern>
-    <template>
-      <random>
-        <li>Кря</li>
-        <li>Кря Кря</li>
-        <li>Кря Кря Кря</li>
-        <li>Кря!</li>
-        <li>Кря Кря!</li>
-        <li>Кря Кря Кря!</li>
-        <li>Кря?</li>
-        <li>Кря Кря?</li>
-        <li>Кря Кря Кря?</li>
-        <li>Кря, <get name="user-name" /></li>
-        <li>Кря Кря, <get name="user-name" /> </li>
-        <li>Кря Кря Кря, <get name="user-name" /> </li>
-        <li>Кря, <get name="user-name" />!</li>
-        <li>Кря Кря, <get name="user-name" />!</li>
-        <li>Кря Кря Кря, <get name="user-name" />!</li>
-        <li>Кря, <get name="user-name" />?</li>
-        <li>Кря Кря, <get name="user-name" />?</li>
-        <li>Кря Кря Кря, <get name="user-name" />?</li>
-      </random>
-    </template>
-  </category>
-
-  <category>
     <pattern>Что ты умеешь</pattern>
     <template>
-      Волшебное ничего
-    </template>
-  </category>
-  
-  <category>
-    <pattern>Аудио</pattern>
-    <template>Жаль, я не умею слушать</template>
-  </category>
-  <category>
-    <pattern>Видео</pattern>
-    <template>Спасибо, но, кажется, у меня сломалась кнопка запуска</template>
+		Я могу помочь вам узнать все, что нужно о цифрах. Просто спросите меня о конкретной цифре, и я с радостью поделюсь с вами интересными фактами и увлекательными вопросами.
+	</template>
   </category>
   
   <category>
     <pattern>*</pattern>
     <template>Я такое не знаю, <get name="user-name"/></template>
   </category>
+
+    <category>
+		<pattern>Zero</pattern>
+		<template>Я знаю, что это - это НОЛЬ!</template>
+	</category>
+
+	<category>
+		<pattern>One</pattern>
+		<template>
+			На единицу больше чем ноль - Один!
+			<think>
+				<set number="one"></set>
+			</think>
+		</template>
+	</category>
+	
+	<category>
+		<pattern>Two</pattern>
+		<template>
+			Плохая цифра - Двойка
+			<think>
+				<set number="two"></set>
+			</think>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Three</pattern>
+		<template>
+			Тройка...
+			<think>
+				<set number="three"></set>
+			</think>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Four</pattern>
+		<template>
+			Очевидно, что это четыре!
+			<think>
+				<set number="four"></set>
+			</think>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Five</pattern>
+		<template>
+			Это Автомат!
+			<think>
+				<set number="five"></set>
+			</think>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Six</pattern>
+		<template>
+			Ну это очевидно, что шесть!
+			<think>
+				<set number="six"></set>
+			</think>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Seven</pattern>
+		<template>
+			Думаю, что это семь!
+			<think>
+				<set number="seven"></set>
+			</think>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Eight</pattern>
+		<template>
+			Я знаю, что это восьмерка!
+			<think>
+				<set number="eight"></set>
+			</think>
+		</template>
+	</category>
+
+	<category>
+		<pattern>Nine</pattern>
+		<template>
+			Это девять!
+			<think>
+				<set number="nine"></set>
+			</think>
+		</template>
+
+	</category>
+
+	<category>
+		<pattern>Расскажи подробнее *</pattern>
+		<template>
+			<condition name="number">
+				<li value="zero">Ноль - это круто!</li>
+				<li value="one">Один - это круто!</li>
+				<li value="two">Два - это круто!</li>
+				<li value="three">Три - это круто!</li>
+				<li value="four">Четыре - это круто!</li>
+				<li value="five">Пять - это круто!</li>
+				<li value="six">Шесть - это круто!</li>
+				<li value="seven">Семь - это круто!</li>
+				<li value="eight">Восемь - это круто!</li>
+				<li value="nine">Девять - это круто!</li>
+				</condition>
+		</template>
+	</category>
+	
 </aiml>
