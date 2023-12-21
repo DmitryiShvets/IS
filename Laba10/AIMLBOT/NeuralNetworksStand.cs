@@ -594,7 +594,9 @@ namespace NeuralNetwork1
             string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\NetParams.txt";
             using (StreamWriter sw = File.CreateText(path))
             {
-
+                var net = networksCache["Персептрон Швеца"];
+                StudentNet studNet = net as StudentNet;
+                sw.Write(studNet.ToString());
             }
         }
 
@@ -610,16 +612,20 @@ namespace NeuralNetwork1
                 List<StudentNet.Neuron> neurons = new List<StudentNet.Neuron>();
                 foreach (var neuron in neuronsString)
                 {
-                    List<string> bW = neuron.Split(' ').ToList();
+                    if (neuron == "")
+                    {
+                        continue;
+                    }
+                    List<string> bW = neuron.Split('b').ToList();
                     double bias = double.Parse(bW[0]);
-                    List<string> weightsString = bW[1].Split(',').ToList();
+                    List<string> weightsString = bW[1].Split(' ').ToList();
                     List<double> weights = weightsString.Select(x => double.Parse(x)).ToList();
                     neurons.Add(new StudentNet.Neuron(weights.ToArray(), bias));
                 }
+                Console.WriteLine(neurons.Count());
                 layers.Add(new StudentNet.Layer(neurons.ToArray()));
             }
             StudentNet.Network network = new StudentNet.Network(layers.ToArray());
-            
         }
     }
 }

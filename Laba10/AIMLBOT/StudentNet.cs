@@ -1,5 +1,7 @@
 ﻿using Accord.Neuro;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -12,6 +14,33 @@ namespace NeuralNetwork1
         public StudentNet(int[] structure)
         {
             network = new Network(structure);
+        }
+
+        public StudentNet(string path)
+        {
+            string text = File.ReadAllText(path);
+            List<string> layersString = text.Split(';').ToList();
+            List<Layer> layers = new List<Layer>();
+            foreach (var layer in layersString)
+            {
+                List<string> neuronsString = layer.Split('\n').ToList();
+                List<Neuron> neurons = new List<Neuron>();
+                foreach (var neuron in neuronsString)
+                {
+                    if (neuron == "")
+                    {
+                        continue;
+                    }
+                    List<string> bW = neuron.Split('b').ToList();
+                    double bias = double.Parse(bW[0]);
+                    List<string> weightsString = bW[1].Split(' ').ToList();
+                    List<double> weights = weightsString.Select(x => double.Parse(x)).ToList();
+                    neurons.Add(new Neuron(weights.ToArray(), bias));
+                }
+                Console.WriteLine(neurons.Count());
+                layers.Add(new Layer(neurons.ToArray()));
+            }
+            network = new Network(layers.ToArray());
         }
 
         public override int Train(Sample sample, double accept_rate, bool parallel)
@@ -136,6 +165,11 @@ namespace NeuralNetwork1
             Console.WriteLine(network.ToString());
         }
 
+        public override string ToString()
+        {
+            return network.ToString();
+        }
+
         public class Network
         {
             public Layer[] layers;
@@ -172,7 +206,14 @@ namespace NeuralNetwork1
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < layers.Length; i++)
                 {
-                    sb.Append($"{i} \n" + layers[i].ToString());
+                    if (i == layers.Length - 1)
+                    {
+                        sb.Append(layers[i].ToString());
+                    }
+                    else
+                    {
+                        sb.Append(layers[i].ToString() + ";");
+                    }
                 }
                 return sb.ToString();
             }
@@ -284,10 +325,17 @@ namespace NeuralNetwork1
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append($"{Bias:f3}");
+                sb.Append($"{Bias:f3}b");
                 for (int i = 0; i < weights.Length; i++)
                 {
-                    sb.Append($" {weights[i]:f3}");
+                    if (i == 0)
+                    {
+                        sb.Append($"{weights[i]:f3}");
+                    }
+                    else
+                    {
+                        sb.Append($" {weights[i]:f3}");
+                    }
                 }
                 sb.Append("\n");
                 return sb.ToString();
