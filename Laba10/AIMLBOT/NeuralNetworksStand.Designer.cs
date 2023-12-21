@@ -89,7 +89,6 @@
             this.btn_30_load = new System.Windows.Forms.Button();
             this.test300_pict = new System.Windows.Forms.PictureBox();
             this.test30_pict = new System.Windows.Forms.PictureBox();
-            this.checkLoader = new System.Windows.Forms.CheckBox();
             label2 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -187,7 +186,7 @@
             this.tabPage1.Controls.Add(this.trainOneButton);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1058, 682);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Обучение";
@@ -243,7 +242,7 @@
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox1.Location = new System.Drawing.Point(6, 2);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(500, 500);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -262,7 +261,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.checkLoader);
             this.groupBox1.Controls.Add(this.comboBoxMethod);
             this.groupBox1.Controls.Add(this.createDataset);
             this.groupBox1.Controls.Add(this.LoadDataset);
@@ -284,7 +282,7 @@
             this.groupBox1.Controls.Add(label2);
             this.groupBox1.Location = new System.Drawing.Point(557, 52);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(421, 299);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
@@ -295,7 +293,7 @@
             this.comboBoxMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMethod.FormattingEnabled = true;
             this.comboBoxMethod.Location = new System.Drawing.Point(292, 95);
-            this.comboBoxMethod.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxMethod.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxMethod.Name = "comboBoxMethod";
             this.comboBoxMethod.Size = new System.Drawing.Size(117, 21);
             this.comboBoxMethod.TabIndex = 24;
@@ -304,7 +302,7 @@
             // createDataset
             // 
             this.createDataset.Location = new System.Drawing.Point(292, 120);
-            this.createDataset.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.createDataset.Margin = new System.Windows.Forms.Padding(2);
             this.createDataset.Name = "createDataset";
             this.createDataset.Size = new System.Drawing.Size(117, 27);
             this.createDataset.TabIndex = 23;
@@ -315,7 +313,7 @@
             // LoadDataset
             // 
             this.LoadDataset.Location = new System.Drawing.Point(292, 151);
-            this.LoadDataset.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.LoadDataset.Margin = new System.Windows.Forms.Padding(2);
             this.LoadDataset.Name = "LoadDataset";
             this.LoadDataset.Size = new System.Drawing.Size(117, 24);
             this.LoadDataset.TabIndex = 22;
@@ -816,18 +814,6 @@
             this.test30_pict.TabIndex = 0;
             this.test30_pict.TabStop = false;
             // 
-            // checkLoader
-            // 
-            this.checkLoader.AutoSize = true;
-            this.checkLoader.Checked = true;
-            this.checkLoader.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkLoader.Location = new System.Drawing.Point(292, 194);
-            this.checkLoader.Name = "checkLoader";
-            this.checkLoader.Size = new System.Drawing.Size(75, 17);
-            this.checkLoader.TabIndex = 25;
-            this.checkLoader.Text = "impLoader";
-            this.checkLoader.UseVisualStyleBackColor = true;
-            // 
             // NeuralNetworksStand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -835,7 +821,7 @@
             this.ClientSize = new System.Drawing.Size(1070, 713);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "NeuralNetworksStand";
             this.Text = "Продвинутый студенческий перспетрон";
@@ -928,7 +914,6 @@
         private System.Windows.Forms.Button button_dop;
         private System.Windows.Forms.TextBox textBox_dop;
         private System.Windows.Forms.PictureBox recognizedBox;
-        private System.Windows.Forms.CheckBox checkLoader;
     }
 }
 

@@ -23,7 +23,6 @@ namespace NeuralNetwork1
         /// Генератор изображений (образов)
         /// </summary>
         //GenerateImage generator = new GenerateImage();
-        LoaderImage loader = new LoaderImage();
         ImprovedLoader impLoader = null;
         Controller controllerForLoader = null;
         //AugmentationImage augmentation = new AugmentationImage();
@@ -83,7 +82,6 @@ namespace NeuralNetwork1
             }
             controller = new Controller(new FormUpdateDelegate(UpdateFormFields));
             controllerForLoader = new Controller(new FormUpdateDelegate(UpdateFormFields));
-            loader.FigureCount = (int)classCounter.Value;
             impLoader = new ImprovedLoader(controllerForLoader);
             impLoader.FigureCount = (int)classCounter.Value;
             // updateTmr = new System.Threading.Timer(Tick, evnt, 500, 100);
@@ -122,9 +120,9 @@ namespace NeuralNetwork1
 
             label8.Text = string.Join("\n", figure.Output.Select(d => $"{d:f2}"));
             //pictureBox1.Image = generator.GenBitmap();
-            if (checkLoader.Checked) pictureBox1.Image = impLoader.GenImage();
-            else pictureBox1.Image = loader.GenImage(comboBoxMethod.SelectedIndex);
-            
+            pictureBox1.Image = impLoader.GenImage();
+
+
             //pictureBox1.Image = augmentation.GenBitmap();
             pictureBox1.Invalidate();
         }
@@ -133,8 +131,8 @@ namespace NeuralNetwork1
         {
             //Sample fig = generator.GenerateFigure();
             Sample fig = null;
-            if (checkLoader.Checked) fig = impLoader.LoadImage(comboBoxMethod.SelectedIndex);
-            else fig = loader.LoadImage(comboBoxMethod.SelectedIndex);
+            fig = impLoader.LoadImage(comboBoxMethod.SelectedIndex);
+
             //Sample fig = augmentation.Get30x30();
 
             Net.Predict(fig);
@@ -154,8 +152,8 @@ namespace NeuralNetwork1
 
             //  Создаём новую обучающую выборку
             SamplesSet samples = null;
-            if (checkLoader.Checked) samples = impLoader.LoadSampleSet();
-            else samples = loader.LoadSampleSet();
+            samples = impLoader.LoadSampleSet();
+
             //SamplesSet samples = augmentation.LoadSampleSet();
             /*SamplesSet samples = new SamplesSet();
 
@@ -199,8 +197,8 @@ namespace NeuralNetwork1
             //  Создаём новую обучающую выборку
             //SamplesSet samples = loader.LoadSampleSetTest();
             SamplesSet samples = null;
-            if (checkLoader.Checked) samples = impLoader.LoadSampleSetTest();
-            else samples = loader.LoadSampleSetTest();
+            samples = impLoader.LoadSampleSetTest();
+
             //SamplesSet samples = augmentation.LoadSampleSetTest();
             //SamplesSet samples = new SamplesSet();
 
@@ -244,7 +242,6 @@ namespace NeuralNetwork1
         private void classCounter_ValueChanged(object sender, EventArgs e)
         {
             //generator.FigureCount = (int)classCounter.Value;
-            loader.FigureCount = (int)classCounter.Value;
             impLoader.FigureCount = (int)classCounter.Value;
             //augmentation.FigureCount = (int)classCounter.Value;
             var vals = netStructureBox.Text.Split(';');
@@ -260,16 +257,10 @@ namespace NeuralNetwork1
             Sample fig = null;
             //Sample fig = augmentation.Get30x30();
             //pictureBox1.Image = generator.GenBitmap();
-            if (checkLoader.Checked)
-            {
-                fig = impLoader.LoadImage(comboBoxMethod.SelectedIndex);
-                pictureBox1.Image = impLoader.GenImage();
-            }
-            else
-            {
-                fig = loader.LoadImage(comboBoxMethod.SelectedIndex);
-                pictureBox1.Image = loader.GenImage(comboBoxMethod.SelectedIndex);
-            }
+
+            fig = impLoader.LoadImage(comboBoxMethod.SelectedIndex);
+            pictureBox1.Image = impLoader.GenImage();
+
             //pictureBox1.Image = augmentation.GenBitmap();
             pictureBox1.Invalidate();
             Net.Train(fig, 0.00005, parallelCheckBox.Checked);
@@ -490,14 +481,13 @@ namespace NeuralNetwork1
 
         private void LoadDataset_Click(object sender, EventArgs e)
         {
-            if (checkLoader.Checked) impLoader.LoadDataset(comboBoxMethod.SelectedIndex);
-            else loader.LoadDataset(comboBoxMethod.SelectedIndex);
+            impLoader.LoadDataset(comboBoxMethod.SelectedIndex);
+
         }
 
         private void createDataset_Click(object sender, EventArgs e)
         {
-            if (checkLoader.Checked) impLoader.CreateDataset();
-            else loader.CreateDataset(comboBoxMethod.SelectedIndex);
+            impLoader.CreateDataset();
         }
 
         private void btn_30_load_Click(object sender, EventArgs e)
@@ -539,16 +529,13 @@ namespace NeuralNetwork1
             switch (comboBoxMethod.SelectedIndex)
             {
                 case 0:
-                    if (checkLoader.Checked) netStructureBox.Text = "96";
-                    else netStructureBox.Text = "600";
+                     netStructureBox.Text = "96";                   
                     break;
                 case 1:
-                    if (checkLoader.Checked) netStructureBox.Text = "2304";
-                    else netStructureBox.Text = "784";
+                   netStructureBox.Text = "2304";
                     break;
                 case 2:
-                    if (checkLoader.Checked) netStructureBox.Text = "96";
-                    else netStructureBox.Text = "600";
+                    netStructureBox.Text = "96";
                     break;
             }
             for (int i = 1; i < split.Count(); i++)
@@ -576,16 +563,10 @@ namespace NeuralNetwork1
 
             // отрисовка
             if (Net == null) return;
-            if (checkLoader.Checked)
-            {
-                photo = impLoader.LoadImage(comboBoxMethod.SelectedIndex, true);
-                pictureBox1.Image = impLoader.GenImage();
-            }
-            else
-            {
-                photo = loader.CheckImage(comboBoxMethod.SelectedIndex);
-                pictureBox1.Image = loader.GenImage(comboBoxMethod.SelectedIndex);
-            }
+
+            photo = impLoader.LoadImage(comboBoxMethod.SelectedIndex, true);
+            pictureBox1.Image = impLoader.GenImage();
+
             pictureBox1.Invalidate();
 
             //
@@ -598,9 +579,8 @@ namespace NeuralNetwork1
             if (Net == null) return;
             //Sample fig = loader.CheckImage(comboBoxMethod.SelectedIndex);
             Sample fig = null;
-            if (checkLoader.Checked) fig = impLoader.LoadImage(comboBoxMethod.SelectedIndex, true);
-            else fig = loader.CheckImage(comboBoxMethod.SelectedIndex);
-
+            fig = impLoader.LoadImage(comboBoxMethod.SelectedIndex, true);
+           
             fig.actualClass = (FigureType)Int32.Parse(textBox_dop.Text);
 
             Console.WriteLine(fig.actualClass);

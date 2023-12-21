@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace NeuralNetwork1
 {
+    public enum FigureType : byte { Zero = 0, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Undef };
+
     class ImprovedLoader
     {
         public bool[] img48 = new bool[48 * 48];
