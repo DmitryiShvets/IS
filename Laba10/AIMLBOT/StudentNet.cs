@@ -7,7 +7,7 @@ namespace NeuralNetwork1
 {
     public class StudentNet : BaseNetwork
     {
-        private readonly Network network;
+        public Network network;
 
         public StudentNet(int[] structure)
         {
@@ -136,7 +136,7 @@ namespace NeuralNetwork1
             Console.WriteLine(network.ToString());
         }
 
-        class Network
+        public class Network
         {
             public Layer[] layers;
 
@@ -149,6 +149,11 @@ namespace NeuralNetwork1
                 {
                     layers[i] = new Layer(structure[i], structure[i + 1]);
                 }
+            }
+
+            public Network(Layer[] _layers)
+            {
+                layers = _layers;
             }
 
             public double[] Compute(double[] input)
@@ -167,13 +172,13 @@ namespace NeuralNetwork1
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < layers.Length; i++)
                 {
-                    sb.Append($"слой {i}\n" + layers[i].ToString());
+                    sb.Append($"{i} \n" + layers[i].ToString());
                 }
                 return sb.ToString();
             }
         }
 
-        class Layer
+        public class Layer
         {
             public Neuron[] neurons;
 
@@ -185,6 +190,11 @@ namespace NeuralNetwork1
                 {
                     neurons[i] = new Neuron(inputCount, r);
                 }
+            }
+
+            public Layer(Neuron[] _neurons)
+            {
+                neurons = _neurons;
             }
 
             public double[] GetLayerOutput(double[] input, bool isParallel = false)
@@ -199,13 +209,13 @@ namespace NeuralNetwork1
                 StringBuilder sb = new StringBuilder();
                 foreach (var item in neurons)
                 {
-                    sb.Append(item);
+                    sb.Append(item.ToString());
                 }
                 return sb.ToString();
             }
         }
 
-        class Neuron
+        public class Neuron
         {
             public double[] weights;
 
@@ -220,6 +230,12 @@ namespace NeuralNetwork1
                 weights = new double[input];
                 InitW(r);
                 Bias = GetRandomNumber(r, -0.5, 0.5);
+            }
+
+            public Neuron(double[] _weights, double _bias)
+            {
+                weights = _weights;
+                Bias = _bias;
             }
 
             private void InitW(Random r)
@@ -268,14 +284,12 @@ namespace NeuralNetwork1
             public override string ToString()
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append("v: ");
+                sb.Append($"{Bias:f3}");
                 for (int i = 0; i < weights.Length; i++)
                 {
-                    sb.Append($"{weights[i]:f3} ");
+                    sb.Append($" {weights[i]:f3}");
                 }
-                sb.Append("b: " + $"{Bias:f3} ");
-                sb.Append("e: " + $"{Error:f3} ");
-                sb.Append("s: " + $"{WeightedSum:f3} \n");
+                sb.Append("\n");
                 return sb.ToString();
             }
         }

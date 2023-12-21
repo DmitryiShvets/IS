@@ -89,6 +89,8 @@
             this.btn_30_load = new System.Windows.Forms.Button();
             this.test300_pict = new System.Windows.Forms.PictureBox();
             this.test30_pict = new System.Windows.Forms.PictureBox();
+            this.button_save_net = new System.Windows.Forms.Button();
+            this.button_load_net = new System.Windows.Forms.Button();
             label2 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -261,6 +263,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button_load_net);
+            this.groupBox1.Controls.Add(this.button_save_net);
             this.groupBox1.Controls.Add(this.comboBoxMethod);
             this.groupBox1.Controls.Add(this.createDataset);
             this.groupBox1.Controls.Add(this.LoadDataset);
@@ -301,6 +305,7 @@
             // 
             // createDataset
             // 
+            this.createDataset.Enabled = false;
             this.createDataset.Location = new System.Drawing.Point(292, 120);
             this.createDataset.Margin = new System.Windows.Forms.Padding(2);
             this.createDataset.Name = "createDataset";
@@ -814,6 +819,26 @@
             this.test30_pict.TabIndex = 0;
             this.test30_pict.TabStop = false;
             // 
+            // button_save_net
+            // 
+            this.button_save_net.Location = new System.Drawing.Point(292, 243);
+            this.button_save_net.Name = "button_save_net";
+            this.button_save_net.Size = new System.Drawing.Size(102, 23);
+            this.button_save_net.TabIndex = 25;
+            this.button_save_net.Text = "Сохранить сеть";
+            this.button_save_net.UseVisualStyleBackColor = true;
+            this.button_save_net.Click += new System.EventHandler(this.button_save_net_Click);
+            // 
+            // button_load_net
+            // 
+            this.button_load_net.Location = new System.Drawing.Point(292, 268);
+            this.button_load_net.Name = "button_load_net";
+            this.button_load_net.Size = new System.Drawing.Size(102, 23);
+            this.button_load_net.TabIndex = 26;
+            this.button_load_net.Text = "Загрузить сеть";
+            this.button_load_net.UseVisualStyleBackColor = true;
+            this.button_load_net.Click += new System.EventHandler(this.button_load_net_Click);
+            // 
             // NeuralNetworksStand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -914,6 +939,8 @@
         private System.Windows.Forms.Button button_dop;
         private System.Windows.Forms.TextBox textBox_dop;
         private System.Windows.Forms.PictureBox recognizedBox;
+        private System.Windows.Forms.Button button_save_net;
+        private System.Windows.Forms.Button button_load_net;
     }
 }
 

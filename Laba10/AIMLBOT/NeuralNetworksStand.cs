@@ -588,5 +588,38 @@ namespace NeuralNetwork1
             Net.Train(fig, 0.00005, parallelCheckBox.Checked);
             set_result(fig);
         }
+
+        private void button_save_net_Click(object sender, EventArgs e)
+        {
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\NetParams.txt";
+            using (StreamWriter sw = File.CreateText(path))
+            {
+
+            }
+        }
+
+        private void button_load_net_Click(object sender, EventArgs e)
+        {
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\NetParams.txt";
+            string text = File.ReadAllText(path);
+            List<string> layersString = text.Split(';').ToList();
+            List<StudentNet.Layer> layers = new List<StudentNet.Layer>();
+            foreach (var layer in layersString)
+            {
+                List<string> neuronsString = layer.Split('\n').ToList();
+                List<StudentNet.Neuron> neurons = new List<StudentNet.Neuron>();
+                foreach (var neuron in neuronsString)
+                {
+                    List<string> bW = neuron.Split(' ').ToList();
+                    double bias = double.Parse(bW[0]);
+                    List<string> weightsString = bW[1].Split(',').ToList();
+                    List<double> weights = weightsString.Select(x => double.Parse(x)).ToList();
+                    neurons.Add(new StudentNet.Neuron(weights.ToArray(), bias));
+                }
+                layers.Add(new StudentNet.Layer(neurons.ToArray()));
+            }
+            StudentNet.Network network = new StudentNet.Network(layers.ToArray());
+            
+        }
     }
 }
