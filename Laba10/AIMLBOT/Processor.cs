@@ -98,8 +98,7 @@ namespace NeuralNetwork1
             //  Минимальная сторона изображения (обычно это высота)
             if (checkAspectRatio)
             {
-                if (bitmap.Height > bitmap.Width)
-                    throw new Exception("К такой забавной камере меня жизнь не готовила!");
+                //if (bitmap.Height > bitmap.Width) throw new Exception("К такой забавной камере меня жизнь не готовила!");
                 //  Можно было, конечено, и не кидаться эксепшенами в истерике, но идите и купите себе нормальную камеру!
                 int side = System.Math.Min(bitmap.Height, bitmap.Width);
 
@@ -111,36 +110,9 @@ namespace NeuralNetwork1
                 original = bitmap;
             }
 
-            //  Отпиливаем границы, но не более половины изображения
-            /*if (side < 4 * settings.border) settings.border = side / 4;
-            side -= 2 * settings.border;
-            
-            //  Мы сейчас занимаемся тем, что красиво оформляем входной кадр, чтобы вывести его на форму
-            Rectangle cropRect = new Rectangle((bitmap.Width - bitmap.Height) / 2 + settings.left + settings.border, settings.top + settings.border, side, side);
-            
-            //  Тут создаём новый битмапчик, который будет исходным изображением
-            original = new Bitmap(cropRect.Width, cropRect.Height);
-
-            //  Объект для рисования создаём
-            Graphics g = Graphics.FromImage(original);
-            
-            g.DrawImage(bitmap, new Rectangle(0, 0, original.Width, original.Height), cropRect, GraphicsUnit.Pixel);
-            Pen p = new Pen(Color.Red);
-            p.Width = 1;*/
-
-            //  Теперь всю эту муть пилим в обработанное изображение
+             //  Теперь всю эту муть пилим в обработанное изображение
             AForge.Imaging.Filters.Grayscale grayFilter = new AForge.Imaging.Filters.Grayscale(0.2125, 0.7154, 0.0721);
             var uProcessed = grayFilter.Apply(AForge.Imaging.UnmanagedImage.FromManagedImage(original));
-
-
-            /*int blockWidth = original.Width / settings.blocksCount;
-            int blockHeight = original.Height / settings.blocksCount;
-            for (int r = 0; r < settings.blocksCount; ++r)
-                for (int c = 0; c < settings.blocksCount; ++c)
-                {
-                    //  Тут ещё обработку сделать
-                    g.DrawRectangle(p, new Rectangle(c * blockWidth, r * blockHeight, blockWidth, blockHeight));
-                }*/
 
 
             //  Масштабируем изображение до 500x500 - этого достаточно
@@ -163,38 +135,6 @@ namespace NeuralNetwork1
             }
             processed = uProcessed.ToManagedImage();
 
-            /*Rectangle rect = new Rectangle(0, 0, processed.Width, processed.Height);
-            BitmapData bmpData = processed.LockBits(rect, ImageLockMode.ReadOnly, processed.PixelFormat);
-            unsafe
-            {
-                byte* ptr = (byte*)bmpData.Scan0;
-                int heightInPixels = bmpData.Height;
-                int widthInBytes = bmpData.Stride;
-                for (int y = 0; y < heightInPixels; y++)
-                {
-                    byte* currentLine = ptr + (y * bmpData.Stride);
-                    for (int x = 0; x < widthInBytes; x = x + 3)
-                    {
-                        byte grayValue = currentLine[x];
-                        Console.WriteLine($"Пиксель [{x / 3}, {y}]: Яркость - {grayValue}");
-                    }
-                }
-                Console.WriteLine("---------------------------------------------------------------");
-            }*/
-
-            //  Получить значения сенсоров из обработанного изображения размера 100x100
-
-            //  Можно вывести информацию на изображение!
-            //Font f = new Font(FontFamily.GenericSansSerif, 10);
-            //for (int r = 0; r < 4; ++r)
-            //    for (int c = 0; c < 4; ++c)
-            //        if (currentDeskState[r * 4 + c] >= 1 && currentDeskState[r * 4 + c] <= 16)
-            //        {
-            //            int num = 1 << currentDeskState[r * 4 + c];
-            //            
-            //        }
-
-
             return true;
         }
 
@@ -210,7 +150,7 @@ namespace NeuralNetwork1
             ClearImage();
 
             // путь к фото
-            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers\\processed_input.jpg";
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\processed_input.png";
 
             // загрузка изображения
             Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(path));
@@ -365,45 +305,6 @@ namespace NeuralNetwork1
             unmanaged = scaleFilter.Apply(unmanaged);
             Threshold thresholdFilter = new Threshold(90);
             unmanaged = thresholdFilter.Apply(unmanaged);
-            /*int sumX = 0;
-            int sumY = 0;
-            int count = 0;
-            unsafe
-            {
-                byte* ptr = (byte*)unmanaged.ImageData.ToPointer();
-
-                int width = unmanaged.Width;
-                int height = unmanaged.Height;
-                int stride = unmanaged.Stride;
-
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
-                        byte pixelValue = ptr[y * stride + x];
-                        if (pixelValue > 200)
-                        {
-                            sumX += x;
-                            sumY += y;
-                            count++;
-                        }
-                    }
-                }
-            }
-
-            float meanX = count == 0 ? unmanaged.Width / 2 : sumX / count;
-            float meanY = count == 0 ? unmanaged.Height / 2 : sumY / count;
-            Point imageCenter = new Point(unmanaged.Width / 2, unmanaged.Height / 2);
-            Point delta = new Point(imageCenter.X - meanX, imageCenter.Y - meanY);
-            if ((int)delta.X + 8 < 0) delta.X = -8;
-            if ((int)delta.Y + 8 < 0) delta.Y = -8;
-            Bitmap centeredBitmap = new Bitmap(64, 64);
-            using (Graphics g = Graphics.FromImage(centeredBitmap))
-            {
-                g.Clear(Color.Black); // или другой фоновый цвет
-                g.DrawImage(unmanaged.ToManagedImage(), new Rectangle(8, 8, unmanaged.Width, unmanaged.Height));
-            }
-            processed = centeredBitmap;*/
 
             return rez;
         }

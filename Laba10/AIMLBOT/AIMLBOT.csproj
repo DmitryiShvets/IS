@@ -216,6 +216,9 @@
     <Content Include="config\Settings.xml" />
     <Content Include="config\Splitters.xml" />
     <Content Include="config\Substitutions.xml" />
+    <Content Include="input.png" />
+    <Content Include="NetParams.txt" />
+    <Content Include="processed_input.png" />
     <Content Include="TGToken.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

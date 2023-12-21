@@ -29,6 +29,7 @@ namespace NeuralNetwork1
 
         public TelegramService(string token, AIMLService aimlService)
         {
+            net = new StudentNet(@"../../NetParams.txt");
             InitBot(token, aimlService);
         }
 
@@ -75,7 +76,7 @@ namespace NeuralNetwork1
                 if (pic == null)
                     return;
 
-                processor.ProcessImage(pic, true);
+                processor.ProcessImage(pic, false);
                 processor.processed.Save(@"../../processed_input.png");
                 pic.Save(@"../../input.png");
 

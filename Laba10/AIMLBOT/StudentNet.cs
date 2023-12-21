@@ -37,7 +37,7 @@ namespace NeuralNetwork1
                     List<double> weights = weightsString.Select(x => double.Parse(x)).ToList();
                     neurons.Add(new Neuron(weights.ToArray(), bias));
                 }
-                Console.WriteLine(neurons.Count());
+                //Console.WriteLine(neurons.Count());
                 layers.Add(new Layer(neurons.ToArray()));
             }
             network = new Network(layers.ToArray());
