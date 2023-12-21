@@ -6,12 +6,14 @@ using System.Diagnostics;
 using System.Drawing;
 using static System.Net.Mime.MediaTypeNames;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace NeuralNetwork1
 {
     internal class Settings
     {
         private int _border = 10;
+
         public int border
         {
             get
@@ -31,7 +33,7 @@ namespace NeuralNetwork1
 
         public int width = 640;
         public int height = 640;
-        
+
         /// <summary>
         /// Размер сетки для сенсоров по горизонтали
         /// </summary>
@@ -83,6 +85,8 @@ namespace NeuralNetwork1
         /// </summary>
         public Settings settings = new Settings();
 
+        private bool[] img48 = new bool[48 * 48];
+
         public MagicEye()
         {
         }
@@ -101,7 +105,8 @@ namespace NeuralNetwork1
 
                 AForge.Imaging.Filters.Crop cropFilter = new AForge.Imaging.Filters.Crop(new Rectangle((bitmap.Width - bitmap.Height) / 2, 0, side, side));
                 original = cropFilter.Apply(bitmap);
-            } else
+            }
+            else
             {
                 original = bitmap;
             }
@@ -127,7 +132,7 @@ namespace NeuralNetwork1
             AForge.Imaging.Filters.Grayscale grayFilter = new AForge.Imaging.Filters.Grayscale(0.2125, 0.7154, 0.0721);
             var uProcessed = grayFilter.Apply(AForge.Imaging.UnmanagedImage.FromManagedImage(original));
 
-            
+
             /*int blockWidth = original.Width / settings.blocksCount;
             int blockHeight = original.Height / settings.blocksCount;
             for (int r = 0; r < settings.blocksCount; ++r)
@@ -151,7 +156,7 @@ namespace NeuralNetwork1
 
             if (settings.processImg)
             {
-             
+
                 string info = processSample(ref uProcessed);
                 Font f = new Font(FontFamily.GenericSansSerif, 20);
                 g.DrawString(info, f, Brushes.Black, 30, 30);
@@ -193,6 +198,62 @@ namespace NeuralNetwork1
             return true;
         }
 
+        private void ClearImage()
+        {
+            for (int i = 0; i < 48; ++i)
+                for (int j = 0; j < 48; ++j)
+                    img48[i * 48 + j] = false;
+        }
+
+        public Sample LoadImage()
+        {
+            ClearImage();
+
+            // путь к фото
+            string path = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName + "\\Dataset\\numbers\\processed_input.jpg";
+
+            // загрузка изображения
+            Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(path));
+
+            // получение изображения
+            for (int x = 0; x < 48; x++)
+            {
+                for (int y = 0; y < 48; y++)
+                {
+                    Color newColor = bmp.GetPixel(x, y);
+                    if (newColor.R < 50 || newColor.G < 50 || newColor.B < 50)
+                    {
+                        img48[x * 48 + y] = true;
+                    }
+                }
+            }
+            return MethodShakal(); // создание Sample с помощью метода шакала  
+        }
+
+
+        private Sample MethodShakal()
+        {
+            // input для метода шакала
+            double[] inputShakal = new double[2304];
+            for (int k = 0; k < 2304; k++)
+                inputShakal[k] = 0;
+
+            // получение вектора признаков для метода шакала
+            for (int x = 0; x < 48; x++)
+            {
+                for (int y = 0; y < 48; y++)
+                {
+                    if (!img48[x * 48 + y])
+                    {
+                        inputShakal[x * 48 + y] = 1;
+                    }
+                }
+            }
+
+            // добавление в выборку метода шакала
+            return new Sample(inputShakal, 10, FigureType.Undef);
+        }
+
         /// <summary>
         /// Обработка одного сэмпла
         /// </summary>
@@ -215,7 +276,7 @@ namespace NeuralNetwork1
             // Упорядочиваем по размеру
             bc.ObjectsOrder = AForge.Imaging.ObjectsOrder.Size;
             // Обрабатываем картинку
-            
+
             bc.ProcessImage(unmanaged);
 
             Rectangle[] rects = bc.GetObjectsRectangles();
@@ -279,7 +340,8 @@ namespace NeuralNetwork1
                     }
                 }
             }
-            if (rx <= lx || ry <= ly) {
+            if (rx <= lx || ry <= ly)
+            {
                 rx = unmanaged.Width;
                 ry = unmanaged.Height;
                 lx = 0;
@@ -288,9 +350,10 @@ namespace NeuralNetwork1
             if (rx - lx < ry - ly)
             {
                 int centerX = (rx + lx) / 2;
-                rx = centerX + (ry - ly) /2;
+                rx = centerX + (ry - ly) / 2;
                 lx = centerX - (ry - ly) / 2;
-            } else
+            }
+            else
             {
                 int centerY = (ry + ly) / 2;
                 ry = centerY + (rx - lx) / 2;

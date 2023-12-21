@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AIMLbot.Utils;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -13,13 +16,23 @@ namespace NeuralNetwork1
 {
     public class TelegramService : IDisposable
     {
-        private readonly TelegramBotClient client;
-        private readonly AIMLService aiml;
+        private TelegramBotClient client;
+        private AIMLService aiml;
+        private StudentNet net;
+        private MagicEye processor = new MagicEye();
+
         // CancellationToken - инструмент для отмены задач, запущенных в отдельном потоке
-        private readonly CancellationTokenSource cts = new CancellationTokenSource();
-        public string Username { get; }
+        private CancellationTokenSource cts = new CancellationTokenSource();
+        public string Username { get; private set; }
+
+
 
         public TelegramService(string token, AIMLService aimlService)
+        {
+            InitBot(token, aimlService);
+        }
+
+        private void InitBot(string token, AIMLService aimlService)
         {
             aiml = aimlService;
             client = new TelegramBotClient(token);
@@ -57,16 +70,28 @@ namespace NeuralNetwork1
                 Telegram.Bot.Types.File fl = await client.GetFileAsync(photoId, cancellationToken: cancellationToken);
                 var imageStream = new MemoryStream();
                 await client.DownloadFileAsync(fl.FilePath, imageStream, cancellationToken: cancellationToken);
+
+                var pic = new Bitmap(System.Drawing.Image.FromStream(imageStream));
+                if (pic == null)
+                    return;
+
+                processor.ProcessImage(pic, true);
+                processor.processed.Save(@"../../processed_input.png");
+                pic.Save(@"../../input.png");
+
+                Sample fig = processor.LoadImage();
+
+                string predicted = "" + net.Predict(fig);
+
                 // Если бы мы хотели получить битмап, то могли бы использовать new Bitmap(Image.FromStream(imageStream))
                 // Но вместо этого пошлём картинку назад
                 // Стрим помнит последнее место записи, мы же хотим теперь прочитать с самого начала
                 imageStream.Seek(0, 0);
-                await client.SendPhotoAsync(
-                    message.Chat.Id,
-                    imageStream,
-                    "Пока что я не знаю, что делать с картинками, так что держи обратно",
-                    cancellationToken: cancellationToken
-                );
+
+                await botClient.SendTextMessageAsync(
+                     chatId: chatId,
+                     text: aiml.Talk(chatId, username, predicted),
+                     cancellationToken: cancellationToken);
                 return;
             }
             // Можно обрабатывать разные виды сообщений, просто для примера пробросим реакцию на них в AIML
